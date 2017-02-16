@@ -99,6 +99,8 @@ function googleLogin() {
 
 		if (firstTimeLaod) {
 			firstTimeLaod = false;
+			$(".g-signin2").hide();
+			$(".topMenuUserImage").show();
 			onLogin();
 		}
 	};
@@ -106,7 +108,9 @@ function googleLogin() {
 	 * Updates the properties in the Google User table using the current user.
 	 */
 	var updateGoogleUser = function() {
-		if (googleUser) {} else {
+		if (googleUser) {
+
+		} else {
 
 		}
 	};
