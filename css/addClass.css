@@ -1,0 +1,58 @@
+#ccContainer {
+	overflow: auto;
+	width: 90%;
+	max-width: 700px;
+	margin: auto;
+	background-color: white;
+	border-radius: 5px;
+	display: block;
+	padding: 0 16px;
+}
+#ccContainer > .materialInput {
+	position: relative;
+	float: left;
+	margin-left: 0;
+	margin-right: 0;
+}
+#ccContainer > #ccName {
+	width: calc(30% - 8px);
+	margin-right: 16px;
+
+}
+#ccContainer > #ccLongName {
+	width: calc(70% - 8px);
+
+}
+#ccContainer > #ccSchool {
+	width: 100%;
+}
+
+.ccButton {
+	min-width: 125px;
+	cursor: pointer;
+	height: 35px;
+	line-height: 35px;
+	float: right;
+	text-align: center;
+	color: white;
+	border-radius: 5px;
+	margin: 16px 0;
+	clear: both;
+	background-color: #8BC34A;
+	transition: 0.2s;
+}
+
+.ccButton:active {
+    background-color: #7CB342;
+}
+
+#ccDivider {
+	width: 100%;
+	height: 0;
+	border-bottom: #9E9E9E solid 1px;
+	margin: 4px 0;
+	float: left;
+}
+#ccContainer > #ccInviteToken {
+	width: 100%;
+}

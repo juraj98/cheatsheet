@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<title></title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width">
+	<link rel="stylesheet" type="text/css" href="../css/style.css">
+	<link href='https://fonts.googleapis.com/css?family=Roboto:400,500,700&subset=latin,latin-ext,cyrillic,greek,greek-ext,vietnamese' rel='stylesheet' type='text/css'>
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link rel="icon" type="image/ico" href="images/favicon/favicon.ico">
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+	<!-- Google Credentials API -->
+	<script src="https://apis.google.com/js/platform.js" async defer></script>
+	<meta name="google-signin-client_id" content="67374956220-8icaiq0lhb7p0cbnc2qfhhrmomc0drcr.apps.googleusercontent.com">
+	<!--====-->
+	<!--Main-->
+	<!--====-->
+	<!--Cheatsheet scripts-->
+	<script type="text/javascript" src="../js/cheatsheetOnReady.js"></script>
+	<script type="text/javascript" src="../js/sharedVariables.js"></script>
+	<script type="text/javascript" src="../js/temp.js"></script>
+	<script type="text/javascript" src="../js/googleLogin.js"></script>
+	<script type="text/javascript" src="../js/setUpDynamicListeners.js"></script>
+	<script type="text/javascript" src="../js/utility.js"></script>
+	<script type="text/javascript" src="../js/popout.js"></script>
+	<!--Base Dir-->
+	<script type="text/javascript" src="../js/baseDirVar.js"></script>
+
+	<!--Resize-->
+	<script type="text/javascript" src="../js/resize.js"></script>
+	<!--Form-->
+	<script type="text/javascript" src="../js/flexibleArea.js"></script>
+	<script type="text/javascript" src="../js/form.js"></script>
+	<link rel="stylesheet" type="text/css" href="../css/form.css">
+	<!--Classes-->
+	<script type="text/javascript" src="../js/jsClasses/user.js"></script>
+	<script type="text/javascript" src="../js/jsClasses/uploadItem.js"></script>
+	<!--================-->
+	<!--Timetable Editor-->
+	<!--================-->
+	<link rel="stylesheet" type="text/css" href="../css/timetableEditor.css">
+	<script type="text/javascript" src="../js/timetableEditor/timetableEditor.js"></script>
+
+
+	<!--=====-->
+	<!--Class-->
+	<!--=====-->
+	<!--Class Menu-->
+	<!--TinyMCE-->
+	<script src="../tinymce/tinymce.min.js"></script>
+	<!--TinyMCE-Code Color-->
+	<link rel="stylesheet" type="text/css" href="../css/prism.css">
+	<script src="../js/prism.js"></script>
+	<!--Collapsible-->
+	<link rel="stylesheet" type="text/css" href="../css/collapsibleStyle.css">
+	<link rel="stylesheet" type="text/css" href="../css/collapsibleContentStyle.css">
+	<!--Main-->
+	<!--Class-->
+	<script type="text/javascript" src="../js/class/classInit.js"></script>
+	<script type="text/javascript" src="../js/class/classResize.js"></script>
+	<script type="text/javascript" src="../js/class/classClick.js"></script>
+	<script type="text/javascript" src="../js/class/switchClassMenu.js"></script>
+	<script type="text/javascript" src="../js/onLogin.js"></script>
+	<!--Class=>Upload-->
+	<script type="text/javascript" src="../js/class/uploadsTab/classUploadClick.js"></script>
+	<script type="text/javascript" src="../js/class/uploadsTab/classUploadInit.js"></script>
+	<!--Class=>Timetable-->
+	<script type="text/javascript" src="../js/class/timetableTab/classTimetableInit.js"></script>
+	<script type="text/javascript" src="../js/class/timetableTab/classTimetableClick.js"></script>
+	<!--Class=>Messages-->
+	<script type="text/javascript" src="../js/class/messagesTab/classMessagesInit.js"></script>
+	<script type="text/javascript" src="../js/class/messagesTab/classMessagesClick.js"></script>
+	<!--Class=>Groups-->
+	<script type="text/javascript" src="../js/class/groupsTab/classGroupsInit.js"></script>
+	<script type="text/javascript" src="../js/class/groupsTab/classGroupsClick.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			console.log("POST");
+
+			var date = new Date();
+			console.log("TIME: " + date.toJSON());
+
+		});
+	</script>
+	<style>
+
+	</style>
+</head>
+
+<body>,
+
+	<ul>
+		<li class="sideMenuDivider"></li>
+
+		<li class="collapsedSideMenuButton sideMenuItemActive" id="homeBtn">
+
+			<i class="material-icons">home</i>
+			<span>Home</span>
+		</li>
+		<li class="collapsedSideMenuButton" id="messagesBtn">
+			<i class="material-icons">message</i>
+			<span>Messages</span>
+		</li>
+		<li class="collapsedSideMenuButton" id="remindersBtn">
+			<i class="material-icons">alarm</i>
+			<span>Reminders</span>
+		</li>
+
+		<li class="sideMenuDivider"></li>
+
+		<li class="collapsedSideMenuButton" id="addClass">
+			<i class="material-icons">add</i>
+			<span>Add Class</span>
+		</li>
+		<li class="collapsedSideMenuButton">
+			<i class="material-icons">grade</i>
+			<span>TC</span>
+		</li>
+		<li class="collapsedSideMenuButton">
+			<i class="material-icons">grade</i>
+			<span>IV.IT</span>
+		</li>
+
+		<li class="sideMenuDivider"></li>
+
+		<li class="collapsedSideMenuButton" id="accountBtn">
+			<i class="material-icons">account_box</i>
+			<span>Account</span>
+		</li>
+		<li class="collapsedSideMenuButton" id="settingBtn">
+			<i class="material-icons">settings</i>
+			<span>Settings</span>
+		</li>
+		<li class="collapsedSideMenuButton" id="logOutBtn">
+			<i class="material-icons">exit_to_app</i>
+			<span>Log Out</span>
+		</li>
+	</ul>
+
+
+</body>
+
+</html>

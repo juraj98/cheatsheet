@@ -1,0 +1,410 @@
+#mainHeader {
+	height: 250px;
+	width: 100%;
+	background-color: #8bc34a;
+	position: fixed;
+	top: 0;
+	left: 0;
+}
+#menuButton {
+	position: absolute;
+	left: 0;
+	top: 0;
+	color: #fff;
+	font-size: 32px;
+	padding: 16px;
+	cursor: pointer;
+	display: none;
+}
+#mainLogo {
+	width: 170px;
+	height: 170px;
+	margin: 40px;
+	cursor: pointer;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+	border-radius: 180px;
+}
+
+
+#searchBox {
+	background-color: rgba(255, 255, 255, 0.25);
+	width: calc((100% - 250px) * 0.8);
+	height: 50px;
+	border-radius: 4px;
+	position: absolute;
+	top: 25px;
+	left: calc(((100% - 210px) - (100% - 210px) * 0.8) / 2 + 210px);
+}
+
+#searchBox > i {
+	width: 50px;
+	height: 50px;
+	float: left;
+	text-align: center;
+	color: white;
+	line-height: 50px;
+}
+
+#searchBox > input {
+	background-color: transparent!important;
+	border: none !important;
+	box-shadow: none !important;
+	color: white;
+	padding: 0;
+	width: calc(100% - 50px);
+	height: 50px;
+	float: left;
+	font-size: 20px;
+	line-height: 50px;
+}
+#searchBox > input::-webkit-input-placeholder {
+	/* WebKit, Blink, Edge */
+	color: rgba(255, 255, 255, 0.75);
+}
+#searchBox > input:-moz-placeholder {
+	/* Mozilla Firefox 4 to 18 */
+	color: rgba(255, 255, 255, 0.75);
+	opacity: 1;
+}
+#searchBox > input::-moz-placeholder {
+	/* Mozilla Firefox 19+ */
+	color: rgba(255, 255, 255, 0.75);
+	opacity: 1;
+}
+#searchBox > input:-ms-input-placeholder {
+	/* Internet Explorer 10-11 */
+	color: rgba(255, 255, 255, 0.75);
+}
+
+#moreOptionsButton {
+	position: absolute;
+	right: 75px;
+	top: 25px;
+	height: 50px;
+	width: 50px;
+	line-height: 50px;
+	text-align: center;
+
+	color: #fff;
+/*	font-size: 32px;*/
+	cursor: pointer;
+}
+
+/*It's outside of header so z-index work*/
+.topMenuUserImage {
+	width: 46px;
+	height: 46px;
+	cursor: pointer;
+	background-size: 100% 100%;
+	background-color: #E0E0E0;
+	border: 3px solid white;
+	border-radius: 180px;
+	position: fixed;
+	top: 25px;
+	right: 25px;
+	z-index: 10000;
+	overflow: hidden;
+	transition: border-radius .3s ease-in-out .3s, width .4s ease-in-out .0s, height .4s ease-in-out .0s;
+}
+
+.topMenuUserImage > .topMenuMainProfilePicture {
+	display: block;
+	width: 46px;
+	height: 46px;
+	margin: 0px;
+	border-radius: 3px;
+	position: absolute;
+	left: 0;
+	top: 0;
+	transition: width .4s ease-in-out .0s, height .4s ease-in-out .0s, margin .4s ease-in-out .0s;
+}
+
+.topMenuUserImage > .topMenuUserProfileUserInfo,
+.topMenuUserImage > .topMenuUserProfileMenu,
+.topMenuUserImage > .topMenuUserClasses {
+	opacity: 1;
+	transition: opacity .2s ease-in-out .0s;
+}
+
+.topMenuUserImage.topMenuUserImageActive > .topMenuUserProfileUserInfo,
+.topMenuUserImage.topMenuUserImageActive > .topMenuUserProfileMenu,
+.topMenuUserImage.topMenuUserImageActive > .topMenuUserClasses {
+	opacity: 1;
+	transition: opacity .2s ease-in-out .3s;
+}
+
+.topMenuUserImage.topMenuUserImageActive {
+	width: 500px;
+	height: 324px;
+	overflow: hidden;
+	background-image: none;
+	border-radius: 4px;
+	background-color: #E0E0E0;
+	position: absolute;
+	z-index: 1000;
+	cursor: default;
+	box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+	/*card-2*/
+	transition: border-radius .4s ease-in-out 0s, box-shadow .4s ease-in-out .2s, width .4s ease-in-out .2s, height .4s ease-in-out .2s;
+}
+
+.topMenuUserImage.topMenuUserImageActive > .topMenuMainProfilePicture {
+	display: block;
+	width: 150px;
+	height: 150px;
+	margin: 8px;
+	transition: width .4s ease-in-out .2s, height .4s ease-in-out .2s, margin .4s ease-in-out .2s;
+}
+
+.topMenuUserImage > .topMenuUserProfileUserInfo {
+	display: block;
+	float: left;
+	height: 150px;
+	width: 326px;
+	margin: 8px 0;
+	position: absolute;
+	top: 0;
+	left: 166px;
+}
+
+.topMenuUserImage > .topMenuUserProfileUserInfo > h1 {
+	margin: 0;
+	color: #8BC34A;
+	font-size: 28px;
+}
+
+.topMenuUserImage > .topMenuUserProfileUserInfo > h2 {
+	margin: 0;
+	color: #646464;
+	font-size: 18px;
+}
+
+.topMenuUserImage > .topMenuUserProfileUserInfo > h3 {
+	margin: 0;
+	color: #646464;
+	font-size: 13px;
+	font-weight: 400;
+}
+
+.topMenuUserImage > .topMenuUserProfileMenu {
+	display: block;
+	width: 150px;
+	margin: 0 8px;
+	float: left;
+	clear: left;
+	margin-bottom: 8px;
+	position: absolute;
+	top: 166px;
+	left: 0;
+}
+
+.topMenuUserImage > .topMenuUserProfileMenu > .topMenuUserProfileMenuItem {
+	width: calc(100% - 16px);
+	height: 30px;
+	padding: 0 8px;
+	transition: 0.15s;
+	cursor: pointer;
+}
+
+.topMenuUserImage > .topMenuUserProfileMenu > .topMenuUserProfileMenuItem:hover {
+	background-color: rgba(0, 0, 0, 0.05);
+	transition: 0.15s;
+}
+
+.topMenuUserImage > .topMenuUserProfileMenu > .topMenuUserProfileMenuItem > p {
+	color: #646464;
+	line-height: 30px;
+	margin: 0;
+	position: relative;
+	bottom: 4px;
+}
+
+.topMenuUserImage > .topMenuUserProfileMenu > .topMenuUserProfileMenuItem > p > i {
+	font-size: 20px;
+	color: inherit;
+	height: 30px;
+	line-height: 30px;
+	margin-right: 4px;
+	position: relative;
+	top: 4px;
+}
+
+.topMenuUserImage > .topMenuUserClasses {
+	display: block;
+	width: 326px;
+	height: 150px;
+	overflow-y: scroll;
+	overflow-x: hidden;
+	float: left;
+	margin-bottom: 8px;
+}
+
+.topMenuUserImage > .topMenuUserClasses > .topMenuUserClassesClass {
+	width: calc(100% - 10px);
+	margin: 4px 8px;
+	margin-right: 2px;
+	height: 50px;
+	background-color: white;
+	border-radius: 3px;
+}
+
+.topMenuUserImage > .topMenuUserClasses > .topMenuUserClassesClass > .topMenuUserClassesClassPicture {
+	width: 42px;
+	height: 42px;
+	margin: 4px;
+	float: left;
+	background-color: #E7E7E7;
+	background-size: 100% 100%;
+}
+
+.topMenuUserImage > .topMenuUserClasses > .topMenuUserClassesClass > .topMenuUserClassesClassPicture > i {
+	width: 100%;
+	height: 100%;
+	font-size: 32px;
+	color: #8BC34A;
+	text-align: center;
+	line-height: 42px;
+}
+
+.topMenuUserImage > .topMenuUserClasses > .topMenuUserClassesClass > .topMenuUserClassesClassInfo {
+	float: left;
+	margin: 4px 0;
+	height: 42px;
+}
+
+.topMenuUserImage > .topMenuUserClasses > .topMenuUserClassesClass > .topMenuUserClassesClassInfo > h1 {
+	color: #8BC34A;
+	float: left;
+	height: 28px;
+	max-width: 100%;
+	line-height: 32px;
+	margin: 0;
+	font-size: 24px;
+}
+
+.topMenuUserImage > .topMenuUserClasses > .topMenuUserClassesClass > .topMenuUserClassesClassInfo > h2 {
+	color: #BDBDBD;
+	float: left;
+	clear: left;
+	height: 14px;
+	max-width: 100%;
+	line-height: 12px;
+	margin: 0;
+	font-size: 12px;
+	font-weight: 400;
+}
+
+.topMenuUserImage > .topMenuUserClasses > .topMenuUserClassesClass > .topMenuUserClassesClassNotifications {
+	margin: 4px;
+	margin-left: 0;
+	float: right;
+}
+
+.topMenuUserImage > .topMenuUserClasses > .topMenuUserClassesClass > .topMenuUserClassesClassNotifications > .notification {
+	margin: 0;
+	margin-left: 4px;
+	float: left;
+	height: 42px;
+	width: 30px;
+	position: relative;
+}
+
+.topMenuUserImage > .topMenuUserClasses > .topMenuUserClassesClass > .topMenuUserClassesClassNotifications > .notification > i {
+	font-size: 24px;
+	line-height: 42px;
+	text-align: center;
+	width: 30px;
+	color: #646464;
+}
+
+.topMenuUserImage > .topMenuUserClasses > .topMenuUserClassesClass > .topMenuUserClassesClassNotifications > .notification > span {
+	position: absolute;
+	bottom: 2px;
+	right: 0;
+	font-weight: 700;
+	color: white;
+	font-size: 12px;
+	background-color: #F44336;
+	border-radius: 2px;
+	padding: 0 3px;
+	opacity: 0.75;
+}
+
+/*==================================*/
+/*==========Collapsed Menu==========*/
+/*==================================*/
+
+#collapsedBackground {
+	opacity: 0;
+	transition: 0.3s;
+}
+
+#collapsedBackground.active {
+	opacity: 1;
+	transition: 0.3s;
+}
+#collapsedSideMenu {
+	z-index: 100000;
+	height: 100vh;
+	overflow-y: auto;
+	width: 300px;
+	position: absolute;
+	transform: translate(-100%);
+	left: 0;
+	top: 0;
+	background-color: #fff;
+	box-shadow: none;
+	transition: 0.3s;
+}
+#collapsedSideMenu.active {
+	box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+	transform: translate(0%);
+}
+#sideMenuLogo > svg{
+	fill: #000;
+}
+#sideMenuLogo {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100px;
+	margin: 25px 100px;
+	cursor: pointer;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+	border-radius: 180px;
+}
+#collapsedSideMenu > ul {
+	top: 150px;
+	position: absolute;
+	padding: 0;
+	margin: 0;
+	width: 100%;
+}
+#collapsedSideMenu > ul > .sideMenuDivider{
+	height: 8px;
+	width: calc(100% - 16px);
+	border-bottom: 1px solid #DDDDDD;
+	margin: 8px;
+	padding: 0;
+	margin-top: 0;
+}
+#collapsedSideMenu > ul > li{
+	list-style-type: none;
+	font-size: 13px;
+	line-height: 44px;
+	height: 44px;
+	padding: 0 30px;
+	cursor: pointer;
+	color: #646464;
+	width: calc(100% - 60px);
+}
+#collapsedSideMenu > ul > li > i{
+	display: inline-block;
+	line-height: inherit;
+}
+#collapsedSideMenu > ul > li > span{
+	display: inline-block;
+	line-height: inherit;
+	position: relative;
+	top: -7px; /*No idea why*/
+}

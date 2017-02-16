@@ -1,0 +1,227 @@
+.collapsibleHeader {
+	display: block;
+	cursor: pointer;
+	height: 56px;
+	border-radius: 4px;
+	padding: 0 1rem;
+	background-color: #fff;
+	border-bottom: 1px solid #ddd;
+	position: relative;
+}
+
+.collapsibleHeader > .icon {
+	display: inline-block;
+	height: 40px;
+	width: 40px;
+	margin: 8px;
+	margin-left: 0;
+	margin-right: 16px;
+	background-color: #8bc34a;
+	float: left;
+	border-radius: 180px;
+}
+
+.collapsibleHeader > .icon > i {
+	height: 40px;
+	width: 40px;
+	display: inline-block;
+	color: white;
+	text-align: center;
+	line-height: 40px;
+	font-size: 24px;
+	font-style: normal;
+}
+
+.collapsibleHeader > div {
+	float: left;
+	overflow: hidden;
+	width: calc(100% - 158px);
+}
+
+.collapsibleHeader > div > h1 {
+	white-space: nowrap;
+	display: inline-block;
+	height: 16px;
+	font-size: 22px;
+	margin: 0;
+	margin-top: 10px;
+	line-height: 22px;
+	color: #8bc34a;
+	float: left;
+}
+
+.collapsibleHeader > div > h2 {
+	display: inline-block;
+	height: 20px;
+	font-size: 12px;
+	margin: 0;
+	margin-top: 5px;
+	margin-left: 1px;
+	line-height: 20px;
+	color: #616161;
+	float: left;
+	clear: left;
+}
+
+.collapsibleHeader > h3 {
+	display: inline-block;
+	height: 20px;
+	font-size: 11px;
+	margin: 0;
+	line-height: 20px;
+	color: #616161;
+	position: absolute;
+	bottom: 3px;
+	right: 15px;
+	font-weight: 400;
+	margin-top: 7px;
+}
+
+.collapsibleHeader > i {
+	height: 16px;
+	padding-left: 12px;
+	font-size: 22px;
+	padding-top: 9px;
+	line-height: 25px;
+	float: right;
+	position: relative;
+	transition: 0.1s;
+	color: #757575;
+}
+
+.collapsibleHeader > i#collapsibleCommentButton:hover {
+	color: #424242;
+	transition: 0.1s;
+}
+
+.collapsibleHeader > i#collapsibleDislikeButton:hover {
+	color: #EF5350;
+	transition: 0.1s;
+}
+
+.collapsibleHeader > i#collapsibleLikeButton:hover {
+	color: #8bc34a;
+	transition: 0.1s;
+}
+
+.collapsibleBody {
+	display: none;
+	border-bottom: 1px solid #ddd;
+	box-sizing: border-box;
+}
+
+.collapsibleBody > .collapsibleContent {
+	padding: 0 16px;
+}
+
+.collapsibleBody > .collapsibleTags {
+	padding: 0 12px;
+	padding-top: 4px;
+	width: 100%;
+	overflow: auto;
+}
+
+.collapsibleBody > .collapsibleTags > .collapsibleTag {
+	display: inline-block;
+	height: 32px;
+	font-size: 13px;
+	font-weight: 500;
+	color: white;
+	line-height: 32px;
+	padding: 0 12px;
+	border-radius: 16px;
+	background-color: #8bc34a;
+	float: left;
+	margin: 4px;
+	cursor: pointer;
+	transition: 0.1s;
+}
+
+.collapsibleBody > .collapsibleTags > .collapsibleTag:hover {
+	background-color: #7CB342;
+	transition: 0.1s;
+}
+
+.collapsibleBody > .collapsibleTags > .collapsibleTag > i {
+	float: right;
+	font-size: 16px;
+	line-height: 32px;
+	padding-left: 8px;
+}
+
+.collapsible {
+	float: left;
+	margin: 0;
+	margin-top: 8px;
+	margin-bottom: 32px;
+	padding: 0;
+	width: 100%;
+}
+
+.collapsible>.firstItem {
+	border-top-left-radius: 4px;
+	border-top-right-radius: 4px;
+}
+
+.collapsible>.lastItem {
+	border-bottom-left-radius: 4px;
+	border-bottom-right-radius: 4px;
+	margin-bottom: 16px;
+}
+
+.collapsible>li {
+	/*    box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12);*/
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+	transition: all 0.2s ease-in-out;
+	margin: 0 16px;
+	transition: margin 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+	list-style-type: none;
+	background-color: #EFEFEF;
+}
+
+.collapsible>li.active {
+	box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15);
+	margin: 16px 7px;
+	/*	width: calc(100% - 14px);*/
+	border-radius: 4px;
+	overflow: hidden;
+}
+
+.collapsibleComments {
+	display: none;
+	border-bottom: 1px solid #ddd;
+	box-sizing: border-box;
+}
+
+.collapsibleComments > .comment {
+	padding: 8px 1rem;
+	overflow: auto;
+}
+
+.collapsibleComments > .comment > img {
+	display: inline-block;
+	height: 40px;
+	width: 40px;
+	margin-right: 1rem;
+	float: left;
+	border-radius: 180px;
+}
+
+.collapsibleComments > .comment > div {
+	display: inline-block;
+	float: left;
+}
+
+.collapsibleComments > .comment > div > h1 {
+	font-size: 15px;
+	padding: 0;
+	margin: 0;
+	color: #616161;
+}
+
+.collapsibleComments > .comment > div > p {
+	font-size: 15px;
+	padding: 0;
+	margin: 0;
+	color: #616161;
+}

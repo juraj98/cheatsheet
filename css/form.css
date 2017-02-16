@@ -1,0 +1,1124 @@
+.disabled {
+	border-bottom: 1px #E0E0E0 solid !important;
+	color: #E0E0E0 !important;
+	cursor: default !important;
+}
+
+.disabled input,
+.disabled > span {
+	color: #E0E0E0 !important;
+	cursor: default !important;
+}
+
+
+/*FIX ME: For some things .valid and .active is same - OPTIMALIZE THIS BITCH*/
+
+
+/*Input field and Textarea*/
+
+.materialLineInput {
+	border-bottom: 1px #9E9E9E solid;
+	margin: 8px;
+	position: absolute;
+}
+
+.materialLineInput.valid {
+	border-bottom: 2px #8bc34a solid;
+}
+
+.materialLineInput.invalid {
+	border-bottom: 2px #F44336 solid;
+}
+
+.materialLineInput.active {
+	border-bottom: 2px #8BC34A solid;
+}
+
+.materialLineInput > input,
+.materialLineInput > textarea {
+	width: calc(100% - 4px);
+	min-height: 19px;
+	line-height: 19px;
+	font-size: 16px;
+	font-family: inherit;
+	padding: 4px 2px;
+	margin-top: 8.5px;
+	border: none;
+	background-color: transparent;
+	outline: none;
+	position: relative;
+	z-index: 1;
+	resize: none;
+	vertical-align: top;
+	/*Need to be here to remove "invisible gap" under textarea*/
+}
+
+.materialLineInput > i {
+	position: absolute;
+	right: 2px;
+	top: 11px;
+	color: rgba(0, 0, 0, 0.3);
+	z-index: 2;
+	cursor: pointer;
+}
+
+.materialLineInput > i:active {
+	color: rgba(0, 0, 0, 0.5);
+}
+
+.materialLineInput > .maxLengthLabel {
+	right: 0;
+	bottom: -20px;
+	font-size: 0.8rem;
+	position: absolute;
+	color: #9E9E9E;
+	z-index: 0;
+}
+
+.materialLineInput.valid > .maxLengthLabel {
+	color: #8bc34a;
+	font-weight: 700;
+}
+
+.materialLineInput.invalid > .maxLengthLabel {
+	color: #F44336;
+	font-weight: 700;
+}
+
+.materialLineInput > .label {
+	height: 19px;
+	line-height: 19px;
+	left: 0;
+	top: 13px;
+	font-size: 16px;
+	position: absolute;
+	color: #9E9E9E;
+	transition: .3s;
+	z-index: 0;
+}
+
+.materialLineInput.valid > .label {
+	color: #8bc34a !important;
+}
+
+.materialLineInput.invalid > .label {
+	color: #F44336 !important;
+}
+
+.materialLineInput.active > .label {
+	color: #8BC34A !important;
+}
+
+.materialLineInput > .label.active {
+	top: -10px;
+	font-size: 0.8rem;
+	color: #9E9E9E;
+	transition: .3s;
+}
+
+
+/*Dropdown*/
+
+.materialDropDown {
+	border-bottom: 1px #9E9E9E solid;
+	height: 27px;
+	line-height: 27px;
+	font-size: 16px;
+	cursor: pointer;
+	position: absolute;
+	color: #9E9E9E;
+}
+
+.materialDropDown > i {
+	float: right;
+	height: 27px;
+	line-height: 27px;
+	color: #212121;
+	right: 0;
+	position: absolute;
+}
+
+.materialDropDown.disabled > i {
+	color: #E0E0E0;
+}
+
+
+/*Date Picker*/
+
+#dpMain {
+	background-color: rgba(0, 0, 0, 0.25);
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100vh;
+	z-index: 999999998;
+	display: none;
+}
+
+#dpDatePicker {
+	height: 299px;
+	width: 494px;
+	z-index: 999999999;
+	background-color: white;
+	display: block;
+	position: absolute;
+	top: calc(50vh - 148.5px);
+	left: calc(50% - 250px);
+}
+
+#dpSide {
+	height: 299px;
+	width: 175px;
+	color: white;
+	background-color: #8BC34A;
+	float: left;
+}
+
+#dpSide > h1 {
+	margin: 0;
+	margin-left: 8px;
+	float: left;
+	clear: left;
+	font-size: 45px;
+	font-weight: 400;
+}
+
+#dpSide > h2 {
+	margin: 0;
+	float: left;
+	clear: left;
+	color: rgba(255, 255, 255, 0.8);
+	font-weight: 400;
+	margin-left: 8px;
+	margin-top: 8px;
+}
+
+#dpCalendar {
+	width: 319px;
+	float: left;
+}
+
+#dpContent {
+	width: 100%;
+	height: 258px;
+}
+
+#dpContent > .yearOption.active {
+	color: #8BC34A;
+	font-weight: 700;
+}
+
+#dpContent > .yearOption {
+	float: left;
+	height: 51px;
+	width: 51px;
+	margin: 0.3px 6.4px;
+	text-align: center;
+	line-height: 51px;
+	cursor: pointer;
+	font-weight: 500;
+}
+
+#dpContent > .yearOption:hover {
+	background-color: #E0E0E0;
+	font-weight: 700;
+}
+
+#dpHeader {
+	height: 41px;
+	width: 100%;
+	text-align: center;
+	line-height: 41px;
+	font-weight: 500;
+}
+
+#dpHeader > div {
+	cursor: pointer;
+	line-height: 41px;
+	height: 41px;
+	display: inline-block;
+	padding: 0 8px;
+}
+
+#dpHeader > .month {
+	padding-right: 2px;
+}
+
+#dpHeader > .year {
+	padding-left: 2px;
+}
+
+#dpHeader > i {
+	height: 41px;
+	width: 41px;
+	cursor: pointer;
+	text-align: center;
+	line-height: 41px;
+	font-weight: 400;
+	color: #616161;
+}
+
+#dpHeader > i:hover {
+	font-weight: 500;
+	color: black;
+}
+
+#dpHeader > .leftArrow {
+	float: left;
+}
+
+#dpHeader > .rightArrow {
+	float: right;
+}
+
+#dpCalendar > table {
+	width: 100%;
+}
+
+#dpCalendar td {
+	width: 34px;
+	height: 34px;
+	padding: 0;
+	margin: 0 5.5px;
+	display: inline-block;
+	text-align: center;
+	line-height: 34px;
+	overflow: visible;
+	transition: height 0s, width 0s, line-height 0s, margin 0s, color 0.2s, font-weight 0.2s, background-color 0.2s, border-radius 0.2s;
+}
+
+#dpCalendar tr {
+	float: left;
+	clear: left;
+}
+
+#dpCalendar .dpDay {
+	cursor: pointer;
+}
+
+#dpCalendar .dpHeader {
+	font-weight: 700;
+}
+
+#dpCalendar .dpDay:hover {
+	background-color: #E0E0E0;
+	transition: 0.2s;
+}
+
+#dpCalendar .dpDay.today {
+	width: 30px;
+	height: 30px;
+	line-height: 30px;
+	border: solid 2px #8BC34A;
+	transition: height 0s, width 0s, line-height 0s, margin 0s, color 0s, font-weight 0s, background-color 0s, border-radius 0s;
+	border-radius: 180px;
+}
+
+#dpCalendar .dpDay.active {
+	margin: 2px 7.5px;
+	width: 30px;
+	height: 30px;
+	line-height: 30px;
+	border-radius: 180px;
+	color: white;
+	font-weight: 500;
+	background-color: #8BC34A;
+	border: none !important;
+	transition: height 0s, width 0s, line-height 0s, margin 0s, color 0.2s, font-weight 0.2s, background-color 0.2s, border-radius 0.2s;
+}
+
+#dpContent > .month {
+	float: left;
+	width: 50%;
+	height: 43px;
+	line-height: 43px;
+	text-align: center;
+	cursor: pointer;
+	transition: 0.2s;
+}
+
+#dpContent > .month:hover {
+	font-weight: 700;
+	background-color: #E0E0E0;
+	transition: 0.2s;
+}
+
+#dpContent > .month.active {
+	color: #8BC34A;
+	font-weight: 700;
+}
+
+#dpFooter {
+	padding: 4px 8px;
+	height: 34px;
+	line-height: 34px;
+	bottom: 0px;
+	position: absolute;
+	right: 0px;
+}
+
+#dpFooter > span {
+	padding: 8px;
+	color: #8BC34A;
+	cursor: pointer;
+}
+
+#dpFooter > #dpCancel {
+	font-weight: 500;
+}
+
+#dpFooter > #dpOk {
+	font-weight: 700;
+}
+
+.materialDropDown.ok {
+	color: #212121;
+	border-bottom: 2px #8BC34A solid;
+}
+
+.dropDownOptions {
+	box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+	background-color: white;
+	position: absolute;
+	overflow-x: hidden;
+	display: none;
+	z-index: 99;
+}
+
+.dropDownOption {
+	padding: 0 8px;
+	font-weight: 700;
+	height: 38px;
+	line-height: 38px;
+	color: #9E9E9E;
+	font-size: 16px;
+	cursor: pointer;
+}
+
+.dropDownOption:hover {
+	background-color: #E5E5E5;
+}
+
+.dropDownOption.dropDownDesc {
+	font-weight: 400;
+	height: 38px;
+	line-height: 38px;
+	color: #9E9E9E;
+	font-size: 16px;
+	cursor: default;
+	transition: .3s;
+}
+
+.dropDownOption.dropDownDesc:hover {
+	background-color: #ffffff;
+	transition: .3s;
+}
+
+
+/*TagInput*/
+
+.materialTagInput {
+	border: none;
+	border-bottom: 1px #9E9E9E solid;
+	min-height: 27px;
+	line-height: 27px;
+	font-size: 16px;
+	display: inline-block;
+	position: absolute;
+}
+
+.materialTagInput.active {
+	border-bottom: 2px #8bc34a solid;
+}
+
+.materialTagInput > .label {
+	height: 27px;
+	line-height: 27px;
+	left: 0;
+	top: 0;
+	font-size: 16px;
+	position: absolute;
+	color: #9E9E9E;
+	transition: .3s;
+	z-index: 0;
+}
+
+.materialTagInput.active > .label {
+	height: 19px;
+	line-height: 19px;
+	top: -21px;
+	font-size: 0.8rem;
+	color: #8BC34A;
+	transition: .3s;
+}
+
+.materialTagInput > input {
+	height: 27px;
+	line-height: 27px;
+	font-size: 16px;
+	border: none;
+	padding: 0;
+	float: left;
+	outline: none;
+	background-color: transparent;
+}
+
+.materialTagInput .tagInputTag {
+	display: inline-block;
+	height: 25px;
+	line-height: 25px;
+	font-size: 13px;
+	font-weight: 500;
+	color: white;
+	padding: 0 8px;
+	border-radius: 16px;
+	background-color: #8bc34a;
+	float: left;
+	margin: 2px;
+	margin-top: 0;
+	cursor: pointer;
+	transition: 0.1s;
+}
+
+.materialTagInput .tagInputTag::after {
+	content: 'cancel';
+	font-family: 'Material Icons';
+	float: right;
+	font-size: 16px;
+	line-height: 25px;
+	padding-left: 3px;
+}
+
+.materialTagInput .tagInputTag:hover {
+	background-color: #7CB342;
+	transition: 0.1s;
+}
+
+
+/*Switch*/
+
+.materialSwitch {
+	width: 40px;
+	height: 15px;
+	background-color: #9E9E9E;
+	border-radius: 15px;
+	transition: .3s;
+	position: absolute;
+	cursor: pointer;
+	margin: 7px 10px;
+}
+
+.materialSwitch.active {
+	background-color: #AED581;
+	transition: .3s;
+}
+
+.materialSwitch::after {
+	content: '';
+	position: absolute;
+	transition: .25s;
+	/*.25s rather than .3s bc why not*/
+	width: 21px;
+	height: 21px;
+	background-color: #F5F5F5;
+	border-radius: 21px;
+	box-shadow: 0 1px 3px 1px rgba(0, 0, 0, 0.4);
+	left: -5px;
+	top: -3px;
+}
+
+.materialSwitch.active::after {
+	content: '';
+	transition: .25s;
+	background-color: #7CB342;
+	left: 24px;
+	/*Can't be right -5 bc than there is not animation*/
+}
+
+
+/*RadioButtons*/
+
+.materialRadioButtons {
+	position: absolute;
+}
+
+.materialRadioButtons > .radioButton {
+	padding-left: 30px;
+	cursor: pointer;
+	position: relative;
+	height: 26px;
+	line-height: 26px;
+}
+
+.materialRadioButtons > .radioButton::before {
+	border: 2px solid #5a5a5a;
+	border-radius: 50%;
+	content: '';
+	position: absolute;
+	left: 0;
+	top: 0;
+	margin: 4px;
+	width: 14px;
+	height: 14px;
+}
+
+.materialRadioButtons > .radioButton.active::before {
+	border-color: #7CB342;
+}
+
+.materialRadioButtons > .radioButton::after {
+	border-radius: 50%;
+	background-color: #7CB342;
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	margin: 13px;
+	width: 0px;
+	height: 0px;
+	transition: .25s;
+	display: block;
+}
+
+.materialRadioButtons > .radioButton.active::after {
+	border-radius: 50%;
+	background-color: #7CB342;
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	margin: 8px;
+	width: 10px;
+	height: 10px;
+	z-index: 0;
+	transition: .25s;
+	/*.25s rather than .3s bc why not*/
+}
+
+
+/*materialCheckmark*/
+
+.materialCheckmark {
+	position: absolute;
+	height: 26px;
+	line-height: 26px;
+	padding-left: 30px;
+	cursor: pointer;
+}
+
+.materialCheckmark::before {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 16px;
+	height: 16px;
+	z-index: 0;
+	border: 2px solid #5a5a5a;
+	border-radius: 1px;
+	margin-top: 2px;
+	transition: .2s;
+}
+
+.materialCheckmark.active::before {
+	top: -5px;
+	left: -5px;
+	width: 10px;
+	height: 20px;
+	border: 2px solid transparent;
+	border-right: 2px solid #7CB342;
+	border-bottom: 2px solid #7CB342;
+	-webkit-transform: rotate(40deg);
+	transform: rotate(40deg);
+	transform-origin: 100% 100%;
+	backface-visibility: hidden;
+}
+
+
+/*Material Color Picker*/
+
+.materialColorPicker {
+	border: none;
+	border-bottom: 1px #9E9E9E solid;
+	min-height: 27px;
+	line-height: 27px;
+	font-size: 16px;
+	display: inline-block;
+	position: absolute;
+	margin-top: 24px;
+	cursor: pointer;
+	padding: 0 4px;
+}
+
+.materialColorPicker > .label {
+	height: 27px;
+	line-height: 27px;
+	left: 32px;
+	top: 0;
+	font-size: 16px;
+	position: absolute;
+	color: #9E9E9E;
+	transition: .3s;
+	z-index: 0;
+	white-space: nowrap;
+}
+
+.materialColorPicker.active {
+	border-bottom: 2px #8bc34a solid;
+}
+
+.materialColorPicker.active > .label {
+	height: 19px;
+	line-height: 19px;
+	top: -21px;
+	left: 0;
+	font-size: 0.8rem;
+	color: #8BC34A;
+	transition: .3s;
+}
+
+.materialColorPicker > .cpPreviewColor {
+	float: left;
+	margin: 2px 0;
+	border: 1px solid #BDBDBD;
+	height: 22px;
+	width: 22px;
+}
+
+.materialColorPicker > .cpColorCode {
+	float: left;
+	margin-left: 4px;
+	height: 27px;
+	line-height: 27px;
+	font-size: 16px;
+	color: #212121;
+}
+
+#cpMain {
+	background-color: rgba(0, 0, 0, 0.25);
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100vh;
+	z-index: 999999998;
+	display: none;
+}
+
+#cpColorPicker {
+	z-index: 999999999;
+	border-radius: 4px;
+	background-color: white;
+	height: 258px;
+	width: 256px;
+	display: block;
+	position: absolute;
+	top: calc(50vh - 175px);
+	left: calc(50% - 175px);
+	overflow: hidden;
+	transition: 0.3s height;
+}
+
+#cpHeader {
+	position: absolute;
+	top: 0;
+	left: 0;
+	background-color: #8BC34A;
+	height: 50px;
+	width: 100%;
+	color: black;
+}
+
+#cpHeader > input {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 50px;
+	font-size: 24px;
+	width: 100%;
+	outline: none;
+	border: none;
+	text-align: center;
+	padding: 0;
+	background-color: transparent;
+	z-index: 1;
+	color: inherit;
+}
+
+#cpColors {
+	width: 100%;
+	position: absolute;
+	top: 50px;
+	left: 0;
+	padding: 3px;
+}
+
+.cpColor {
+	margin: 3px;
+	width: 44px;
+	height: 44px;
+	float: left;
+	cursor: pointer;
+}
+
+.cpColor:hover {
+	margin: 4px;
+	width: 42px;
+	height: 42px;
+}
+
+.cpColor#none {
+	margin: 3px;
+	width: 40px;
+	height: 40px;
+	border: solid 2px #9E9E9E;
+	text-align: center;
+	line-height: 40px;
+	color: #9E9E9E;
+	font-weight: 700;
+	font-size: 24px;
+}
+
+.cpColor#none:hover {
+	margin: 4px;
+	width: 38px;
+	height: 38px;
+	line-height: 38px;
+	border: solid 2px #757575;
+	color: #757575;
+}
+
+#cpAccents {
+	width: calc(100% - 8px);
+	position: absolute;
+	top: 256px;
+	left: 0;
+	padding: 0 4px;
+}
+
+.cpAccent {
+	width: calc(20% - 4px);
+	height: 30px;
+	margin: 2px;
+	float: left;
+	cursor: pointer;
+}
+
+.cpAccent:hover {
+	width: calc(20% - 6px);
+	height: 28px;
+	margin: 3px;
+}
+
+
+/*Material Time Picker*/
+
+.materialTimePicker {
+	border: none;
+	border-bottom: 2px #8bc34a solid;
+	height: 27px;
+	display: inline-block;
+	position: relative;
+	margin-top: 21px;
+}
+
+.materialTimePicker > span {
+	position: absolute;
+	height: 19px;
+	line-height: 19px;
+	top: -21px;
+	left: 0;
+	font-size: 0.8rem;
+	color: #8bc34a;
+}
+
+.materialTimePicker p {
+	display: inline-block;
+	margin: 0;
+	width: 4px;
+	line-height: 24px;
+	margin: auto;
+	float: left;
+}
+
+.materialTimePicker input {
+	border: none;
+	height: 27px;
+	padding: 0;
+	width: calc(50% - 11px);
+	text-align: center;
+	outline: none;
+	float: left;
+	margin: auto;
+	padding: 0 4px;
+	font-size: 16px;
+	display: inline-block;
+}
+
+.materialTimePicker .firstTime {
+	text-align: right;
+}
+
+.materialTimePicker .secondTime {
+	text-align: left;
+}
+
+
+/*Date picker*/
+
+#dpMain {
+	background-color: rgba(0, 0, 0, 0.25);
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100vh;
+	z-index: 999999998;
+	display: none;
+}
+
+#dpDatePicker {
+	height: 299px;
+	width: 494px;
+	z-index: 999999999;
+	background-color: white;
+	display: block;
+	position: absolute;
+	top: calc(50vh - 148.5px);
+	left: calc(50% - 250px);
+}
+
+#dpSide {
+	height: 299px;
+	width: 175px;
+	color: white;
+	background-color: #8BC34A;
+	float: left;
+}
+
+#dpSide > h1 {
+	margin: 0;
+	margin-left: 8px;
+	float: left;
+	clear: left;
+	font-size: 45px;
+	font-weight: 400;
+}
+
+#dpSide > h2 {
+	margin: 0;
+	float: left;
+	clear: left;
+	color: rgba(255, 255, 255, 0.8);
+	font-weight: 400;
+	margin-left: 8px;
+	margin-top: 8px;
+}
+
+#dpCalendar {
+	width: 319px;
+	float: left;
+}
+
+#dpContent {
+	width: 100%;
+	height: 258px;
+}
+
+#dpContent > .yearOption.active {
+	color: #8BC34A;
+	font-weight: 700;
+}
+
+#dpContent > .yearOption {
+	float: left;
+	height: 51px;
+	width: 51px;
+	margin: 0.3px 6.4px;
+	text-align: center;
+	line-height: 51px;
+	cursor: pointer;
+	font-weight: 500;
+}
+
+#dpContent > .yearOption:hover {
+	background-color: #E0E0E0;
+	font-weight: 700;
+}
+
+#dpHeader {
+	height: 41px;
+	width: 100%;
+	text-align: center;
+	line-height: 41px;
+	font-weight: 500;
+}
+
+#dpHeader > div {
+	cursor: pointer;
+	line-height: 41px;
+	height: 41px;
+	display: inline-block;
+	padding: 0 8px;
+}
+
+#dpHeader > .month {
+	padding-right: 2px;
+}
+
+#dpHeader > .year {
+	padding-left: 2px;
+}
+
+#dpHeader > i {
+	height: 41px;
+	width: 41px;
+	cursor: pointer;
+	text-align: center;
+	line-height: 41px;
+	font-weight: 400;
+	color: #616161;
+}
+
+#dpHeader > i:hover {
+	font-weight: 500;
+	color: black;
+}
+
+#dpHeader > .leftArrow {
+	float: left;
+}
+
+#dpHeader > .rightArrow {
+	float: right;
+}
+
+#dpCalendar > table {
+	width: 100%;
+}
+
+#dpCalendar td {
+	width: 34px;
+	height: 34px;
+	padding: 0;
+	margin: 0 5.5px;
+	display: inline-block;
+	text-align: center;
+	line-height: 34px;
+	overflow: visible;
+	transition: height 0s, width 0s, line-height 0s, margin 0s, color 0.2s, font-weight 0.2s, background-color 0.2s, border-radius 0.2s;
+}
+
+#dpCalendar tr {
+	float: left;
+	clear: left;
+}
+
+#dpCalendar .dpDay {
+	cursor: pointer;
+}
+
+#dpCalendar .dpHeader {
+	font-weight: 700;
+}
+
+#dpCalendar .dpDay:hover {
+	background-color: #E0E0E0;
+	transition: 0.2s;
+}
+
+#dpCalendar .dpDay.today {
+	width: 30px;
+	height: 30px;
+	line-height: 30px;
+	border: solid 2px #8BC34A;
+	transition: height 0s, width 0s, line-height 0s, margin 0s, color 0s, font-weight 0s, background-color 0s, border-radius 0s;
+	border-radius: 180px;
+}
+
+#dpCalendar .dpDay.active {
+	margin: 2px 7.5px;
+	width: 30px;
+	height: 30px;
+	line-height: 30px;
+	border-radius: 180px;
+	color: white;
+	font-weight: 500;
+	background-color: #8BC34A;
+	border: none !important;
+	transition: height 0s, width 0s, line-height 0s, margin 0s, color 0.2s, font-weight 0.2s, background-color 0.2s, border-radius 0.2s;
+}
+
+#dpContent > .month {
+	float: left;
+	width: 50%;
+	height: 43px;
+	line-height: 43px;
+	text-align: center;
+	cursor: pointer;
+	transition: 0.2s;
+}
+
+#dpContent > .month:hover {
+	font-weight: 700;
+	background-color: #E0E0E0;
+	transition: 0.2s;
+}
+
+#dpContent > .month.active {
+	color: #8BC34A;
+	font-weight: 700;
+}
+
+#dpFooter {
+	padding: 4px 8px;
+	height: 34px;
+	line-height: 34px;
+	bottom: 0px;
+	position: absolute;
+	right: 0px;
+}
+
+#dpFooter > span {
+	padding: 8px;
+	color: #8BC34A;
+	cursor: pointer;
+}
+
+#dpFooter > #dpCancel {
+	font-weight: 500;
+}
+
+#dpFooter > #dpOk {
+	font-weight: 700;
+}
+
+.materialDatePicker {
+	border-bottom: 1px #9E9E9E solid;
+	height: 27px;
+	line-height: 27px;
+	font-size: 16px;
+	display: inline-block;
+	position: absolute;
+	margin-top: 24px;
+	cursor: pointer;
+	padding-right: 4px;
+	color: #9E9E9E;
+}
+
+.materialDatePicker > i {
+	line-height: 27px;
+	float: left;
+	padding-right: 4px;
+}
+
+.materialDatePicker.valid {
+	border-bottom: 2px #8BC34A solid;
+	color: #212121;
+}
+
+.materialDatePicker.invalid {
+	border-bottom: 2px #F44336 solid;
+	color: #212121;
+}

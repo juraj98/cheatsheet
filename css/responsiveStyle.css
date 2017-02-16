@@ -1,0 +1,73 @@
+@media screen and (max-width: 1000px){
+	.content {
+		width: 100% !important;
+		margin: 0;
+		padding-top: 0;
+		top: 120px;
+	}
+	#mainLogo {
+		display: none !important;
+	}
+	.sideMenu {
+		display: none;
+	}
+	#menuButton {
+		display: block;
+	}
+	.topMenuUserImage {
+		top: 16px;
+		right: 16px;
+	}
+	#moreOptionsButton {
+		top: 16px;
+	}
+
+	#searchBox {
+		width: calc((100% - 128px) * 0.8);
+		top: 16px;
+		left: calc(((100% - 128px) - (100% - 128px) * 0.8) / 2 + 64px);
+	}
+
+	#cColumnRight {
+		display: none;
+	}
+	#cColumnLeft {
+		width: calc(100% - 16px);
+    margin-left: 8px;
+	}
+
+}
+
+
+@media screen and (max-width: 800px){
+	#rSide {
+		display: none;
+	}
+	#rReminders {
+		width: calc(100% - 32px);
+		margin: 0 16px;
+	}
+}
+@media screen and (max-width: 600px){
+	.teRow, .timetableEditor {
+		clear: right !important;
+		width: calc(100% - 16px) !important;
+	}
+	#teContent .ttTimetableRow {
+		margin-top: 16px;
+	}
+}
+@media screen and (max-width: 500px){
+	.topMenuUserImage {
+		display: none;
+	}
+	#moreOptionsButton {
+		right: 0;
+		top: 0;
+		height: auto;
+		width: auto;
+		line-height: 1;
+		font-size: 32px;
+		padding: 16px;
+	}
+}

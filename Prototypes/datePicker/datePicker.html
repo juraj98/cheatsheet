@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Cheatsheet - Date picker prototype</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <link rel="icon" type="image/ico" href="/images/favicon/favicon.ico">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400,500,700&subset=latin,latin-ext,cyrillic,greek,greek-ext,vietnamese' rel='stylesheet' type='text/css'>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="datePicker.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: "Roboto";
+        }
+    </style>
+    <script src="datePicker.js" type="text/javascript"></script>
+    <script>
+        $(document).ready(function () {
+            materialDatePickerInit();
+        });
+    </script>
+</head>
+
+<body>
+    <div unselectable="on" class="unselectable materialDatePicker" past="false">
+        <i class="material-icons">event</i><span>Select date</span>
+    </div>
+    <div unselectable="on" class="unselectable materialDatePicker" past="true">
+        <i class="material-icons">event</i><span>Select date</span>
+    </div>
+    <div id="dpMain">
+        <div id="dpDatePicker" class="card-2">
+            <div id="dpSide">
+                <h2></h2>
+                <h1 class="dpTextDay"></h1>
+                <h1 class="dpDate"></h1>
+            </div>
+            <div id="dpCalendar">
+                <div id="dpHeader">
+                    <i class="material-icons leftArrow">keyboard_arrow_left</i>
+                    <div class="month"></div>
+                    <div class="year"></div>
+                    <i class="material-icons rightArrow">keyboard_arrow_right</i>
+                </div>
+                <div id="dpContent">
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

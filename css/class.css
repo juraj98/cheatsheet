@@ -1,0 +1,552 @@
+.cColumn {
+	float: left;
+}
+
+#cColumnLeft {
+	width: calc(50% - 8px);
+	margin-left: 8px;
+}
+
+#cColumnRight {
+	width: calc(50% - 16px);
+	margin-right: 16px;
+}
+
+#cClassCard {
+	margin: 0 8px;
+	width: calc(100% - 16px);
+	border-radius: 5px;
+	background-color: white;
+	overflow: auto;
+	float: left;
+}
+
+#cClassImageDiv {
+	width: 150px;
+	height: 150px;
+	margin: 8px;
+	background-color: #E7E7E7;
+	float: left;
+	position: relative;
+}
+
+#cClassImageDiv > i {
+	font-size: 100px;
+	color: #8bc34a;
+	text-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+	cursor: default;
+	margin: 0 25px;
+	margin-top: 15px;
+}
+
+#cClassImageUploadButton {
+	position: absolute;
+	bottom: 0;
+	height: 25px;
+	width: 100%;
+	background-color: #616161;
+	text-align: center;
+	color: white;
+	cursor: pointer;
+	transition: 0.2s;
+}
+
+#cClassImageUploadButton:active {
+	background-color: #424242;
+}
+
+#cClassImageUploadButton > i {
+	line-height: 25px;
+	font-size: 15px;
+}
+
+#cClassImageUploadButton > span {
+	display: inline-block;
+	font-size: 15px;
+	position: relative;
+	bottom: 2px;
+}
+
+#cClassCard > h1 {
+	color: #8BC34A;
+	margin: 8px;
+	float: left;
+	width: calc(100% - 198px);
+	margin-bottom: 0;
+	font-size: 28px;
+}
+
+#cClassCard > h2 {
+	color: #616161;
+	float: left;
+	width: calc(100% - 198px);
+	font-size: 16px;
+	margin: 0 8px;
+}
+
+#cClassCard > h3 {
+	color: #616161;
+	float: left;
+	width: calc(100% - 198px);
+	font-size: 14px;
+	text-decoration: underline;
+	margin: 0 8px;
+	font-weight: 400;
+	cursor: pointer;
+}
+
+#cClassMenu {
+	margin: 0 4px;
+	position: relative;
+	top: -4px;
+	overflow: auto;
+	float: left;
+	width: calc(100% - 8px);
+}
+
+.cMenuButton {
+	min-height: 50px;
+	/**/
+	width: calc(50% - 8px);
+	float: left;
+	background-color: white;
+	border-radius: 5px;
+	margin: 4px;
+	line-height: 50px;
+	color: #212121;
+	text-align: center;
+	font-size: 18px;
+	cursor: pointer;
+	transition: 0.2s;
+}
+
+.cMenuButton.active {
+	font-weight: 700;
+}
+
+.cMenuButton:hover {
+	background-color: #F5F5F5;
+}
+
+.cMenuButton:active {
+	background-color: #EEEEEE;
+}
+
+#cCurrentSubject {
+	margin: 0 8px;
+	background-color: white;
+	border-radius: 5px;
+	float: left;
+	width: calc(100% - 16px);
+}
+
+.cHeader {
+	width: calc(100% - 24px);
+	font-size: 20px;
+	color: #757575;
+	margin: 8px 12px;
+	border-bottom: 1px solid #757575;
+	float: left;
+}
+
+#cCurrentSubjectInfo > #cTimeLeft {
+	float: right;
+}
+
+#cReminders {
+	overflow: visible;
+}
+
+#cReminders > .cHeader {
+	margin: 0;
+	margin-bottom: 8px;
+}
+
+#cReminders > .rReminder {
+	margin: 0;
+	float: left;
+	/*	margin-bottom: 8px;*/
+	width: 100%;
+}
+
+#cRemindersHeader {
+	widows: 100%;
+	background-color: white;
+	border-radius: 5px;
+	padding: 8px;
+	font-size: 18px;
+	margin-bottom: 8px;
+}
+
+.wideHeader {
+	margin: 4px 20px 0 20px;
+	width: calc(100% - 40px);
+	word-wrap: break-word;
+}
+
+#cOptions {
+	margin: 0 16px;
+	margin-top: 8px;
+	margin-bottom: 4px;
+	width: calc(100% - 32px);
+	background-color: white;
+	border-radius: 5px;
+	min-height: 40px;
+	float: left;
+}
+
+#cOptions > div {
+	cursor: pointer;
+}
+
+#cOptions:active > .leftOption > i,
+#cOptions:active > .leftOption > div,
+#cOptions:active > .rightOption > i,
+#cOptions:active > .rightOption > div {
+	color: #424242;
+}
+
+#cOptions > .leftOption > i,
+#cOptions > .leftOption > div,
+#cOptions > .rightOption > i,
+#cOptions > .rightOption > div {
+	height: 40px;
+	line-height: 40px;
+	display: inline-block;
+	color: #616161;
+	transition: 0.2s;
+}
+
+#cOptions > .leftOption {
+	float: left;
+	margin-left: 16px;
+}
+
+#cOptions > .rightOption {
+	float: right;
+	margin-right: 16px;
+}
+
+#cOptions > .leftOption > i,
+#cOptions > .leftOption > div {
+	float: left;
+	margin-right: 4px;
+}
+
+#cOptions > .rightOption > i,
+#cOptions > .rightOption > div {
+	float: right;
+	margin-left: 4px;
+}
+
+#cTimetableContainer {
+	float: left;
+	width: calc(100% - 32px);
+	min-height: 5px;
+	padding: 8px 16px;
+	margin-bottom: 24px;
+}
+
+#cTimetableContainer > .ttTimetableRow {
+	width: calc(100%);
+	margin: 0;
+}
+
+#cGroupsContainer {
+	width: calc(100% - 24px);
+	margin: 4px 12px;
+	margin-bottom: 24px;
+	float: left;
+	min-height: 5px;
+}
+
+.cGroup {
+	width: 33%;
+	margin: 4px;
+	height: 150px;
+	/**/
+	background-color: white;
+	border-radius: 5px;
+	float: left;
+	overflow: hidden; /*For long descriptions*/
+}
+
+.cGroupImage {
+	height: 134px;
+	width: 134px;
+	margin: 8px;
+	float: left;
+	background-color: #E7E7E7;
+	position: relative;
+}
+
+.cGroupImage > i {
+	color: #8BC34A;
+	font-size: 84px;
+	cursor: default;
+	margin: 15px 25px 0 25px;
+	text-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+}
+
+.cGroupImageUploadButton {
+	position: absolute;
+	bottom: 0;
+	height: 25px;
+	width: 100%;
+	background-color: #616161;
+	text-align: center;
+	color: white;
+	cursor: pointer;
+	transition: 0.2s;
+}
+
+.cGroupImageUploadButton:active {
+	background-color: #424242;
+}
+
+.cGroupImageUploadButton > i {
+	line-height: 25px;
+	font-size: 13px;
+}
+
+.cGroupImageUploadButton > span {
+	display: inline-block;
+	font-size: 13px;
+	position: relative;
+	bottom: 2px;
+}
+.cGroup > h1 {
+	color: #8BC34A;
+	float: left;
+	margin: 0;
+	margin-top: 8px;
+	width: calc(100% - 150px - 8px);
+    font-size: 24px;
+	height: 29px;
+	overflow: hidden;
+}
+.cGroup > h2 {
+    color: #616161;
+    font-size: 12px;
+	height: 14px;
+	overflow: hidden;
+	float: left;
+	margin: 4px 0;
+	margin: 0;
+	width: calc(100% - 150px - 8px);
+}
+.cGroup > p {
+    color: #616161;
+    font-size: 12px;
+	line-height: 15px;	/*For long texts*/
+	float: left;
+	margin: 4px 0;
+	margin: 0;
+	width: calc(100% - 150px - 8px);
+	height: 77px;
+	overflow: hidden;
+	word-wrap: break-word;
+}
+#cAddNewGroupContainer {
+
+	margin: 8px 16px;
+	width: calc(100% - 32px);
+	clear: both;
+	cursor: auto !important;
+	overflow: auto;
+}
+
+#cAddNewGroupContainer .materialLineInput > .maxLengthLabel {
+	bottom: -30px;	/*No idea why is this needed.. :| */
+}
+
+#cGroupNameInput {
+	position: relative;
+	width: calc(50% - 8px);
+	margin: 0;
+	margin-right: 16px;
+	float: left;
+}
+
+#cGroupPrivacyDropdown {
+	position: relative;
+	width: calc(50% - 8px);
+	margin-top: 30px;
+	float: left;
+}
+
+#cGroupDescInput {
+	position: relative;
+	width: 100%;
+	margin: 0;
+	clear: left;
+	float: left;
+}
+#cGroupCreateBtn {
+	min-width: 125px;
+	cursor: pointer;
+	height: 35px;
+	line-height: 35px;
+	float: right;
+	text-align: center;
+	color: white;
+	border-radius: 5px;
+	margin: 16px 0 ;
+	clear: both;
+	background-color: #8BC34A;
+	transition: 0.2s;
+}
+#cGroupCreateBtn:active {
+	background-color: #7CB342;
+}
+
+
+#cNewUpload {
+	width: calc(100% - 32px);
+	overflow-y: auto;
+	overflow-x: hidden;
+	padding: 16px;
+	display: none;
+}
+
+#cNewUploadHeader{
+	margin: 0;
+	width: calc(50% - 8px);
+	margin-right: 16px;
+	float: left;
+	position: relative;
+}
+#cNewUploadSubject {
+	margin: 0;
+	width: calc(50% - 8px);
+	float: left;
+	position: relative;
+}
+#cNewUploadTags{
+	margin: 16px 0;
+	width: calc(100%);
+	float: left;
+	position: relative;
+}
+#cNewUploadContent {
+	width: 100%;
+}
+
+#cNewUpload .mce-tinymce{
+	margin: 0 !important;
+	width: 100% !important;
+}
+#tinymce > p {
+	font-family: 'Roboto' !important;
+	font-size: 12px !important;
+}
+#cNewUploadButton {
+	min-width: 125px;
+	cursor: pointer;
+	height: 35px;
+	line-height: 35px;
+	float: right;
+	text-align: center;
+	color: white;
+	border-radius: 5px;
+	margin-top: 16px;
+	clear: both;
+	background-color: #8BC34A;
+	transition: 0.2s;
+}
+#cNewUploadButton:active {
+	background-color: #7CB342;
+}
+#cMembersPanel {
+	background-color: white;
+	border-radius: 5px;
+	max-height: 80vh;
+	overflow-y: auto;
+	width: 500px;
+	max-width: 90%;
+	z-index: 100000;
+	margin: 10vh auto;
+	position: relative;
+	display: none;
+	padding: 16px;
+	padding-bottom: 8px;
+}
+#cMembersPanel .cHeader {
+	width: 100%;
+	margin: 0;
+	color: #9E9E9E;
+	border: none;
+}
+#cMembersPanel > #cMembersConatainer {
+	height: auto;
+	max-height: calc(80vh - 91px);
+	width: 100%;
+	overflow: auto;
+	float: left;
+}
+#cMembersPanel > #cMembersConatainer > .cmMemberConatiner {
+	height: 60px;
+	padding: 8px;
+	width: calc(100% - 16px);
+	float: left;
+	border-top: solid #9E9E9E 1px;
+	position: relative;
+}
+
+.cmUserImage {
+	height: 60px;
+	width: 60px;
+	float: left;
+}
+
+.cmMemberConatiner > span {
+	height: 30px;
+	margin: 0 8px;
+	width: calc(100% - 152px);
+	display: block;
+	float: left;
+}
+.cmUserName {
+	font-size: 24px;
+	color: #8BC34A;
+}
+.cmUserMail {
+	font-size: 14px;
+	color: #9E9E9E;
+}
+.cmMemberConatiner > .cmCheatpoints {
+	height: 60px;
+	width: 60px;
+	position: absolute;
+	top: 0;
+	right: 0;
+}
+
+#cMembersInviteContainer {
+	height: 32px;
+	margin: 8px 0;
+	width: 100%;
+	float: left;
+
+}
+#cMembersTokenSpan {
+	font-size: 12px;
+	line-height: 16px;
+	float: left;
+	display: inline-block;
+}
+#cMembersGenerateTokenButton {
+	min-width: 125px;
+	cursor: pointer;
+	height: 35px;
+	line-height: 35px;
+	float: right;
+	text-align: center;
+	color: white;
+	border-radius: 5px;
+	background-color: #8BC34A;
+	transition: 0.2s;
+}
+#cMembersGenerateTokenButton:active {
+	background-color: #7CB342;
+}

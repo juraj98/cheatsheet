@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Cheatsheet</title>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<meta name="description" content="" />
+	<meta name="viewport" content="width=device-width" />
+	<meta name="theme-color" content="#8AC249" />
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<link rel="stylesheet" type="text/css" href="css/newHeader.css">
+	<link href='https://fonts.googleapis.com/css?family=Roboto:400,500,700&subset=latin,latin-ext,cyrillic,greek,greek-ext,vietnamese' rel='stylesheet' type='text/css'>
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link rel="icon" type="image/ico" href="images/favicon/favicon.ico">
+
+	<!--jQuery-->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+	<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+	<!-- Google Credentials API -->
+	<!--async defer-->
+	<script src="https://apis.google.com/js/platform.js"></script>
+	<meta name="google-signin-client_id" content="67374956220-8icaiq0lhb7p0cbnc2qfhhrmomc0drcr.apps.googleusercontent.com">
+	<!--TinyMCE-->
+	<script src="/tinymce/tinymce.min.js"></script>
+	<!--	<script src="//cloud.tinymce.com/stable/tinymce.min.js"></script>-->
+	<!--TinyMCE-Code Color-->
+	<link rel="stylesheet" type="text/css" href="css/prism.css">
+	<script src="js/prism.js"></script>
+	<!--====-->
+	<!--Main-->
+	<!--====-->
+	<!--Cheatsheet scripts-->
+	<script type="text/javascript" src="js/cheatsheetOnReady.js"></script>
+	<script type="text/javascript" src="js/temp.js"></script>
+	<script type="text/javascript" src="js/googleLogin.js"></script>
+	<script type="text/javascript" src="js/setUpDynamicListeners.js"></script>
+	<script type="text/javascript" src="js/utility.js"></script>
+	<script type="text/javascript" src="js/sharedVariables.js"></script>
+	<script type="text/javascript" src="js/urlManager.js"></script>
+	<!--Classes-->
+	<script type="text/javascript" src="js/jsClasses/time.js"></script>
+	<script type="text/javascript" src="js/jsClasses/subjectBody.js"></script>
+	<script type="text/javascript" src="js/jsClasses/subject.js"></script>
+	<script type="text/javascript" src="js/jsClasses/timetableDay.js"></script>
+	<script type="text/javascript" src="js/jsClasses/timetable.js"></script>
+	<script type="text/javascript" src="js/jsClasses/subjectNotificationArea.js"></script>
+	<script type="text/javascript" src="js/jsClasses/reminder.js"></script>
+	<script type="text/javascript" src="js/jsClasses/remindersDay.js"></script>
+	<script type="text/javascript" src="js/jsClasses/group.js"></script>
+	<script type="text/javascript" src="js/jsClasses/user.js"></script>
+	<script type="text/javascript" src="js/jsClasses/post.js"></script>
+
+	<!--OnLogin-->
+	<script type="text/javascript" src="js/onLogin.js"></script>
+	<!--Popout-->
+	<script type="text/javascript" src="js/popout.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/popout.css">
+	<!--Base Dir-->
+	<script type="text/javascript" src="js/baseDirVar.js"></script>
+	<!--Menus-->
+	<script type="text/javascript" src="js/menus/leftMenuInit.js"></script>
+	<script type="text/javascript" src="js/menus/topMenuProfileInit.js"></script>
+	<script type="text/javascript" src="js/menus/collapsedMenuInit.js"></script>
+	<script type="text/javascript" src="js/menus/sideMenusListeners.js"></script>
+	<!--Resize-->
+	<script type="text/javascript" src="js/resize.js"></script>
+	<!--Form-->
+	<script type="text/javascript" src="js/flexibleArea.js"></script>
+	<script type="text/javascript" src="js/form.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/form.css">
+	<!--Timetable Subject-->
+	<link rel="stylesheet" type="text/css" href="css/timetableSubject.css">
+	<script type="text/javascript" src="js/timetableSubject.js"></script>
+	<!--================-->
+	<!--Timetable Editor-->
+	<!--================-->
+	<link rel="stylesheet" type="text/css" href="css/timetableEditor.css">
+	<script type="text/javascript" src="js/timetableEditor/timetableEditor.js"></script>
+	<script type="text/javascript" src="js/timetableEditor/timetableEditorClick.js"></script>
+	<!--================-->
+	<!--Reminders-->
+	<!--================-->
+	<link rel="stylesheet" type="text/css" href="css/reminders.css">
+	<script type="text/javascript" src="js/reminders/remindersInit.js"></script>
+	<script type="text/javascript" src="js/reminders/remindersClick.js"></script>
+	<!--=================-->
+	<!--====Add Class====-->
+	<!--=================-->
+	<link rel="stylesheet" type="text/css" href="css/addClass.css">
+	<script type="text/javascript" src="js/addClass/addClassClick.js"></script>
+	<script type="text/javascript" src="js/addClass/addClassInit.js"></script>
+
+	<!--=====-->
+	<!--Class-->
+	<!--=====-->
+	<!--Class Menu-->
+	<!--Collapsible-->
+	<link rel="stylesheet" type="text/css" href="css/collapsibleStyle.css">
+	<link rel="stylesheet" type="text/css" href="css/collapsibleContentStyle.css">
+	<!--Main-->
+	<!--Class-->
+	<script type="text/javascript" src="js/class/classInit.js"></script>
+	<script type="text/javascript" src="js/class/classResize.js"></script>
+	<script type="text/javascript" src="js/class/classClick.js"></script>
+	<script type="text/javascript" src="js/class/switchClassMenu.js"></script>
+	<!--Class=>Upload-->
+	<script type="text/javascript" src="js/class/uploadsTab/classUploadClick.js"></script>
+	<script type="text/javascript" src="js/class/uploadsTab/classUploadInit.js"></script>
+	<!--Class=>Timetable-->
+	<script type="text/javascript" src="js/class/timetableTab/classTimetableInit.js"></script>
+	<script type="text/javascript" src="js/class/timetableTab/classTimetableClick.js"></script>
+	<!--Class=>Messages-->
+	<script type="text/javascript" src="js/class/messagesTab/classMessagesInit.js"></script>
+	<script type="text/javascript" src="js/class/messagesTab/classMessagesClick.js"></script>
+	<!--Class=>Groups-->
+	<script type="text/javascript" src="js/class/groupsTab/classGroupsInit.js"></script>
+	<script type="text/javascript" src="js/class/groupsTab/classGroupsClick.js"></script>
+
+
+	<!--=========-->
+	<!--New Class-->
+	<!--=========-->
+	<link rel="stylesheet" type="text/css" href="css/class.css">
+	<script type="text/javascript" src="js/newClass/newClassInit.js"></script>
+	<script type="text/javascript" src="js/newClass/newClassClick.js"></script>
+	<!--Uploads-->
+	<script type="text/javascript" src="js/newClass/newClassUploads/newClassUploadsClick.js"></script>
+	<script type="text/javascript" src="js/newClass/newClassUploads/newClassUploadsInit.js"></script>
+	<!--Timetable-->
+	<script type="text/javascript" src="js/newClass/newClassTimetable/newClassTimetableClick.js"></script>
+	<script type="text/javascript" src="js/newClass/newClassTimetable/newClassTimetableInit.js"></script>
+	<!--Messages-->
+	<script type="text/javascript" src="js/newClass/newClassMessages/newClassMessagesClick.js"></script>
+	<script type="text/javascript" src="js/newClass/newClassMessages/newClassMessagesInit.js"></script>
+	<!--Groups-->
+	<script type="text/javascript" src="js/newClass/newClassGroups/newClassGroupsClick.js"></script>
+	<script type="text/javascript" src="js/newClass/newClassGroups/newClassGroupsInit.js"></script>
+
+
+
+	<!--=================-->
+	<!--Responsive design-->
+	<!--=================-->
+	<link rel="stylesheet" type="text/css" href="css/responsiveStyle.css">
+</head>
+
+<body>
+	<div id="mainHeader" class="card-1">
+		<i class="material-icons" id="menuButton">menu</i>
+
+		<object type="image/svg+xml" id="mainLogo" data="images/logo/logo_white.svg">Your browser does not support SVG</object>
+
+		<div id="searchBox">
+			<i class="material-icons">search</i>
+			<input type="text" placeholder="Search">
+		</div>
+	</div>
+
+	<div id="collapsedSideMenu">
+		<object type="image/svg+xml" id="sideMenuLogo" data="images/logo/logo_primary.svg">Your browser does not support SVG</object>
+
+		<ul>
+			<li class="sideMenuDivider"></li>
+
+			<li class="collapsedSideMenuButton sideMenuItemActive homeBtn">
+
+				<i class="material-icons">home</i>
+				<span>Home</span>
+			</li>
+			<li class="collapsedSideMenuButton messagesBtn">
+				<i class="material-icons">message</i>
+				<span>Messages</span>
+			</li>
+			<li class="collapsedSideMenuButton remindersBtn">
+				<i class="material-icons">alarm</i>
+				<span>Reminders</span>
+			</li>
+
+			<li class="sideMenuDivider"></li>
+
+			<li class="collapsedSideMenuButton addClass">
+				<i class="material-icons">add</i>
+				<span>Add Class</span>
+			</li>
+
+			<li class="sideMenuDivider" id="collapsedMenuClassDivider"></li>
+
+			<li class="collapsedSideMenuButton accountBtn">
+				<i class="material-icons">account_box</i>
+				<span>Account</span>
+			</li>
+			<li class="collapsedSideMenuButton settingBtn">
+				<i class="material-icons">settings</i>
+				<span>Settings</span>
+			</li>
+			<li class="collapsedSideMenuButton logOutBtn">
+				<i class="material-icons">exit_to_app</i>
+				<span>Log Out</span>
+			</li>
+		</ul>
+
+	</div>
+	<div id="collapsedBackground" class="blackOverlay"></div>
+	<div id="membersBackground" class="blackOverlay"></div>
+	<div id="cMembersPanel" class="card-1">
+		<h1 class="cHeader wideHeader">Members: </h1>
+		<div id="cMembersConatainer"></div>
+		<div id="cMembersInviteContainer">
+			<span id="cMembersTokenSpan"></span>
+			<div id="cMembersGenerateTokenButton">Invite others</div>
+		</div>
+	</div>
+
+	<!--It's outside of header so z-index work-->
+	<div class="topMenuUserImage card-1">
+		<img src="images/placeholders/profilePicturePlaceholder.png" class="topMenuMainProfilePicture card-1">
+		<div class="topMenuUserProfileUserInfo">
+			<h1 class="topMenuUserProfileName">Name Surname</h1>
+			<h2 class="topMenuUserProfileCheatpoints">X Cheatpoints</h2>
+			<h3 class="topMenuUserProfileUsername">Username</h3>
+			<h3 class="topMenuUserProfileEmail">E-mail</h3>
+		</div>
+		<div class="topMenuUserProfileMenu">
+			<div class="topMenuUserProfileMenuItem topMenuUserProfileButtonMyProfile">
+				<p><i class="material-icons">person</i>My Profile</p>
+			</div>
+			<div class="topMenuUserProfileMenuItem topMenuUserProfileButtonSettings">
+				<p><i class="material-icons">settings</i>Settings</p>
+			</div>
+			<div class="topMenuUserProfileMenuItem topMenuUserProfileButtonPremium">
+				<p><i class="material-icons">star</i>Premium</p>
+			</div>
+			<div class="topMenuUserProfileMenuItem topMenuUserProfileButtonHelp">
+				<p><i class="material-icons">help</i>Help</p>
+			</div>
+			<div class="topMenuUserProfileMenuItem topMenuUserProfileButtonLogOut">
+				<p><i class="material-icons">exit_to_app</i>LogOut</p>
+			</div>
+		</div>
+
+		<div class="topMenuUserClasses">
+			<div class="topMenuUserClassesClass card-1">
+				<div class="topMenuUserClassesClassPicture"><i class="material-icons">school</i></div>
+				<div class="topMenuUserClassesClassInfo">
+					<h1>S.C.N.</h1>
+					<h2>Last activity: ??</h2>
+				</div>
+				<div class="topMenuUserClassesClassNotifications">
+					<div class="notification"><i class="material-icons">assignment</i><span>0</span></div>
+					<div class="notification"><i class="material-icons">alarm</i><span>00</span></div>
+				</div>
+			</div>
+			<div class="topMenuUserClassesClass card-1"></div>
+			<div class="topMenuUserClassesClass card-1"></div>
+			<div class="topMenuUserClassesClass card-1"></div>
+		</div>
+	</div>
+	<!-------------------------------------------------------------------->
+	<!-------------------------------CONTENT------------------------------>
+	<!-------------------------------------------------------------------->
+	<div class="content">
+
+
+	</div>
+	<!--Content end-->
+	<div id="popoutContainer"></div>
+</body>
+
+</html>

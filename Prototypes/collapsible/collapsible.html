@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" type="text/css" href="collapsibleStyle.css">
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400,300,700' rel='stylesheet' type='text/css'>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //onReady
+            $(".collapsible > li > .collapsibleHeader").on('click', function () {
+                $(".active").children(".collapsibleComments").slideUp(200);
+                if ($(this).parent().hasClass("active")) {
+                    $(this).parent().removeClass("active");
+                    $(this).parent().children(".collapsibleBody").slideUp(200);
+                    if ($(this).parent().children(".collapsibleComments").is(":visible")) {
+                        $(this).parent().children(".collapsibleComments").slideUp(200);
+                    }
+                } else {
+                    $(".active").children(".collapsibleBody").slideUp(200);
+                    $(".collapsible > .active").removeClass("active");
+                    $(this).parent().toggleClass("active");
+                    $(".active").children(".collapsibleBody").slideDown(200);
+                }
+            }).on('click', 'i', function (e) {
+                e.stopPropagation();
+                switch ($(this).attr("id")) {
+                case "collapsibleCommentButton":
+                    console.log("Comment Click");
+                    if ($(this).parent().parent().children(".collapsibleComments").is(":visible")) {
+                        $(this).parent().parent().children(".collapsibleComments").slideUp(200);
+                    } else {
+                        if ($(this).parent().parent().hasClass("active"))
+                            $(this).parent().parent().children(".collapsibleComments").slideDown(200);
+                        else {
+                            $(".active").children(".collapsibleBody").slideUp(200);
+                            $(".active").children(".collapsibleComments").slideUp(200);
+                            $(".collapsible > .active").removeClass("active");
+                            $(this).parent().parent().toggleClass("active");
+                            $(".active").children(".collapsibleBody").slideDown(200);
+                            $(this).parent().parent().children(".collapsibleComments").slideDown(200);
+                        }
+                    }
+                    break;
+                case "collapsibleLikeButton":
+                    console.log("Like Click");
+                    break;
+                case "collapsibleDislikeButton":
+                    console.log("Dislike Click");
+                    break;
+                }
+            });
+
+            //resize
+            $(".collapsibleComments > .comment > div").width($(".collapsibleHeader").width()-48);
+        });
+    </script>
+</head>
+
+<body>
+
+    <ul class="collapsible">
+        <li>
+            <div class="collapsibleHeader">
+                <div class="icon unselectable card-1" unselectable="on"><i class="">S</i></div>
+                <div>
+                    <h1 class="unselectable" unselectable="on">Item Title 1</h1>
+                    <h2 class="unselectable" unselectable="on">Author's name</h2>
+                </div>
+                <i class="material-icons unselectable" id="collapsibleCommentButton" unselectable="on">comment</i>
+                <i class="material-icons unselectable" id="collapsibleDislikeButton" unselectable="on">thumb_down</i>
+                <i class="material-icons unselectable" id="collapsibleLikeButton" unselectable="on">thumb_up</i>
+                <h3 class="unselectable" unselectable="on">12:34 01.05.2016</h3>
+            </div>
+            <div class="collapsibleBody">
+                <div class="collapsibleContent">
+                    <p>Content Text, Content Text, Content Text</p>
+                </div>
+            </div>
+            <div class="collapsibleComments">
+                <div class="commentsContent">
+                    <p>Comment Text, Comment Text, Comment Text</p>
+                </div>
+            </div>
+        </li>
+        <li>
+            <div class="collapsibleHeader">
+                <div class="icon unselectable card-1" unselectable="on"><i class="material-icons">school</i></div>
+                <div>
+                    <h1 class="unselectable" unselectable="on">Item Title 1</h1>
+                    <h2 class="unselectable" unselectable="on">Author's name</h2>
+                </div>
+                <i class="material-icons unselectable" id="collapsibleCommentButton" unselectable="on">comment</i>
+                <i class="material-icons unselectable" id="collapsibleDislikeButton" unselectable="on">thumb_down</i>
+                <i class="material-icons unselectable" id="collapsibleLikeButton" unselectable="on">thumb_up</i>
+                <h3 class="unselectable" unselectable="on">12:34 01.05.2016</h3>
+            </div>
+            <div class="collapsibleBody">
+                <div class="collapsibleContent">
+                    <p>Content Text, Content Text, Content Text</p>
+                </div>
+            </div>
+            <div class="collapsibleComments">
+                <div class="commentsContent">
+                    <p>Comment Text, Comment Text, Comment Text</p>
+                </div>
+            </div>
+        </li>
+        <li>
+            <div class="collapsibleHeader">
+                <div class="icon unselectable card-1" unselectable="on"><i class="">S</i></div>
+                <div>
+                    <h1 class="unselectable" unselectable="on">Item Title 1</h1>
+                    <h2 class="unselectable" unselectable="on">Author's name</h2>
+                </div>
+                <i class="material-icons unselectable" id="collapsibleCommentButton" unselectable="on">comment</i>
+                <i class="material-icons unselectable" id="collapsibleDislikeButton" unselectable="on">thumb_down</i>
+                <i class="material-icons unselectable" id="collapsibleLikeButton" unselectable="on">thumb_up</i>
+                <h3 class="unselectable" unselectable="on">12:34 01.05.2016</h3>
+            </div>
+            <div class="collapsibleBody">
+                <div class="collapsibleContent">
+                    <p>Content Text, Content Text, Content Text</p>
+                </div>
+            </div>
+            <div class="collapsibleComments">
+                <div class="commentsContent">
+                    <p>Comment Text, Comment Text, Comment Text</p>
+                </div>
+            </div>
+        </li>
+        <li>
+            <div class="collapsibleHeader">
+                <div class="icon unselectable card-1" unselectable="on"><i class="material-icons">school</i></div>
+                <div>
+                    <h1 class="unselectable" unselectable="on">Item Title 1</h1>
+                    <h2 class="unselectable" unselectable="on">Author's name</h2>
+                </div>
+                <i class="material-icons unselectable" id="collapsibleCommentButton" unselectable="on">comment</i>
+                <i class="material-icons unselectable" id="collapsibleDislikeButton" unselectable="on">thumb_down</i>
+                <i class="material-icons unselectable" id="collapsibleLikeButton" unselectable="on">thumb_up</i>
+                <h3 class="unselectable" unselectable="on">12:34 01.05.2016</h3>
+            </div>
+            <div class="collapsibleBody">
+                <div class="collapsibleContent">
+                    <p>Content Text, Content Text, Content Text</p>
+                </div>
+            </div>
+            <div class="collapsibleComments">
+                <div class="comment">
+                    <img class="card-1" src="/cheatsheet%203.0/images/profilePicPlaceholder.png">
+                    <div>
+                        <h1>Name Surname</h1>
+                        <p>Comment Comment Comment</p>
+                    </div>
+                </div>
+                <div class="comment">
+                    <img class="card-1" src="/cheatsheet%203.0/images/profilePicPlaceholder.png">
+                    <div>
+                        <h1>Name Surname</h1>
+                        <p>Comment Comment Comment</p>
+                    </div>
+                </div>
+                <div class="comment">
+                    <img class="card-1" src="/cheatsheet%203.0/images/profilePicPlaceholder.png">
+                    <div>
+                        <h1>Name Surname</h1>
+                        <p>Comment Comment Comment</p>
+                    </div>
+                </div>
+                <div class="comment">
+                    <img class="card-1" src="/cheatsheet%203.0/images/profilePicPlaceholder.png">
+                    <div>
+                        <h1>Name Surname</h1>
+                        <p>MultilineComment MultilineComment MultilineComment MultilineComment MultilineComment MultilineComment MultilineComment MultilineComment MultilineComment MultilineComment MultilineComment MultilineComment MultilineComment MultilineComment MultilineComment MultilineComment MultilineComment MultilineComment MultilineComment MultilineComment MultilineComment MultilineComment MultilineComment MultilineComment MultilineComment MultilineComment MultilineComment MultilineComment MultilineComment MultilineComment MultilineComment MultilineComment MultilineComment MultilineComment MultilineComment MultilineComment MultilineComment MultilineComment MultilineComment MultilineComment MultilineComment MultilineComment MultilineComment MultilineComment MultilineComment MultilineComment MultilineComment MultilineComment MultilineComment MultilineComment MultilineComment MultilineComment MultilineComment MultilineComment MultilineComment MultilineComment MultilineComment MultilineComment MultilineComment MultilineComment MultilineComment MultilineComment MultilineComment MultilineComment MultilineComment </p>
+                    </div>
+                </div>
+            </div>
+        </li>
+    </ul>
+
+</body>
+
+</html>

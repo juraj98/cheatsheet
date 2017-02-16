@@ -1,0 +1,292 @@
+/*rReminders*/
+
+#rReminders {
+	/**/
+	margin-left: 16px;
+	float: left;
+	overflow: visible;
+	width: calc(100% - 40px - 300px);
+}
+
+.rDayInfo {
+	width: calc(100% - 16px);
+	font-size: 20px;
+	color: #757575;
+	margin: 8px;
+	margin-bottom: 4px;
+	border-bottom: 1px solid #757575;
+}
+
+.rReminder {
+	min-height: 76px;
+	/**/
+	width: calc(100% - 16px);
+	border-radius: 5px;
+	margin: 4px 8px;
+	background-color: white;
+	position: relative;
+}
+
+.rReminder .rIcon {
+	height: 60px;
+	width: 60px;
+	margin: 8px;
+	/*	margin-right: 16px;*/
+	display: inline-block;
+	background-color: #8bc34a;
+	border-radius: 180px;
+	float: left;
+}
+
+.rReminder .rIcon > i {
+	height: 60px;
+	width: 60px;
+	display: inline-block;
+	color: white;
+	text-align: center;
+	line-height: 60px;
+	font-size: 32px;
+	font-style: normal;
+}
+
+.rReminder > h1 {
+	/**/
+	float: left;
+	margin: 0;
+	margin-top: 13px;
+	color: #616161;
+	padding-right: 100px;
+	width: calc(100% - 184px);
+	font-size: 24px;
+}
+
+.rReminder > h2 {
+	/**/
+	float: left;
+	font-weight: 400;
+	padding-right: 100px;
+	width: calc(100% - 184px);
+	color: #616161;
+	margin: 0;
+	font-size: 16px;
+}
+
+.rReminder > .rExpandReminder {
+	position: absolute;
+	right: 8px;
+	bottom: 8px;
+	font-size: 14px;
+	padding-right: 16px;
+	color: #616161;
+	cursor: pointer;
+}
+
+.rReminder > .rExpandReminder::after {
+	content: 'expand_more';
+	font-family: 'Material Icons';
+	font-size: 18px;
+	position: absolute;
+	right: 0;
+	bottom: 0;
+}
+
+.rReminder > .rButtons {
+	/*	*/
+	position: absolute;
+	right: 8px;
+	top: 12px;
+	height: 30px;
+	width: 68px;
+}
+
+.rReminder > .rButtons > i {
+	color: #616161;
+	float: left;
+	margin: 0 2px;
+	font-size: 30px;
+	cursor: pointer;
+}
+
+
+/*rSide*/
+
+#rSide {
+	width: 300px;
+	margin-right: 16px;
+	float: right;
+	overflow: visible;
+}
+
+#rSide > #rCalendar {
+	height: 300px;
+	width: 300px;
+	border-radius: 5px;
+	background-color: white;
+	margin-bottom: 8px;
+}
+
+#rSide > #rAddReminder {
+	width: 300px;
+	border-radius: 5px;
+	background-color: white;
+	margin-bottom: 8px;
+	text-align: center;
+	overflow: auto;
+	cursor: pointer;
+	transition: 0.2s;
+}
+
+#rSide > #rAddReminder > #rAddButton {
+	float: left;
+	clear: left;
+	width: 100%;
+}
+
+#rSide > #rAddReminder > #rExpand {
+	float: left;
+	clear: left;
+	width: 100%;
+	overflow: auto;
+}
+
+#rSide > #rAddReminder > #rAddButton > div {
+	display: inline-block;
+	background-color: #E0E0E0;
+	color: white;
+	height: 25px;
+	margin: 10px 0;
+	border-radius: 5px;
+	padding: 2px 6px;
+	transition: 0.2s;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+}
+
+#rSide > #rAddReminder > #rAddButton > div:active {
+	background-color: #BDBDBD;
+	transition: 0.2s;
+	box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+}
+
+#rSide > #rAddReminder > #rAddButton>div > span {
+	line-height: 25px;
+	display: inline-block;
+	float: left;
+}
+
+#rSide > #rAddReminder> #rAddButton>div > i {
+	line-height: 25px;
+	margin: 0;
+	float: left;
+}
+
+#rSide > #rAddReminder > #rExpand> #rCategories {
+	float: left;
+	clear: left;
+	width: 284px;
+	position: relative;
+	margin: 8px;
+	text-align: left;
+	margin-bottom: 0;
+}
+
+#rSide > #rAddReminder > #rExpand> #rName {
+	float: left;
+	clear: left;
+	width: 284px;
+	position: relative;
+	margin: 8px;
+	margin-top: 0;
+}
+
+#rSide > #rAddReminder > #rExpand> #rSubject {
+	float: left;
+	clear: left;
+	width: 284px;
+	position: relative;
+	margin: 8px;
+	margin-top: 0;
+}
+
+#rSide > #rAddReminder > #rExpand> #rDate {
+	float: left;
+	clear: left;
+	width: 284px;
+	position: relative;
+	margin: 8px;
+	text-align: left;
+}
+
+
+/*Filters*/
+
+#rFilters {
+	width: 300px;
+	/**/
+	overflow: auto;
+	border-radius: 5px;
+	background-color: white;
+	margin-bottom: 8px;
+}
+
+#rFilters > span {
+	margin: 0 16px;
+	display: block;
+	font-size: 18px;
+	font-weight: 700;
+	margin-top: 12px;
+}
+
+#rFilters ul {
+	margin: 16px;
+}
+
+#rFilters li {
+	list-style-type: none;
+	height: 25px;
+	margin: 8px 0;
+	color: black;
+	position: relative;
+	cursor: pointer;
+}
+
+#rFilters li:before {
+	font-family: 'Material Icons';
+	font-size: 25px;
+	left: -30px;
+	position: absolute;
+}
+
+.rDisabled,
+.rDisabled:before {
+	color: #BDBDBD !important;
+}
+
+#rHomeworkFilterButton:before {
+	content: 'chrome_reader_mode';
+	color: #2196F3;
+}
+
+#rProjectFilterButton:before {
+	content: 'assessment';
+	color: #795548;
+}
+
+#rOralExamFilterButton:before {
+	content: 'group';
+	color: #FF9800;
+}
+
+#rExamFilterButton:before {
+	content: 'assignment';
+	color: #FF5722;
+}
+
+#rTestFilterButton:before {
+	content: 'assignment_late';
+	color: #F44336;
+}
+
+#rLessonFilterButton:before {
+	content: 'book';
+	color: #CDDC39;
+}

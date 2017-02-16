@@ -1,0 +1,42 @@
+body {
+    font-family: 'Roboto', sans-serif;
+}
+.materialTimePicker {
+    border: none;
+    border-bottom: 2px #8bc34a solid;
+    height: 27px;
+    display: inline-block;
+    position: relative;
+    margin-top: 20px;
+}
+.materialTimePicker > span {
+    position: absolute;
+    height: 19px;
+    line-height: 19px;
+    top: -21px;
+    left: 0;
+    font-size: 0.8rem;
+    color: #8bc34a;
+}
+.materialTimePicker p {
+    display: inline-block;
+    margin: 0;
+    width: 4px;
+}
+.materialTimePicker input {
+    border: none;
+    height: 27px;
+    padding: 0;
+    width: calc(50% - 10px);
+    text-align: center;
+    outline: none;
+    padding: 0 4px;
+    font-size: 16px;
+    display: inline-block;
+}
+.materialTimePicker .firstTime {
+    text-align: right;
+}
+.materialTimePicker .secondTime {
+    text-align: left;
+}
