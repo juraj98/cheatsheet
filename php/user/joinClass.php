@@ -7,6 +7,8 @@ require_once	"../_includes/checkPostVariables.php";
 require_once	"../_includes/checkIfMemberOfClass.php";
 require_once	"../_includes/getUserIdFromSub.php";
 
+require_once	"../_includes/errorMessagesAndDetails.php";
+
 header('Content-Type: application/json');	//Needed for not showing ads
 
 //Check post variables
@@ -22,7 +24,7 @@ $query = mysqli_query($conn, "SELECT id, classId, uses FROM classInvites WHERE t
 if(!$query){
 	$response->success = false;
 	$response->error->code = 3;
-	$response->error->message = "Query failed.";
+	$response->error->message = ERR_MSG_QUERY_FAILED;
 	$response->error->details = "Query fetching token data failed. Error: " . mysqli_error($conn);
 	die(json_encode($response));
 }
@@ -48,14 +50,14 @@ if($query){
 	if(!$query){
 		$response->success = false;
 		$response->error->code = 3;
-		$response->error->message = "Query failed.";
+		$response->error->message = ERR_MSG_QUERY_FAILED;
 		$response->error->details = "Query updating or deleting token data failed. Error: " . mysqli_error($conn);
 		die(json_encode($response));
 	}
 } else {
 	$response->success = false;
 	$response->error->code = 3;
-	$response->error->message = "Query failed.";
+	$response->error->message = ERR_MSG_QUERY_FAILED;
 	$response->error->details = "Query adding user to class failed. Error: " . mysqli_error($conn);
 	$response->error->duplicate = mysqli_errno($conn) == 1062;
 }

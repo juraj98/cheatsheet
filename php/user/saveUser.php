@@ -7,6 +7,8 @@ require_once	"../_includes/checkPostVariables.php";
 require_once	"../_includes/checkIfMemberOfClass.php";
 require_once	"../_includes/getUserIdFromSub.php";
 
+require_once	"../_includes/errorMessagesAndDetails.php";
+
 header('Content-Type: application/json');	//Needed for not showing ads
 
 
@@ -37,7 +39,7 @@ if($stmt->execute()){
 	if($stmt->affected_rows == 0){
 		$response->success = false;
 		$response->error->code = 0;
-		$response->error->message = "Unknow error.";
+		$response->error->message = ERR_MSG_UNKNOW;
 		$response->error->details = "User query was sucessful, but no rows were affected. (Maybe wrong userId?)";
 		die(json_encode($response));
 	} else {
@@ -47,7 +49,7 @@ if($stmt->execute()){
 } else {
 	$response->success = false;
 	$response->error->code = 3;
-	$response->error->message = "Query failed.";
+	$response->error->message = ERR_MSG_QUERY_FAILED;
 	$response->error->details = "Query updating user failed. Error: " . mysqli_error($conn);
 	die(json_encode($response));
 }

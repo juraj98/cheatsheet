@@ -6,6 +6,8 @@ require_once	"../_includes/checkPostVariables.php";
 require_once	"../_includes/checkIfMemberOfClass.php";
 require_once	"../_includes/getUserIdFromSub.php";
 
+require_once	"../_includes/errorMessagesAndDetails.php";
+
 header('Content-Type: application/json');	//Needed for not showing ads
 
 //Check post variables

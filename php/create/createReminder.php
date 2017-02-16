@@ -7,6 +7,8 @@ require_once	"../_includes/checkPostVariables.php";
 require_once	"../_includes/checkIfMemberOfClass.php";
 require_once	"../_includes/getUserIdFromSub.php";
 
+require_once	"../_includes/errorMessagesAndDetails.php";
+
 header('Content-Type: application/json');	//Needed for not showing ads
 
 
@@ -21,7 +23,7 @@ $reminderData = json_decode($_POST['reminderData']);
 if(!$reminderData){
 	$response->success = false;
 	$response->error->code = 5;
-	$response->error->message = "Wrong format of object.";
+	$response->error->message = ERR_MSG_WRONG_FORMAT;
 	$response->error->details = "JSON parse of 'reminderData' post variable failed.";
 	die(json_encode($response));
 }
@@ -79,7 +81,7 @@ if($reminderData->dateOfReminder == null){
 
 if($response->success === false){
 	$response->error->code = 6;
-	$response->error->message = "Variables limits violated.";
+	$response->error->message = ERR_MSG_LIMITS_VIOLATED;
 	die(json_encode($response));
 }
 
@@ -98,7 +100,7 @@ if($stmt->execute()){
 } else {
 	$response->success = false;
 	$response->error->code = 3;
-	$response->error->message = "Query failed.";
+	$response->error->message = ERR_MSG_QUERY_FAILED;
 	$response->error->details = "Query inserting new reminder failed. Error: " . mysqli_error($conn) . " (Maybe wrong date format? Supported formats YYYY-MM-DD/YYYY-M-D/YYYY-M-DD/YYYY-MM-D)";
 }
 die(json_encode($response));

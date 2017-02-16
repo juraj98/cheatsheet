@@ -7,6 +7,8 @@ require_once	"../_includes/checkPostVariables.php";
 require_once	"../_includes/checkIfMemberOfClass.php";
 require_once	"../_includes/getUserIdFromSub.php";
 
+require_once	"../_includes/errorMessagesAndDetails.php";
+
 header('Content-Type: application/json');	//Needed for not showing ads
 
 //Check post variables
@@ -43,7 +45,7 @@ if(isset($_POST['name'])){
 
 if($response->success === false){
 	$response->error->code = 6;
-	$response->error->message = "Variables limits violated.";
+	$response->error->message = ERR_MSG_LIMITS_VIOLATED;
 	die(json_encode($response));
 }
 
@@ -58,7 +60,7 @@ $stmt->bind_param("ssss", $_POST['nameShort'], $_POST['name'], $_POST['school'],
 if(!$stmt->execute()){
 	$response->success = false;
 	$response->error->code = 3;
-	$response->error->message = "Query failed.";
+	$response->error->message = ERR_MSG_QUERY_FAILED;
 	$response->error->details = "Query inserting new class failed. Error: " . mysqli_error($conn);
 	die(json_encode($response));
 }
@@ -74,7 +76,7 @@ if($stmt->execute()){
 } else {
 	$response->success = false;
 	$response->error->code = 3;
-	$response->error->message = "Query failed.";
+	$response->error->message = ERR_MSG_QUERY_FAILED;
 	$response->error->details = "Query adding user to class failed. Error: " . mysqli_error($conn);
 }
 

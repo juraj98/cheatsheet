@@ -7,6 +7,8 @@ require_once	"../_includes/checkPostVariables.php";
 require_once	"../_includes/checkIfMemberOfClass.php";
 require_once	"../_includes/getUserIdFromSub.php";
 
+require_once	"../_includes/errorMessagesAndDetails.php";
+
 header('Content-Type: application/json');	//Needed for not showing ads
 
 //Check post variables
@@ -54,7 +56,7 @@ if($query) {
 } else {
 	$response->success = false;
 	$response->error->code = 3;
-	$response->error->message = "Query failed.";
+	$response->error->message = ERR_MSG_QUERY_FAILED;
 	$response->error->details = "Query fetching timetable failed. Error: " . mysqli_error($conn);
 	die(json_encode($response));
 }
