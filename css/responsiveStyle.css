@@ -59,7 +59,7 @@
 }
 @media screen and (max-width: 500px){
 	.topMenuUserImage {
-		display: none;
+		display: none !important;
 	}
 	#moreOptionsButton {
 		right: 0;

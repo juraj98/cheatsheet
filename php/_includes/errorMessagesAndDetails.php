@@ -1,4 +1,5 @@
 <?php
+
 //Messages
 const ERR_MSG_UNKNOW = "Unknown error.";
 const ERR_MSG_MISSING_POST = "Did not recieve every needed variable on post.";

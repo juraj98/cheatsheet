@@ -550,3 +550,217 @@
 #cMembersGenerateTokenButton:active {
 	background-color: #7CB342;
 }
+
+
+/*Messages*/
+#cNewMessageBox {
+	min-height: 100px;
+	/**/
+	width: calc(100% - 32px);
+	margin: 8px 16px;
+	margin-bottom: 12px;
+	float: left;
+	overflow: visible;
+	position: relative;
+}
+#cNewMessageBox > textarea {
+	resize: none;
+	border-radius: 5px;
+	width: calc(100% - 16px);
+	padding: 16px 8px;
+	border: none;
+	font-family: 'Roboto';
+	outline: none;
+	float: left;
+	margin-top: 66px;
+}
+#cNewMessageBoxPicture {
+	position: absolute;
+	z-index: 1;
+	height: calc(100px - 34px);
+	width: calc(100px - 34px);
+	left: 5%;
+	top: 0;
+	overflow: hidden;
+}
+
+#cNewMessageBoxPictureArrow {
+	background-color: white;
+	transform: rotate(45deg);
+	height: 20px;
+	width: 20px;
+	position: absolute;
+	left: calc(50% - 10px);
+	bottom: -10px;;
+}
+#cNewMessageBoxPictureImage {
+
+	height: 49px;
+	border-radius: 180px;
+	position: absolute;
+	left: calc(50% - 49px / 2);
+}
+#cNewMessageBoxYouText {
+	display: block;
+	position: absolute;
+	color: #8BC34A;
+	font-size: 24px;
+	left: calc(5% + 66px);
+	top: 8.5px;
+
+}
+#cNewMessageSendButton {
+	min-width: 125px;
+	cursor: pointer;
+	height: 35px;
+	line-height: 35px;
+	text-align: center;
+	color: white;
+	border-radius: 5px;
+	background-color: #8BC34A;
+	transition: 0.2s;
+
+	position: absolute;
+	right: 16px;
+	top: 7px;
+
+}
+#cNewMessageSendButton:active {
+	background-color: #7CB342;
+}
+#cNewMessageSendButton > span{
+	position: relative;
+	font-size: 16px;
+	top: -2px;
+	margin-right: 4px;
+}
+#cNewMessageSendButton > i {
+	line-height: 35px;
+	font-size: 16px;
+}
+
+.cUserMsg {
+/*	background-color: bisque;*/
+
+	width: calc(100% - 32px);
+	margin: 4px 16px;
+	float: left;
+}
+.cUserImage {
+	float: right;
+	width: 50px;
+	border-radius: 180px;
+}
+.cUserName {
+	float: right;
+	margin-right: 15px;
+	font-size: 12px;
+	color: #757583;
+}
+.cUserMsgConainer {
+	float: right;
+	width: calc(100% - 110px);
+	position: relative;
+	padding-left: 60px;
+	padding-top: 2px;
+	padding-bottom: 2px;
+	overflow: auto;
+}
+.cUserMsgBox {
+	float: right;
+	margin-right: 10px;
+	border-radius: 5px;
+	padding: 8px 16px;
+	position: relative;
+	min-height: 21px;
+	text-align: right;
+	background-color: white;
+	word-wrap: break-word;
+}
+.cUserMsgBoxArrowConatiner {
+	position: absolute;
+	overflow: hidden;
+	z-index: 1;
+	top: 0;
+	right: 0;
+	height: 32px;
+	width: 10px;
+
+}
+.cUserMsgBoxArrow {
+	position: absolute;
+	top: 10px;
+	height: 10px;
+	width: 10px;
+	background-color: white;
+	transform: rotate(45deg);
+	right: 5px;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+}
+
+.space {
+	margin: 50px 0;
+	width: 100%;
+	float: left;
+}
+
+/*Other user*/
+
+.cOtherMsg {
+/*	background-color: pink;*/
+
+	width: calc(100% - 32px);
+	margin: 4px 16px;
+	float: left;
+}
+.cOtherImage {
+	float: left;
+	width: 50px;
+	border-radius: 180px;
+}
+.cOtherName {
+	float: left;
+	margin-left: 15px;
+	font-size: 12px;
+	color: #757583;
+}
+.cOtherMsgConainer {
+	float: left;
+	width: calc(100% - 110px);
+	position: relative;
+	padding-right: 60px;
+	padding-top: 2px;
+	padding-bottom: 2px;
+	overflow: auto;
+}
+.cOtherMsgBox {
+	min-height: 21px;
+	float: left;
+	margin-left: 10px;
+	border-radius: 5px;
+	padding: 8px 16px;
+	position: relative;
+	text-align: left;
+	background-color: white;
+	word-wrap: break-word;
+}
+.cOtherMsgBoxArrowConatiner {
+	position: absolute;
+	overflow: hidden;
+	z-index: 1;
+	top: 0;
+	left: 0;
+	height: 32px;
+	width: 10px;
+
+}
+.cOtherMsgBoxArrow {
+	position: absolute;
+	top: 10px;
+	height: 10px;
+	width: 10px;
+	background-color: white;
+	transform: rotate(45deg);
+	left: 5px;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+}

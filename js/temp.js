@@ -24,7 +24,7 @@ $(window).ready(function() {
 
 function afterOnLoginTemp() {
 
-//	newClassInit(1);
+	autosize($('#cNewMessageBox > textarea'));
 
 
 }

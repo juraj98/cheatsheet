@@ -147,7 +147,7 @@
 </head>
 
 <body>
-<div class="g-signin2" data-onsuccess="onSignIn"></div>
+	<div class="g-signin2" data-onsuccess="onSignIn"></div>
 	<div id="mainHeader" class="card-1">
 		<i class="material-icons" id="menuButton">menu</i>
 
@@ -262,8 +262,74 @@
 	<!-------------------------------CONTENT------------------------------>
 	<!-------------------------------------------------------------------->
 	<div class="content">
-
-
+		<div class="cColumn" id="cColumnLeft">
+			<div id="cClassCard" class="card-1">
+				<div id="cClassImageDiv" class="unselectable card-1"><i class="material-icons">school</i>
+					<div class="card-1" id="cClassImageUploadButton"><i class="material-icons">file_upload</i><span>Upload image</span></div>
+				</div>
+				<h1 id="cClassShortName">TC</h1>
+				<h2 id="cClassFullName">TestClass</h2>
+				<h2 id="cClassSchool">TestSchoolName</h2>
+				<h3 id="cClassMembers">3 members</h3></div>
+			<div class="cHeader" id="cSubjectHeader">Current subject:</div>
+			<div class="ttSubject card-1" id="cCurrentSubject">
+				<div class="ttSubjectHeader">
+					<div class="number"><span>0</span>. Lesson</div>
+					<div class="time"><span class="start">07:05</span> - <span class="end">07:00</span></div>
+				</div>
+				<div class="bodysSortable">
+					<div class="ttSubjectBody">
+						<div style="background-color: #283593" class="ttSubjectIcon unselectable card-1">E</div><span class="ttSubjectName">Elektrotechnická spôsobilosť</span><span class="ttSubjectInfo">Štefan Švarc - USVA - 1F203</span>
+						<div class="ttSubjectNotifications unselectable"><i class="material-icons" style="color:#F44336; display:none;">mode_edit</i><i class="material-icons" style="display:none;">extension</i><i class="material-icons" style="display:none;">notifications</i></div>
+					</div>
+				</div>
+			</div>
+			<div class="cHeader">Menu:</div>
+			<div id="cClassMenu">
+				<div id="cClassUploads" class="card-1 cMenuButton unselectable">Uploads</div>
+				<div id="cClassTimetable" class="card-1 unselectable cMenuButton">Timetable</div>
+				<div id="cClassMessages" class="card-1 unselectable cMenuButton active">Messages</div>
+				<div id="cClassGroups" class="card-1 unselectable cMenuButton">Groups</div>
+			</div>
+		</div>
+		<div class="cColumn" id="cColumnRight">
+			<div id="cReminders">
+				<div class="cHeader">Reminders:</div>
+			</div>
+		</div>
+		<div class="cHeader wideHeader" id="cOptionsHeader">Messages:</div>
+		<div id="cNewMessageBox">
+			<div id="cNewMessageBoxPicture">
+				<div id="cNewMessageBoxPictureArrow" class="card-1"></div>
+				<img src="images/placeholders/profilePicturePlaceholder.png" id="cNewMessageBoxPictureImage" class="card-1">
+			</div>
+			<span id="cNewMessageBoxYouText">You</span>
+			<textarea rows="1" class="card-1"></textarea>
+			<div id="cNewMessageSendButton" class="card-1"><span>Send</span><i class="material-icons">send</i></div>
+		</div>
+		<div class="cUserMsg">
+			<img class="cUserImage card-1" src="images/placeholders/profilePicturePlaceholder.png">
+			<span class="cUserName">User Name</span>
+			<div class="cUserMsgConainer">
+				<div class="cUserMsgBox card-1">
+				</div>
+				<div class="cUserMsgBoxArrowConatiner">
+					<div class="cUserMsgBoxArrow"></div>
+				</div>
+			</div>
+		</div>
+		<div class="cOtherMsg">
+			<img class="cOtherImage card-1" src="images/placeholders/profilePicturePlaceholder.png">
+			<span class="cOtherName">Other Name | 17.2.2017</span>
+			<div class="cOtherMsgConainer">
+				<div class="cOtherMsgBox card-1">
+				</div>
+				<div class="cOtherMsgBoxArrowConatiner">
+					<div class="cOtherMsgBoxArrow"></div>
+				</div>
+			</div>
+		</div>
+		<div class="space"></div>
 	</div>
 	<!--Content end-->
 	<div id="popoutContainer"></div>
