@@ -1,6 +1,9 @@
 function newClassTimetableClick(_id) {
 	console.info("%cFunction run:\t" + "%cnewClassTimetableClick(_id)", "color: #303F9F; font-weight:700", "color: #303F9F");
 
+	$("#cOptionsHeader").show();
+	$("#cOptions").show();
+
 	$("#cOptionsHeader").html("Timetable options:");
 
 	$("#cOptions > .leftOption").html('<i class="material-icons">mode_edit</i><div>Edit</div>').click(function(){

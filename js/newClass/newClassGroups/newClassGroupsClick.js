@@ -1,6 +1,9 @@
 function newClassGroupsClick(_id){
 	console.info("%cFunction run:\t" + "%cnewClassGroupsClick(_id)", "color: #303F9F; font-weight:700", "color: #303F9F");
 
+	$("#cOptionsHeader").show();
+	$("#cOptions").show();
+
 	$("#cOptionsHeader").html("Groups options:");
 
 	$("#cOptions > .leftOption").html('<i class="material-icons">group</i><div>My groups</div>');

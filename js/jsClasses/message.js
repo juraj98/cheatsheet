@@ -31,7 +31,6 @@ class Message {
 	}
 
 	toElement() {
-
 		this.element = $('<div><img class="cImage card-1" src="' + (this.image ? this.image : "images/placeholders/profilePicturePlaceholder.png") + '"><span class="cName"></span><div class="cMsgConainer"><div class="cMsgBox card-1">' + this.content + '</div><div class="cMsgBoxArrowConatiner"><div class="cMsgBoxArrow"></div></div></div></div>');
 
 		if (this.userId == user.id) {

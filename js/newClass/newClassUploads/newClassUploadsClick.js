@@ -1,6 +1,9 @@
 function newClassUploadsClick(_id){
 	console.info("%cFunction run:\t" + "%cnewClassUploadsClick(_id)", "color: #303F9F; font-weight:700", "color: #303F9F");
 
+	$("#cOptionsHeader").show();
+	$("#cOptions").show();
+
 	$("#cOptionsHeader").html("Uploads options:");
 
 	$("#cOptions > .leftOption").html('<i class="material-icons">search</i><div>Filter</div>');
