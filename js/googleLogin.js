@@ -96,6 +96,7 @@ function googleLogin() {
 
 		googleProfile = auth2.currentUser.get().getBasicProfile();
 		googleTokenId = auth2.currentUser.get().getAuthResponse().id_token;
+		console.log(googleTokenId);
 
 		if (firstTimeLaod) {
 			firstTimeLaod = false;
@@ -126,8 +127,6 @@ function googleLogin() {
 		}
 	}
 
-
-	console.log("newGoogleLogin()");
 	appStart();
 
 
