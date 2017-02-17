@@ -646,18 +646,18 @@
 	margin: 4px 16px;
 	float: left;
 }
-.cUserImage {
+.cUserMsg .cImage {
 	float: right;
 	width: 50px;
 	border-radius: 180px;
 }
-.cUserName {
+.cUserMsg .cName {
 	float: right;
 	margin-right: 15px;
 	font-size: 12px;
 	color: #757583;
 }
-.cUserMsgConainer {
+.cUserMsg .cMsgConainer {
 	float: right;
 	width: calc(100% - 110px);
 	position: relative;
@@ -666,7 +666,7 @@
 	padding-bottom: 2px;
 	overflow: auto;
 }
-.cUserMsgBox {
+.cUserMsg .cMsgBox {
 	float: right;
 	margin-right: 10px;
 	border-radius: 5px;
@@ -677,7 +677,7 @@
 	background-color: white;
 	word-wrap: break-word;
 }
-.cUserMsgBoxArrowConatiner {
+.cUserMsg .cMsgBoxArrowConatiner {
 	position: absolute;
 	overflow: hidden;
 	z-index: 1;
@@ -687,7 +687,7 @@
 	width: 10px;
 
 }
-.cUserMsgBoxArrow {
+.cUserMsg .cMsgBoxArrow {
 	position: absolute;
 	top: 10px;
 	height: 10px;
@@ -696,12 +696,6 @@
 	transform: rotate(45deg);
 	right: 5px;
 	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-}
-
-.space {
-	margin: 50px 0;
-	width: 100%;
-	float: left;
 }
 
 /*Other user*/
@@ -713,18 +707,18 @@
 	margin: 4px 16px;
 	float: left;
 }
-.cOtherImage {
+.cOtherMsg .cImage {
 	float: left;
 	width: 50px;
 	border-radius: 180px;
 }
-.cOtherName {
+.cOtherMsg .cName {
 	float: left;
 	margin-left: 15px;
 	font-size: 12px;
 	color: #757583;
 }
-.cOtherMsgConainer {
+.cOtherMsg .cMsgConainer {
 	float: left;
 	width: calc(100% - 110px);
 	position: relative;
@@ -733,7 +727,7 @@
 	padding-bottom: 2px;
 	overflow: auto;
 }
-.cOtherMsgBox {
+.cOtherMsg .cMsgBox {
 	min-height: 21px;
 	float: left;
 	margin-left: 10px;
@@ -744,7 +738,7 @@
 	background-color: white;
 	word-wrap: break-word;
 }
-.cOtherMsgBoxArrowConatiner {
+.cOtherMsg .cMsgBoxArrowConatiner {
 	position: absolute;
 	overflow: hidden;
 	z-index: 1;
@@ -754,7 +748,7 @@
 	width: 10px;
 
 }
-.cOtherMsgBoxArrow {
+.cOtherMsg .cMsgBoxArrow {
 	position: absolute;
 	top: 10px;
 	height: 10px;
