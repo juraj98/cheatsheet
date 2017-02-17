@@ -32,7 +32,7 @@ $userId = getUserIdFromSub($idTokenData->{"sub"});
 ckeckIfMemberOfClass($userId, $_POST['classId']);
 
 //Select messages
-$sql = "SELECT m.content, m.created, m.userId, u.name, u.surname, u.image
+$sql = "SELECT m.id, m.content, m.created, m.userId, u.name, u.surname, u.image
 				FROM messages m, users u
 				WHERE m.classId='" . mysqli_real_escape_string($conn, $_POST['classId']) .
 				"' AND m.userId = u.id" .
