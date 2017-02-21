@@ -13,7 +13,7 @@ header('Content-Type: application/json');	//Needed for not showing ads
 
 
 //Check post variables
-checkPostVariables('idToken', 'userId', 'username', 'mail', 'name', 'surname', 'gander', 'image');
+checkPostVariables('idToken', 'userId', 'username', 'mail', 'name', 'surname', 'gender', 'image');
 
 
 //Decode ID token
@@ -21,13 +21,13 @@ $idTokenData = decodeIdToken($_POST['idToken']);
 
 
 //Update user query
-$stmt = $conn->prepare("UPDATE users SET username='?', mail='?', name='?', surname='?', gander='?', image='?', cheatpoints='?', classes='?' WHERE id='?' AND googleSub='?' LIMIT 1");
+$stmt = $conn->prepare("UPDATE users SET username='?', mail='?', name='?', surname='?', gender='?', image='?', cheatpoints='?', classes='?' WHERE id='?' AND googleSub='?' LIMIT 1");
 $stmt->bind_param("ssssssssss",
 				 $_POST['username'],
 				 $_POST['mail'],
 				 $_POST['name'],
 				 $_POST['surname'],
-				 $_POST['gander'],
+				 $_POST['gender'],
 				 $_POST['image'],
 				 $_POST['cheatpoints'],
 				 $_POST['classes'],

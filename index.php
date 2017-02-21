@@ -52,7 +52,7 @@
 						rUsername = $('input[name=username]', '#registerForm').val(),
 						rMail = $('input[name=mail]', '#registerForm').val(),
 						rPassword = $('input[name=password]', '#registerForm').val(),
-						rGander = $('input[name=gander]:checked', '#registerForm').val();
+						rGender = $('input[name=gender]:checked', '#registerForm').val();
 
 					$.post("php/register.php", {
 						name: rName,
@@ -60,7 +60,7 @@
 						username: rUsername,
 						mail: rMail,
 						password: rPassword,
-						gander: rGander
+						gender: rGender
 					}, function (data) {
 						if (data == 0) {
 							alert("Reg ok");
@@ -103,11 +103,11 @@
 			<br>
 			<input type="password" max="255" placeholder="Password" name="password">
 			<br>
-			<input name="gander" type="radio" value="M" />Male
+			<input name="gender" type="radio" value="M" />Male
 			<br>
-			<input name="gander" type="radio" value="W" />Female
+			<input name="gender" type="radio" value="W" />Female
 			<br>
-			<input name="gander" type="radio" value="O" />Other
+			<input name="gender" type="radio" value="O" />Other
 			<br>
 			<input type="submit" value="Register">
 		</form>

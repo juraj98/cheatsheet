@@ -8,7 +8,7 @@ class User {
 				mail: this.mail,
 				name: this.name,
 				surname: this.surname,
-				gander: this.gander,
+				gender: this.gender,
 				image: this.image
 			},
 			function(_ajaxData) {
@@ -46,7 +46,7 @@ class User {
 					that.username = _ajaxData['data']['userData']['username'];
 					that.name = _ajaxData['data']['userData']['name'];
 					that.surname = _ajaxData['data']['userData']['surname'];
-					that.gander = _ajaxData['data']['userData']['gander'];
+					that.gender = _ajaxData['data']['userData']['gender'];
 					that.image = _ajaxData['data']['userData']['image'];
 					that.cheatpoints = _ajaxData['data']['userData']['cheatpoints'];
 

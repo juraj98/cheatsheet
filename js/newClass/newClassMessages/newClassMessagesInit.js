@@ -1,4 +1,6 @@
 function newClassMessagesInit(_id){
+	autosize($('#cNewMessageBox > textarea'));
+
 	$("#cNewMessageSendButton > span").click(function(){
 		//TODO: Add new message to posts
 

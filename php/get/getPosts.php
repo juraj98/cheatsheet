@@ -47,7 +47,7 @@ if($query) {
 		$data[$i]['tags'] = json_decode($data[$i]['tags']);
 
 		//Get user
-		$query = mysqli_query($conn, "SELECT id, username, name, surname, gander, image, cheatpoints FROM users WHERE id='" . $data[$i]['authorId'] . "'");
+		$query = mysqli_query($conn, "SELECT id, username, name, surname, gender, image, cheatpoints FROM users WHERE id='" . $data[$i]['authorId'] . "'");
 		if($query) {
 			$secondQueryData = mysqli_fetch_all($query, MYSQLI_ASSOC);
 			$data[$i]['author'] = $secondQueryData[0];

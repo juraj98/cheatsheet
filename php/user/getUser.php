@@ -21,9 +21,9 @@ $idTokenData = decodeIdToken($_POST['idToken']);
 
 //Get user data
 if($userIdSet) {
-	$sql = "SELECT id, username, name, surname, gander, image, cheatpoints FROM users WHERE id='" . mysqli_real_escape_string( $conn, trim($_POST['userId']) ) . "'";
+	$sql = "SELECT id, username, name, surname, gender, image, cheatpoints FROM users WHERE id='" . mysqli_real_escape_string( $conn, trim($_POST['userId']) ) . "'";
 } else {
-	$sql = "SELECT id, username, name, surname, gander, image, cheatpoints, mail FROM users WHERE googleSUB = '" . mysqli_real_escape_string( $conn, trim($idTokenData->{'sub'}) ) . "'";
+	$sql = "SELECT id, username, name, surname, gender, image, cheatpoints, mail FROM users WHERE googleSUB = '" . mysqli_real_escape_string( $conn, trim($idTokenData->{'sub'}) ) . "'";
 }
 
 $query = mysqli_query($conn, $sql);

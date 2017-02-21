@@ -40,7 +40,7 @@ if($query) {
 }
 
 //Get class members
-$sql = "SELECT u.id, u.username, u.name, u.surname, u.gander, u.image, u.cheatpoints FROM users u, classMembers cm WHERE classId='" . mysqli_real_escape_string($conn, $_POST['classId']) . "' AND u.id = cm.userId ORDER BY u.name ASC, u.surname ASC";
+$sql = "SELECT u.id, u.username, u.name, u.surname, u.gender, u.image, u.cheatpoints FROM users u, classMembers cm WHERE classId='" . mysqli_real_escape_string($conn, $_POST['classId']) . "' AND u.id = cm.userId ORDER BY u.name ASC, u.surname ASC";
 $query = mysqli_query($conn, $sql);
 
 if($query) {

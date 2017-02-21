@@ -39,6 +39,7 @@ if($data['COUNT(*)'] == 0){
 	if($stmt->execute()){
 		$response->success = true;
 		$response->details = 'New user inserted.';
+		$response->newUser = true;
 	} else {
 		$response->success = false;
 		$response->error->code = 3;
@@ -47,6 +48,7 @@ if($data['COUNT(*)'] == 0){
 	}
 } else {
 	$response->success = true;
+	$response->newUser = false;
 	$response->details = 'User already exists in database.';
 }
 

@@ -92,6 +92,12 @@
 	<link rel="stylesheet" type="text/css" href="css/addClass.css">
 	<script type="text/javascript" src="js/addClass/addClassClick.js"></script>
 	<script type="text/javascript" src="js/addClass/addClassInit.js"></script>
+	<!--=================-->
+	<!--=====Account=====-->
+	<!--=================-->
+	<link rel="stylesheet" type="text/css" href="css/account.css">
+	<script type="text/javascript" src="js/account/accoutClick.js"></script>
+	<script type="text/javascript" src="js/account/accoutInit.js"></script>
 
 	<!--=====-->
 	<!--Class-->
@@ -263,72 +269,148 @@
 	<!-------------------------------CONTENT------------------------------>
 	<!-------------------------------------------------------------------->
 	<div class="content">
-		<div class="cColumn" id="cColumnLeft">
-			<div id="cClassCard" class="card-1">
-				<div id="cClassImageDiv" class="unselectable card-1"><i class="material-icons">school</i>
-					<div class="card-1" id="cClassImageUploadButton"><i class="material-icons">file_upload</i><span>Upload image</span></div>
+		<!--User Info-->
+		<div id="aUserInfoPanel" class="card-1">
+			<div id="aUserImageDiv" class="unselectable card-1">
+				<i class="material-icons">person</i>
+				<div class="card-1" id="aUserImageUploadButton">
+					<i class="material-icons">file_upload</i><span>Upload image</span>
 				</div>
-				<h1 id="cClassShortName">TC</h1>
-				<h2 id="cClassFullName">TestClass</h2>
-				<h2 id="cClassSchool">TestSchoolName</h2>
-				<h3 id="cClassMembers">3 members</h3></div>
-			<div class="cHeader" id="cSubjectHeader">Current subject:</div>
-			<div class="ttSubject card-1" id="cCurrentSubject">
-				<div class="ttSubjectHeader">
-					<div class="number"><span>0</span>. Lesson</div>
-					<div class="time"><span class="start">07:05</span> - <span class="end">07:00</span></div>
+			</div>
+			<h1 id="aUserNameAndSurname">Name Surname</h1>
+			<h2 id="aUserUsername">Username</h2>
+			<h2 id="aUserMail">mail@cheatsheet.sk</h2>
+			<h3 id="aUserCheatpoints"># cheatpoints</h3>
+			<i class="material-icons" id="aUserEditInfo">mode_edit</i>
+		</div>
+		<!--Messages-->
+		<div id="aMessagesHeader" class="aHeader">Messages:</div>
+
+		<!--User messages-->
+		<div id="aUserMessages">
+			<div id="aMessageBox">
+				<img class="cImage card-1" src="images/placeholders/profilePicturePlaceholder.png" title="" style=""><span class="cName">New message</span>
+				<div class="cMsgConainer">
+					<div class="cMsgBox card-1">
+						<textarea></textarea>
+					</div>
+					<div class="cMsgBoxArrowConatiner">
+						<div class="cMsgBoxArrow"></div>
+					</div>
 				</div>
-				<div class="bodysSortable">
-					<div class="ttSubjectBody">
-						<div style="background-color: #283593" class="ttSubjectIcon unselectable card-1">E</div><span class="ttSubjectName">Elektrotechnická spôsobilosť</span><span class="ttSubjectInfo">Štefan Švarc - USVA - 1F203</span>
-						<div class="ttSubjectNotifications unselectable"><i class="material-icons" style="color:#F44336; display:none;">mode_edit</i><i class="material-icons" style="display:none;">extension</i><i class="material-icons" style="display:none;">notifications</i></div>
+		</div>
+			<div class="cUserMsg">
+				<img class="cImage card-1" src="images/placeholders/profilePicturePlaceholder.png" title="" style=""><span class="cName">2017-02-17 13:58:20 | Juraj Garaj</span>
+				<div class="cMsgConainer">
+					<div class="cMsgBox card-1">Test Content</div>
+					<div class="cMsgBoxArrowConatiner">
+						<div class="cMsgBoxArrow"></div>
 					</div>
 				</div>
 			</div>
-			<div class="cHeader">Menu:</div>
-			<div id="cClassMenu">
-				<div id="cClassUploads" class="card-1 cMenuButton unselectable">Uploads</div>
-				<div id="cClassTimetable" class="card-1 unselectable cMenuButton">Timetable</div>
-				<div id="cClassMessages" class="card-1 unselectable cMenuButton active">Messages</div>
-				<div id="cClassGroups" class="card-1 unselectable cMenuButton">Groups</div>
-			</div>
-		</div>
-		<div class="cColumn" id="cColumnRight">
-			<div id="cReminders">
-				<div class="cHeader">Reminders:</div>
-			</div>
-		</div>
-		<div class="cHeader wideHeader" id="cOptionsHeader">Messages:</div>
-		<div id="cNewMessageBox">
-			<div id="cNewMessageBoxPicture">
-				<div id="cNewMessageBoxPictureArrow" class="card-1"></div>
-				<img src="images/placeholders/profilePicturePlaceholder.png" id="cNewMessageBoxPictureImage" class="card-1">
-			</div>
-			<span id="cNewMessageBoxYouText">You</span>
-			<textarea rows="1" class="card-1"></textarea>
-			<div id="cNewMessageSendButton" class="card-1"><span>Send</span><i class="material-icons">send</i></div>
-		</div>
-		<div class="cUserMsg">
-			<img class="cImage card-1" src="images/placeholders/profilePicturePlaceholder.png">
-			<span class="cName">User Name</span>
-			<div class="cMsgConainer">
-				<div class="cMsgBox card-1">
-				</div>
-				<div class="cMsgBoxArrowConatiner">
-					<div class="cMsgBoxArrow"></div>
+			<div class="cOtherMsg"><img class="cImage card-1" src="images/placeholders/profilePicturePlaceholder.png"><span class="cName">Juraj Garaj | 2017-02-17 23:48:31</span>
+				<div class="cMsgConainer">
+					<div class="cMsgBox card-1">dsadasdsad</div>
+					<div class="cMsgBoxArrowConatiner">
+						<div class="cMsgBoxArrow"></div>
+					</div>
 				</div>
 			</div>
-		</div>
-		<div class="cOtherMsg">
-			<img class="cImage card-1" src="images/placeholders/profilePicturePlaceholder.png">
-			<span class="cName">Other Name | 17.2.2017</span>
-			<div class="cMsgConainer">
-				<div class="cMsgBox card-1">
-				</div>
-				<div class="cMsgBoxArrowConatiner">
-					<div class="cMsgBoxArrow"></div>
+			<div class="cUserMsg"><img class="cImage card-1" src="images/placeholders/profilePicturePlaceholder.png"><span class="cName">2017-02-17 23:48:31 | Juraj Garaj</span>
+				<div class="cMsgConainer">
+					<div class="cMsgBox card-1">dsadasdsad</div>
+					<div class="cMsgBoxArrowConatiner">
+						<div class="cMsgBoxArrow"></div>
+					</div>
 				</div>
 			</div>
+			<div class="cOtherMsg"><img class="cImage card-1" src="images/placeholders/profilePicturePlaceholder.png"><span class="cName">Juraj Garaj | 2017-02-17 23:48:31</span>
+				<div class="cMsgConainer">
+					<div class="cMsgBox card-1">dsadasdsad</div>
+					<div class="cMsgBoxArrowConatiner">
+						<div class="cMsgBoxArrow"></div>
+					</div>
+				</div>
+			</div>
+			<div class="cUserMsg"><img class="cImage card-1" src="images/placeholders/profilePicturePlaceholder.png"><span class="cName">2017-02-17 23:48:31 | Juraj Garaj</span>
+				<div class="cMsgConainer">
+					<div class="cMsgBox card-1">dsadasdsad</div>
+					<div class="cMsgBoxArrowConatiner">
+						<div class="cMsgBoxArrow"></div>
+					</div>
+				</div>
+			</div>
+			<div class="cOtherMsg"><img class="cImage card-1" src="images/placeholders/profilePicturePlaceholder.png"><span class="cName">Juraj Garaj | 2017-02-17 23:48:31</span>
+				<div class="cMsgConainer">
+					<div class="cMsgBox card-1">dsadasdsad</div>
+					<div class="cMsgBoxArrowConatiner">
+						<div class="cMsgBoxArrow"></div>
+					</div>
+				</div>
+			</div>
+			<div class="cUserMsg"><img class="cImage card-1" src="images/placeholders/profilePicturePlaceholder.png"><span class="cName">2017-02-17 23:48:31 | Juraj Garaj</span>
+				<div class="cMsgConainer">
+					<div class="cMsgBox card-1">dsadasdsad</div>
+					<div class="cMsgBoxArrowConatiner">
+						<div class="cMsgBoxArrow"></div>
+					</div>
+				</div>
+			</div>
+			<div class="cOtherMsg"><img class="cImage card-1" src="images/placeholders/profilePicturePlaceholder.png"><span class="cName">Juraj Garaj | 2017-02-17 23:48:31</span>
+				<div class="cMsgConainer">
+					<div class="cMsgBox card-1">dsadasdsad</div>
+					<div class="cMsgBoxArrowConatiner">
+						<div class="cMsgBoxArrow"></div>
+					</div>
+				</div>
+			</div>
+			<div class="cUserMsg"><img class="cImage card-1" src="images/placeholders/profilePicturePlaceholder.png"><span class="cName">2017-02-17 23:48:31 | Juraj Garaj</span>
+				<div class="cMsgConainer">
+					<div class="cMsgBox card-1">dsadasdsad</div>
+					<div class="cMsgBoxArrowConatiner">
+						<div class="cMsgBoxArrow"></div>
+					</div>
+				</div>
+			</div>
+			<div class="cOtherMsg"><img class="cImage card-1" src="images/placeholders/profilePicturePlaceholder.png"><span class="cName">Juraj Garaj | 2017-02-17 23:48:31</span>
+				<div class="cMsgConainer">
+					<div class="cMsgBox card-1">dsadasdsad</div>
+					<div class="cMsgBoxArrowConatiner">
+						<div class="cMsgBoxArrow"></div>
+					</div>
+				</div>
+			</div>
+			<div class="cUserMsg"><img class="cImage card-1" src="images/placeholders/profilePicturePlaceholder.png"><span class="cName">2017-02-17 23:48:31 | Juraj Garaj</span>
+				<div class="cMsgConainer">
+					<div class="cMsgBox card-1">dsadasdsad</div>
+					<div class="cMsgBoxArrowConatiner">
+						<div class="cMsgBoxArrow"></div>
+					</div>
+				</div>
+			</div>
+			<div class="cOtherMsg"><img class="cImage card-1" src="images/placeholders/profilePicturePlaceholder.png"><span class="cName">Juraj Garaj | 2017-02-17 23:48:31</span>
+				<div class="cMsgConainer">
+					<div class="cMsgBox card-1">dsadasdsad</div>
+					<div class="cMsgBoxArrowConatiner">
+						<div class="cMsgBoxArrow"></div>
+					</div>
+				</div>
+			</div>
+			<div class="cUserMsg"><img class="cImage card-1" src="images/placeholders/profilePicturePlaceholder.png"><span class="cName">2017-02-17 23:48:31 | Juraj Garaj</span>
+				<div class="cMsgConainer">
+					<div class="cMsgBox card-1">dsadasdsad</div>
+					<div class="cMsgBoxArrowConatiner">
+						<div class="cMsgBoxArrow"></div>
+					</div>
+				</div>
+			</div>
+
+
+		</div>
+		<!--User contacts-->
+		<div id="aContactsHeader" class="aHeader">Contacts:</div>
+		<div id="aUserContacts" class="card-1">
+
 		</div>
 	</div>
 	<!--Content end-->
