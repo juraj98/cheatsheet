@@ -11,7 +11,6 @@ require_once	"../_includes/errorMessagesAndDetails.php";
 header('Content-Type: application/json; charset=utf8');	//Needed for not showing ads
 
 //Check post variables
-
 checkPostVariables('idToken', 'classId', 'dateNow');
 
 //Decode ID token
@@ -65,59 +64,78 @@ if(!$date){
 
 $dayIndex = getdate($date)['wday'];
 
-//TODO: 14 Check what happens if database is empty
-
-//Get timetable for today
-$attempts = 0;
-$timetableDay;
-$subjectNotFound = true;
-$response->data->timetableData->isCurrent = true;
-
 $date = getdate($date);
 $currentTime = strtotime($date['hours'] . ":" . $date['minutes']);
 
-while($subjectNotFound && $attempts < 7){
-	$sql = "SELECT " . getDayByIndex($dayIndex + $attempts) . " FROM timetables WHERE class='" . mysqli_real_escape_string( $conn, $_POST['classId'] ) . "'";
+//TODO: 14 Check what happens if database is empty
 
+$attempts = 0;
+$firstSubjectFound = null;
+
+while(!$response->data->timetableData->subject && !$response->data->timetableData->nextSubject && $attempts < 7){
+	$sql = "SELECT " . getDayByIndex($dayIndex + $attempts) . " FROM timetables WHERE class='" . mysqli_real_escape_string( $conn, $_POST['classId'] ) . "'";
 	$query = mysqli_query($conn, $sql);
 
 	if($query) {
-		$data = json_decode(mysqli_fetch_all($query, MYSQLI_ASSOC)[0][getDayByIndex($dayIndex+ $attempts)]);
+		$data = json_decode(mysqli_fetch_all($query, MYSQLI_ASSOC)[0][getDayByIndex($dayIndex + $attempts)]);
+
 		if(count($data) == 0) {
 			$attempts++;
-			$response->data->timetableData->isCurrent = false;
 			continue;
-		} else {
-
-			if($attempts != 0){
-				$response->data->timetableData->subject = $data[0];
+		}
+		if($response->data->timetableData->subject) {
+			$response->data->timetableData->nextSubject = $data[0];
+			$response->data->timetableData->nextSubjectFromToday = $attempts;
+			break;
+		}
+		if($attempts != 0){
+			$response->data->timetableData->subject = $data[0];
+			$response->data->timetableData->subjectFromToday = $attempts;
+			$response->data->timetableData->isCurrent = false;
+			if($data[1]){
+				$response->data->timetableData->nextSubject = $data[1];
+				$response->data->timetableData->nextSubjectFromToday = $attempts;
 				break;
+			} else {
+				$attempts++;
+				continue;
+			}
+		}
+
+		foreach($data as $subject){
+			if(!$firstSubjectFound){
+				$firstSubjectFound = $subject;
 			}
 
-			foreach($data as $subject){
+			if(!$response->data->timetableData->subject){
 				$start = strtotime($subject->start);
 				$end = strtotime($subject->end);
-
 				if($start < $currentTime && $end > $currentTime) {
 					//Current subject
 					$response->data->timetableData->subject = $subject;
-					break;
+					$response->data->timetableData->subjectFromToday = $attempts;
+					$subjectNotFound = false;
+					continue;
 				} else if(!($end < $currentTime)){
 					//Next subject
+
 					$response->data->timetableData->isCurrent = false;
 					$response->data->timetableData->subject = $subject;
-					break;
+					$response->data->timetableData->subjectFromToday = $attempts;
+					$subjectNotFound = false;
+					continue;
 				}
-
 			}
 
-			if($response->data->timetableData->subject){
-				$subjectNotFound = false;
-			} else {
-				$attempts++;
+			if($response->data->timetableData->subject) {
+				$response->data->timetableData->nextSubject = $subject;
+				$response->data->timetableData->nextSubjectFromToday = $attempts;
+				break;
 			}
-
 		}
+
+		$attempts++;
+
 	} else {
 		$response->success = false;
 		$response->error->code = 3;
@@ -125,6 +143,11 @@ while($subjectNotFound && $attempts < 7){
 		$response->error->details = "Query fetching timetable failed. Error: " . mysqli_error($conn);
 		die(json_encode($response));
 	}
+}
+
+if(!$response->data->timetableData->nextSubject) {
+	$response->data->timetableData->nextSubject  = $firstSubjectFound;
+	$response->data->timetableData->nextSubjectFromToday  = $attempts;
 }
 
 //Get reminders
@@ -147,6 +170,7 @@ if($_POST['numberOfReminers']){
 }
 
 $response->success = true;
+
 die(json_encode($response));
 
 function getDayByIndex($index){
