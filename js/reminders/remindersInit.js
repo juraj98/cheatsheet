@@ -44,12 +44,11 @@ function remindersInit() {
 					reminderData: reminder
 				},
 				function(_ajaxData) {
-					ajaxData = JSON.parse(_ajaxData);
 
-					if(ajaxData.success){
+					if(_ajaxData.success){
 						popout("Success");
 					} else {
-						popout(ajaxData.error.message);
+						popout(_ajaxData.error.message);
 					}
 				}
 			);
@@ -87,7 +86,7 @@ function remindersInit() {
 	updateFiltersPanel();
 
 	fromDate = new Date(today.getTime());
-	toDate = new Date(new Date().getTime() + 86400000 * 5);
+	toDate = new Date(new Date().getTime() + 86400000 * 365);
 
 	clearReminders();
 
@@ -129,6 +128,7 @@ function updateFiltersPanel() {
 }
 
 function getReminderData(_numberOfReminders, _filters, _from, _to) {
+	workingWithRemindersOfClass = 1;
 	$.post(baseDir + "/php/get/getReminders.php", {
 		idToken: googleTokenId,
 		classId: workingWithRemindersOfClass,
@@ -137,7 +137,8 @@ function getReminderData(_numberOfReminders, _filters, _from, _to) {
 		from: _from,
 		to: _to
 	}, function(_ajaxData) {
-
+		console.log("AJAXDATA");
+		console.log(_ajaxData);
 		if(_ajaxData.success){
 			var remindersCreatedFromData = createRemindersFromData(_ajaxData.data.reminders);
 
