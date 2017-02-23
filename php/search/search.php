@@ -21,7 +21,13 @@ $idTokenData = decodeIdToken($_POST['idToken']);
 //Get user id
 $userId = getUserIdFromSub($idTokenData->{"sub"});
 
-$searchTerms = explode(" ", $_POST['searchString']);
+$searchTerms = json_decode($_POST['searchString']);
+if(!$searchTerms) {
+		$response->success = false;
+		$response->error->code = 5;
+		$response->error->message = ERR_MSG_WRONG_FORMAT;
+		$response->error->details = "searchString is not valid JSON fomart. searchString: " . $_POST['searchString'];
+}
 
 //Get classes
 $sql = "
@@ -66,7 +72,6 @@ $sql = "
 		AND
 		c.classId = g.class
 		AND (";
-$searchTermsLength = count($searchTerms);
 for($i = 0; $i < $searchTermsLength; $i++){
 	$sql .= ($i==0 ? " " : " OR ") . "
 		g.name LIKE '%" . mysqli_real_escape_string($conn, $searchTerms[$i]) . "%'
@@ -93,9 +98,7 @@ $sql = "
 		u.username, u.mail, u.name, u.surname
 	FROM
 		users u
-	WHERE
-		(";
-$searchTermsLength = count($searchTerms);
+	WHERE";
 for($i = 0; $i < $searchTermsLength; $i++){
 	$sql .= ($i==0 ? " " : " OR ") . "
 		u.username LIKE '%" . mysqli_real_escape_string($conn, $searchTerms[$i]) . "%'
@@ -107,7 +110,7 @@ for($i = 0; $i < $searchTermsLength; $i++){
 		u.surname LIKE '%" . mysqli_real_escape_string($conn, $searchTerms[$i]) . "%'
 	";
 }
-$sql .= ")";
+
 
 $query = mysqli_query($conn, $sql);
 
