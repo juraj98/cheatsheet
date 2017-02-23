@@ -71,6 +71,7 @@ $currentTime = strtotime($date['hours'] . ":" . $date['minutes']);
 
 $attempts = 0;
 $firstSubjectFound = null;
+$response->data->timetableData->isCurrent = true;
 
 while(!$response->data->timetableData->subject && !$response->data->timetableData->nextSubject && $attempts < 7){
 	$sql = "SELECT " . getDayByIndex($dayIndex + $attempts) . " FROM timetables WHERE class='" . mysqli_real_escape_string( $conn, $_POST['classId'] ) . "'";
@@ -154,7 +155,7 @@ if(!$response->data->timetableData->nextSubject) {
 if($_POST['numberOfReminders']){
 	$sql = "SELECT * FROM reminders WHERE
 	(classId=" . mysqli_real_escape_string($conn, $_POST['classId']) . "
-	AND dateOfReminder>=NOW()) LIMIT " . mysqli_real_escape_string($conn, $_POST['numberOfReminders']);
+	AND dateOfReminder>=NOW()) ORDER BY dateOfReminder ASC LIMIT " . mysqli_real_escape_string($conn, $_POST['numberOfReminders']);
 
 	$query = mysqli_query($conn, $sql);
 
