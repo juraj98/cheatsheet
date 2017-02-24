@@ -15,6 +15,7 @@ function onLogin() {
 					collapsedMenuInit();
 					sideMenusListeners();
 					popoutInit();
+					searchInit();
 
 					loadFromUrl();
 

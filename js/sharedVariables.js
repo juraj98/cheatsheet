@@ -62,3 +62,5 @@ var subjectOptionActivated;
 var workingWithRemindersOfClass = 1; //TO-DO: change this
 var remindersDays = new Array();
 var rFilters = [true, true, true, true, true, true];
+//account
+var chatingWith;

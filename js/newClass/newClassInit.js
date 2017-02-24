@@ -11,7 +11,7 @@ function newClassInit(_id, _tab = 0) {
 		idToken: googleTokenId,
 		classId: _id,
 		dateNow: dateNow,
-		numberOfReminers: countOfReminders
+		numberOfReminders: countOfReminders
 	}, function (_ajaxData) {
 		if (_ajaxData.success) {
 			setupClassInfo(_ajaxData.data.classInfo, _ajaxData.data.members.length);

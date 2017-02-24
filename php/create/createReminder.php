@@ -91,8 +91,8 @@ $userId = getUserIdFromSub($idTokenData->{"sub"});
 ckeckIfMemberOfClass($userId, $_POST['classId']);
 
 //Create reminder
-$stmt = $conn->prepare("INSERT INTO reminders (classId, name, type, subject, dateOfReminder) VALUES (?,?,?,?,?)");
-$stmt->bind_param("sssss", $_POST['classId'], $reminderData->reminderName, $reminderData->reminderType, $reminderData->subject, $reminderData->dateOfReminder);
+$stmt = $conn->prepare("INSERT INTO reminders (classId, name, type, subject, dateOfReminder, authorId) VALUES (?,?,?,?,?,?)");
+$stmt->bind_param("ssssss", $_POST['classId'], $reminderData->reminderName, $reminderData->reminderType, $reminderData->subject, $reminderData->dateOfReminder, $userId);
 
 if($stmt->execute()){
 	$response->success = true;

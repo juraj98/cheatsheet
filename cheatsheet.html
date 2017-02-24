@@ -39,6 +39,8 @@
 	<script type="text/javascript" src="js/utility.js"></script>
 	<script type="text/javascript" src="js/sharedVariables.js"></script>
 	<script type="text/javascript" src="js/urlManager.js"></script>
+	<script type="text/javascript" src="js/searchInit.js"></script>
+	<script type="text/javascript" src="js/easterEggs.js"></script>
 	<!--Classes-->
 	<script type="text/javascript" src="js/jsClasses/time.js"></script>
 	<script type="text/javascript" src="js/jsClasses/subjectBody.js"></script>
@@ -277,14 +279,22 @@
 					<i class="material-icons">file_upload</i><span>Upload image</span>
 				</div>
 			</div>
-			<h1 id="aUserNameAndSurname">Name Surname</h1>
-			<h2 id="aUserUsername">Username</h2>
-			<h2 id="aUserMail">mail@cheatsheet.sk</h2>
-			<h3 id="aUserCheatpoints"># cheatpoints</h3>
-			<i class="material-icons" id="aUserEditInfo">mode_edit</i>
+			<h1 id="aUserNameAndSurname"></h1>
+			<h2 id="aUserUsername"></h2>
+			<h2 id="aUserMail"></h2>
+			<h3 id="aUserCheatpoints"></h3>
+
+			<input type="text" id="aUserNameEdit">
+			<input type="text" id="aUserSurnameEdit">
+			<input type="text" id="aUserUsernameEdit">
+			<input type="text" id="aUserMailEdit">
+			<!--TODO: Add gender-->
+
+			<i class="material-icons unselectable" id="aUserEditInfo">mode_edit</i>
+			<i class="material-icons unselectable" id="aUserSaveInfo">save</i>
 		</div>
 		<!--Messages-->
-		<div id="aMessagesHeader" class="aHeader">Messages:</div>
+		<div id="aMessagesHeader" class="aHeader">Name Surname messages:</div>
 
 		<!--User messages-->
 		<div id="aUserMessages">
@@ -298,119 +308,25 @@
 						<div class="cMsgBoxArrow"></div>
 					</div>
 				</div>
-		</div>
-			<div class="cUserMsg">
-				<img class="cImage card-1" src="images/placeholders/profilePicturePlaceholder.png" title="" style=""><span class="cName">2017-02-17 13:58:20 | Juraj Garaj</span>
-				<div class="cMsgConainer">
-					<div class="cMsgBox card-1">Test Content</div>
-					<div class="cMsgBoxArrowConatiner">
-						<div class="cMsgBoxArrow"></div>
-					</div>
-				</div>
 			</div>
-			<div class="cOtherMsg"><img class="cImage card-1" src="images/placeholders/profilePicturePlaceholder.png"><span class="cName">Juraj Garaj | 2017-02-17 23:48:31</span>
-				<div class="cMsgConainer">
-					<div class="cMsgBox card-1">dsadasdsad</div>
-					<div class="cMsgBoxArrowConatiner">
-						<div class="cMsgBoxArrow"></div>
-					</div>
-				</div>
-			</div>
-			<div class="cUserMsg"><img class="cImage card-1" src="images/placeholders/profilePicturePlaceholder.png"><span class="cName">2017-02-17 23:48:31 | Juraj Garaj</span>
-				<div class="cMsgConainer">
-					<div class="cMsgBox card-1">dsadasdsad</div>
-					<div class="cMsgBoxArrowConatiner">
-						<div class="cMsgBoxArrow"></div>
-					</div>
-				</div>
-			</div>
-			<div class="cOtherMsg"><img class="cImage card-1" src="images/placeholders/profilePicturePlaceholder.png"><span class="cName">Juraj Garaj | 2017-02-17 23:48:31</span>
-				<div class="cMsgConainer">
-					<div class="cMsgBox card-1">dsadasdsad</div>
-					<div class="cMsgBoxArrowConatiner">
-						<div class="cMsgBoxArrow"></div>
-					</div>
-				</div>
-			</div>
-			<div class="cUserMsg"><img class="cImage card-1" src="images/placeholders/profilePicturePlaceholder.png"><span class="cName">2017-02-17 23:48:31 | Juraj Garaj</span>
-				<div class="cMsgConainer">
-					<div class="cMsgBox card-1">dsadasdsad</div>
-					<div class="cMsgBoxArrowConatiner">
-						<div class="cMsgBoxArrow"></div>
-					</div>
-				</div>
-			</div>
-			<div class="cOtherMsg"><img class="cImage card-1" src="images/placeholders/profilePicturePlaceholder.png"><span class="cName">Juraj Garaj | 2017-02-17 23:48:31</span>
-				<div class="cMsgConainer">
-					<div class="cMsgBox card-1">dsadasdsad</div>
-					<div class="cMsgBoxArrowConatiner">
-						<div class="cMsgBoxArrow"></div>
-					</div>
-				</div>
-			</div>
-			<div class="cUserMsg"><img class="cImage card-1" src="images/placeholders/profilePicturePlaceholder.png"><span class="cName">2017-02-17 23:48:31 | Juraj Garaj</span>
-				<div class="cMsgConainer">
-					<div class="cMsgBox card-1">dsadasdsad</div>
-					<div class="cMsgBoxArrowConatiner">
-						<div class="cMsgBoxArrow"></div>
-					</div>
-				</div>
-			</div>
-			<div class="cOtherMsg"><img class="cImage card-1" src="images/placeholders/profilePicturePlaceholder.png"><span class="cName">Juraj Garaj | 2017-02-17 23:48:31</span>
-				<div class="cMsgConainer">
-					<div class="cMsgBox card-1">dsadasdsad</div>
-					<div class="cMsgBoxArrowConatiner">
-						<div class="cMsgBoxArrow"></div>
-					</div>
-				</div>
-			</div>
-			<div class="cUserMsg"><img class="cImage card-1" src="images/placeholders/profilePicturePlaceholder.png"><span class="cName">2017-02-17 23:48:31 | Juraj Garaj</span>
-				<div class="cMsgConainer">
-					<div class="cMsgBox card-1">dsadasdsad</div>
-					<div class="cMsgBoxArrowConatiner">
-						<div class="cMsgBoxArrow"></div>
-					</div>
-				</div>
-			</div>
-			<div class="cOtherMsg"><img class="cImage card-1" src="images/placeholders/profilePicturePlaceholder.png"><span class="cName">Juraj Garaj | 2017-02-17 23:48:31</span>
-				<div class="cMsgConainer">
-					<div class="cMsgBox card-1">dsadasdsad</div>
-					<div class="cMsgBoxArrowConatiner">
-						<div class="cMsgBoxArrow"></div>
-					</div>
-				</div>
-			</div>
-			<div class="cUserMsg"><img class="cImage card-1" src="images/placeholders/profilePicturePlaceholder.png"><span class="cName">2017-02-17 23:48:31 | Juraj Garaj</span>
-				<div class="cMsgConainer">
-					<div class="cMsgBox card-1">dsadasdsad</div>
-					<div class="cMsgBoxArrowConatiner">
-						<div class="cMsgBoxArrow"></div>
-					</div>
-				</div>
-			</div>
-			<div class="cOtherMsg"><img class="cImage card-1" src="images/placeholders/profilePicturePlaceholder.png"><span class="cName">Juraj Garaj | 2017-02-17 23:48:31</span>
-				<div class="cMsgConainer">
-					<div class="cMsgBox card-1">dsadasdsad</div>
-					<div class="cMsgBoxArrowConatiner">
-						<div class="cMsgBoxArrow"></div>
-					</div>
-				</div>
-			</div>
-			<div class="cUserMsg"><img class="cImage card-1" src="images/placeholders/profilePicturePlaceholder.png"><span class="cName">2017-02-17 23:48:31 | Juraj Garaj</span>
-				<div class="cMsgConainer">
-					<div class="cMsgBox card-1">dsadasdsad</div>
-					<div class="cMsgBoxArrowConatiner">
-						<div class="cMsgBoxArrow"></div>
-					</div>
-				</div>
-			</div>
-
-
 		</div>
 		<!--User contacts-->
-		<div id="aContactsHeader" class="aHeader">Contacts:</div>
-		<div id="aUserContacts" class="card-1">
-
+		<div id="aContactsHeader" class="aHeader">Messages:</div>
+		<div id="aUserContacts" class="unselectable card-1">
+			<div id="aUserNewMessage">
+				<i class="material-icons acceptClick">add</i><span class="acceptClick">New message</span>
+				<input type="text" id="aUserNewMessageInput">
+				<div id="aUserNewMessageSuggestions" class="card-2"></div>
+			</div>
+			<div class="aUserContact">
+				<img class="card-1" src="images/placeholders/profilePicturePlaceholder.png">
+			</div>
+			<div class="aUserContact">
+				<img class="card-1" src="images/placeholders/profilePicturePlaceholder.png">
+			</div>
+			<div class="aUserContact">
+				<img class="card-1" src="images/placeholders/profilePicturePlaceholder.png">
+			</div>
 		</div>
 	</div>
 	<!--Content end-->

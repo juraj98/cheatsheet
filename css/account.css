@@ -1,16 +1,19 @@
 /*Headers*/
+
 .aHeader {
 	width: calc(50% - 20px);
 	font-size: 20px;
 	color: #757575;
 	border-bottom: 1px solid #757575;
 }
+
 #aContactsHeader {
 	float: left;
 	clear: left;
 	margin: 8px;
 	margin-left: 12px;
 }
+
 #aMessagesHeader {
 	float: right;
 	margin: 0;
@@ -121,6 +124,16 @@
 	cursor: pointer;
 	color: #616161;
 }
+#aUserSaveInfo {
+	display: none;
+	position: absolute;
+	top: 0;
+	right: 0;
+	font-size: 16px;
+	padding: 12px;
+	cursor: pointer;
+	color: #616161;
+}
 
 
 /*User contacts*/
@@ -133,8 +146,78 @@
 	border-radius: 5px;
 	float: left;
 	clear: left;
-	height: calc(100vh - 340px);
-	overflow-y: scroll;
+	max-height: calc(100vh - 340px);
+	overflow-y: auto;
+}
+
+#aUserNewMessage {
+	width: calc(100% - 16px);
+	margin: 0 8px;
+	border-bottom: 1px solid #9E9E9E;
+	cursor: pointer;
+	height: 25px;
+	text-align: center;
+	color: #9E9E9E;
+	transition: 0.1s;
+	position: relative;
+}
+
+#aUserNewMessage:active {
+	background-color: #E9E9E9;
+}
+
+#aUserNewMessage > i {
+	line-height: 25px;
+}
+
+#aUserNewMessage > span {
+	position: relative;
+	top: -6px;
+}
+
+#aUserNewMessageInput {
+	display: none;
+	outline: none;
+	border: none;
+	padding: 0;
+	width: 100%;
+	font-size: 16px;
+	height: 25px;
+	text-align: center;
+	color: #757575;
+}
+
+#aUserNewMessage.active > i,
+#aUserNewMessage.active > span {
+	display: none
+}
+
+#aUserNewMessage.active > #aUserNewMessageInput {
+	display: block;
+}
+
+.aUserContact {
+	height: 75px;
+	width: calc(100% - 16px);
+	margin: 0 8px;
+	border-bottom: 1px solid #9E9E9E;
+	cursor: pointer;
+	transition: 0.1s;
+}
+
+.aUserContact:last-child {
+	border-bottom: none;
+}
+
+.aUserContact:active {
+	background-color: #E9E9E9;
+}
+
+.aUserContact > img {
+	height: calc(100% - 16px);
+	margin: 8px;
+	float: left;
+	border-radius: 50%;
 }
 
 
@@ -156,7 +239,7 @@
 	margin-right: 8px;
 	height: calc(100vh - 160px);
 	float: right;
-	overflow-y: scroll;
+	overflow-y: auto;
 }
 
 #aMessageBox .cImage {
@@ -164,12 +247,14 @@
 	width: 50px;
 	border-radius: 180px;
 }
+
 #aMessageBox .cName {
 	float: right;
 	margin-right: 15px;
 	font-size: 12px;
 	color: #757583;
 }
+
 #aMessageBox .cMsgConainer {
 	float: right;
 	width: calc(100% - 50px);
@@ -177,6 +262,7 @@
 	padding-top: 2px;
 	padding-bottom: 2px;
 }
+
 #aMessageBox .cMsgBox {
 	min-height: 21px;
 	width: calc(100% - 42px);
@@ -189,13 +275,15 @@
 	background-color: white;
 	word-wrap: break-word;
 }
-#aMessageBox .cMsgBox > textarea{
+
+#aMessageBox .cMsgBox > textarea {
 	resize: none;
-    width: 100%;
-    border: none;
-    font-family: 'Roboto';
-    outline: none;
+	width: 100%;
+	border: none;
+	font-family: 'Roboto';
+	outline: none;
 }
+
 #aMessageBox .cMsgBoxArrowConatiner {
 	position: absolute;
 	overflow: hidden;
@@ -204,8 +292,8 @@
 	right: 0;
 	height: 32px;
 	width: 10px;
-
 }
+
 #aMessageBox .cMsgBoxArrow {
 	position: absolute;
 	top: 10px;
@@ -217,4 +305,86 @@
 	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 }
 
+
 /*Messages used from class css*/
+
+#aUserNewMessageSuggestions {
+	background-color: white;
+	width: 100%;
+	position: absolute;
+	top: 26px;
+	overflow: auto;
+}
+
+#aUserNewMessageSuggestions > div {
+	height: 25px;
+	width: calc(100% - 16px);
+	padding: 0 8px;
+	text-align: left;
+	float: left;
+}
+
+#aUserNewMessageSuggestions > div:hover {
+	background-color: #F5F5F5;
+}
+
+#aUserNewMessageSuggestions > div > i,
+#aUserNewMessageSuggestions > div > span {
+	float: left;
+	line-height: 25px;
+}
+
+#aUserInfoPanel.edit > #aUserNameAndSurname,
+#aUserInfoPanel.edit > #aUserUsername,
+#aUserInfoPanel.edit > #aUserMail,
+#aUserInfoPanel.edit > #aUserCheatpoints,
+#aUserInfoPanel.edit > #aUserEditInfo {
+	display: none;
+}
+
+#aUserInfoPanel.edit > input,
+#aUserInfoPanel.edit > #aUserSaveInfo {
+	display: block;
+}
+
+#aUserNameEdit {
+	display: none;
+	color: #8BC34A;
+	margin: 8px;
+	margin-bottom: 0;
+	float: left;
+	width: calc((100% - 214px)/2);
+	font-size: 28px;
+	font-weight: 700;
+	border: none;
+	border-bottom: 2px solid #8BC34A;
+	padding: 0;
+	margin-bottom: 4px;
+}
+
+#aUserSurnameEdit {
+	display: none;
+	color: #8BC34A;
+	margin-top: 8px;
+	float: left;
+	width: calc((100% - 214px)/2);
+	font-size: 28px;
+	border: none;
+	border-bottom: 2px solid #8BC34A;
+	padding: 0;
+	font-weight: 700;
+}
+
+#aUserUsernameEdit,
+#aUserMailEdit {
+	display: none;	font-weight: 700;
+	color: #616161;
+	margin-top: 2px;
+	float: left;
+	width: calc(100% - 206px);
+	font-size: 16px;
+	margin-left: 8px;
+	border: none;
+	border-bottom: 2px solid #616161;
+	padding: 0;
+}

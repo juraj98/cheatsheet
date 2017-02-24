@@ -107,6 +107,8 @@ textarea.materialInput {
 	position: fixed;
 	top: 250px;
 	left: 0;
+	overflow-y: auto;
+	overflow-x: hidden;
 }
 
 .sideMenu div {
@@ -510,7 +512,7 @@ textarea.materialInput {
 	top: 120px;
 	overflow: auto;
 	height: calc(100vh - 115px);
-	width: calc(100% - 240px);
+	width: calc(100% - 250px);
 }
 
 .contentRow {

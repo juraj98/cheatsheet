@@ -19,19 +19,15 @@ checkPostVariables('idToken', 'userId', 'username', 'mail', 'name', 'surname', '
 //Decode ID token
 $idTokenData = decodeIdToken($_POST['idToken']);
 
-
 //Update user query
-$stmt = $conn->prepare("UPDATE users SET username='?', mail='?', name='?', surname='?', gender='?', image='?', cheatpoints='?', classes='?' WHERE id='?' AND googleSub='?' LIMIT 1");
-$stmt->bind_param("ssssssssss",
+$stmt = $conn->prepare("UPDATE users SET username=?, mail=?, name=?, surname=?, gender=?, image=? WHERE googleSub=? LIMIT 1");
+$stmt->bind_param("sssssss",
 				 $_POST['username'],
 				 $_POST['mail'],
 				 $_POST['name'],
 				 $_POST['surname'],
 				 $_POST['gender'],
 				 $_POST['image'],
-				 $_POST['cheatpoints'],
-				 $_POST['classes'],
-				 $_POST['userId'],
 				 $idTokenData->{'sub'}
 				 );
 
@@ -50,7 +46,7 @@ if($stmt->execute()){
 	$response->success = false;
 	$response->error->code = 3;
 	$response->error->message = ERR_MSG_QUERY_FAILED;
-	$response->error->details = "Query updating user failed. Error: " . mysqli_error($conn);
+	$response->error->details = "Query updating user failed. Error: " . $stmt->error;
 	die(json_encode($response));
 }
 

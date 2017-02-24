@@ -37,6 +37,7 @@ function remindersInit() {
 				dateOfReminder: dateToSqlFormat(date)
 			});
 
+			console.log("Reminder: " + reminder);
 
 			$.post(baseDir + "/php/create/createReminder.php", {
 					idToken: googleTokenId,

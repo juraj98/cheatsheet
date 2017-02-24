@@ -27,6 +27,7 @@ if(isset($_POST['filters'])){
 $idTokenData = decodeIdToken($_POST['idToken']);
 //Get user id
 $userId = getUserIdFromSub($idTokenData->{"sub"});
+$response->success = true;
 
 $searchTerms = json_decode($_POST['searchString']);
 if(!$searchTerms) {
@@ -37,6 +38,7 @@ if(!$searchTerms) {
 }
 
 //Get classes
+$searchTermsLength = count($searchTerms);
 if($_POST['filters'][0] === true){
 	$sql = "
 		SELECT
@@ -48,7 +50,6 @@ if($_POST['filters'][0] === true){
 			AND
 			c.classId = cm.classId
 			AND (";
-	$searchTermsLength = count($searchTerms);
 	for($i = 0; $i < $searchTermsLength; $i++){
 		$sql .= ($i==0 ? " " : " OR ") . "
 			c.nameShort LIKE '%" . mysqli_real_escape_string($conn, $searchTerms[$i]) . "%'
@@ -107,7 +108,7 @@ if($_POST['filters'][1] === true){
 if($_POST['filters'][2] === true){
 	$sql = "
 		SELECT
-			u.username, u.mail, u.name, u.surname
+			u.id, u.username, u.mail, u.name, u.surname
 		FROM
 			users u
 		WHERE";
@@ -133,6 +134,8 @@ if($_POST['filters'][2] === true){
 		$response->error->code = 3;
 		$response->error->message = ERR_MSG_QUERY_FAILED;
 		$response->error->details = "Query fetching users failed. Error: " . mysqli_error($conn);
+		$response->debug->sql = $sql;
+
 	}
 }
 

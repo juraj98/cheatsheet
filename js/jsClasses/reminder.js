@@ -104,7 +104,6 @@ class Reminder {
 				console.error("Wrong id: " + _id);
 				break;
 		}
-
 	}
 
 }

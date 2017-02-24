@@ -1,6 +1,20 @@
 class User {
 
-	saveUser() {
+	saveUser(_callback = null) {
+		console.log("idToken: " + googleTokenId);
+		console.log("userId: " +  this.id);
+		console.log("DATA")
+		console.log({
+				idToken: googleTokenId,
+				userId: this.id,
+				username: this.username,
+				mail: this.mail,
+				name: this.name,
+				surname: this.surname,
+				gender: this.gender,
+				image: this.image ? this.image : "null"
+			});
+
 		$.post(baseDir + "/php/user/saveUser.php", {
 				idToken: googleTokenId,
 				userId: this.id,
@@ -9,13 +23,13 @@ class User {
 				name: this.name,
 				surname: this.surname,
 				gender: this.gender,
-				image: this.image
+				image: this.image ? this.image : "null"
 			},
 			function(_ajaxData) {
 				if (_ajaxData['success']) {
-					return true;
+					_callback();
 				} else {
-					popout(_ajaxData['error']['message']);
+					popout(_ajaxData['error']['message'] + ": " +_ajaxData['error']['details']);
 				}
 			}
 		);
