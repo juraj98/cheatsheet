@@ -98,7 +98,8 @@ function setupReminders(_reminders){
 	var countOfReminders = _reminders.length > 5 ? 5 : _reminders.length;
 	var bottomMargin = (($("#cColumnLeft").height() - 8) - 25 - 8 - 76 * countOfReminders) / (countOfReminders - 1);
 	for (var i = 0; i < countOfReminders; i++) {
-		reminders[i] = new Reminder(null, _reminders[i].id, _reminders[i].name, _reminders[i].type, _reminders[i].subject, _reminders[i].dateOfReminder);
+		reminders[i] = new Reminder(JSON.stringify(_reminders[i]));
+//		reminders[i] = new Reminder(null, _reminders[i].id, _reminders[i].name, _reminders[i].type, _reminders[i].subject, _reminders[i].dateOfReminder);
 		$("#cReminders").append(reminders[i].toElement().css("margin-bottom", (i + 1 == countOfReminders ? "0" : bottomMargin))
 
 		);

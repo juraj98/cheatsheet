@@ -132,7 +132,6 @@ function getReminderData(_numberOfReminders, _filters, _from, _to) {
 	workingWithRemindersOfClass = 1;
 	$.post(baseDir + "/php/get/getReminders.php", {
 		idToken: googleTokenId,
-		classId: workingWithRemindersOfClass,
 		numberOfReminders: _numberOfReminders,
 		filters: _filters,
 		from: _from,

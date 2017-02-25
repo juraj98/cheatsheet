@@ -26,5 +26,4 @@ function afterOnLoginTemp() {
 
 	homeInit();
 
-
 }

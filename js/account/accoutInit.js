@@ -1,6 +1,6 @@
 function accountInit() {
 
-	updateInfo();
+	updateInfo()
 
 	autosize($('#aMessageBox .cMsgBox > textarea'));
 
@@ -44,6 +44,7 @@ function accountInit() {
 							user.surname,
 							user.image
 						);
+						$(".cMsgBox textarea").val("");
 						$("#aMessageBox").after(newMessage.toElement());
 					} else {
 						popout(_ajaxData.error.message);
@@ -146,7 +147,48 @@ function chatInit(_userId) {
 }
 
 function loadRecentMessages() {
+	$.post(baseDir + "/php/get/getLastMessages.php", {
+		idToken: googleTokenId
+	}, function(_ajaxData) {
+		if (_ajaxData.success) {
 
+			$(".aUserContact").remove();
+
+			for(var i = 0; i < _ajaxData.data.lastMessages.length; i++){
+
+				var contactImage;
+				var contactName;
+				var contactSurname;
+				var contactId;
+
+				if(_ajaxData.data.lastMessages[i].firstUserId == user.id){
+					contactImage = _ajaxData.data.lastMessages[i].secondImage;
+					contactName = _ajaxData.data.lastMessages[i].secondName;
+					contactSurname = _ajaxData.data.lastMessages[i].secondSurname;
+					contactId = _ajaxData.data.lastMessages[i].secondUserId;
+				} else {
+					contactImage = _ajaxData.data.lastMessages[i].firstImage;
+					contactName = _ajaxData.data.lastMessages[i].firstName;
+					contactSurname = _ajaxData.data.lastMessages[i].firstSurname;
+					contactId = _ajaxData.data.lastMessages[i].firstUserId;
+				}
+
+				var contactElement = $('<div class="aUserContact"><img class="card-1" src="' + (contactImage == null ? "images/placeholders/profilePicturePlaceholder.png" : contactImage) + '" style=""><h1>' + contactName + " " + contactSurname + '</h1><h2>' + _ajaxData.data.lastMessages[i].content + '</h2></div>').data("contactId", contactId).click(function(){
+					chatInit($(this).data("contactId"));
+				});
+
+				$("#aUserNewMessage").after(contactElement);
+
+				if(i == 0) {
+					chatInit(contactId);
+				}
+
+			}
+
+		} else {
+			popout(_ajaxData.error.message);
+		}
+	});
 }
 
 function editProfileInfo(){

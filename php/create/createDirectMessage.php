@@ -40,15 +40,39 @@ $userId = getUserIdFromSub($idTokenData->{"sub"});
 //Create message
 $stmt = $conn->prepare("INSERT INTO directMessages (authorId, receiverId, content, created) VALUES (?,?,?, NOW())");
 $stmt->bind_param("sss", $userId, $_POST['otherUserId'], $_POST["content"]);
+if(!$stmt->execute()) {
+	$response->success = false;
+	$response->error->code = 3;
+	$response->error->message = ERR_MSG_QUERY_FAILED;
+	$response->error->details = "Query inserting new message failed. Error: " . mysqli_error($conn);
+	die(json_encode($response));
+}
+
+
+//Update/Insert last message
+if($userId < $_POST['otherUserId']){
+	$firstUserId = $userId;
+	$secondUserId = $_POST['otherUserId'];
+
+} else {
+	$firstUserId = $_POST['otherUserId'];
+	$secondUserId = $userId;
+}
+
+$stmt = $conn->prepare("INSERT INTO lastMessages (firstUserId, secondUserId, content, lastMessage) VALUES (?, ?, ?, NOW()) ON DUPLICATE KEY UPDATE content=?, lastMessage=NOW()");
+
+$stmt->bind_param("ssss", $firstUserId, $secondUserId, $_POST['content'], $_POST["content"]);
+
 if($stmt->execute()){
 	$response->success = true;
 } else {
 	$response->success = false;
 	$response->error->code = 3;
 	$response->error->message = ERR_MSG_QUERY_FAILED;
-	$response->error->details = "Query inserting new message failed. Error: " . mysqli_error($conn);
+	$response->error->details = "Query updating last messages failed. Error: " . mysqli_error($conn);
 }
 
 die(json_encode($response));
+
 
 ?>

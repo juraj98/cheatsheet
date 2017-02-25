@@ -12,22 +12,31 @@ require_once	"../_includes/errorMessagesAndDetails.php";
 header('Content-Type: application/json');	//Needed for not showing ads
 
 //Check post variables
-checkPostVariables('idToken', 'classId');
+checkPostVariables('idToken');
 
 //Decode ID token
 $idTokenData = decodeIdToken($_POST['idToken']);
 //Get user id
 $userId = getUserIdFromSub($idTokenData->{"sub"});
-//Check if user is member of class
-ckeckIfMemberOfClass($userId, $_POST['classId']);
+
+if(empty($_POST['numberOfReminders'])){
+	$_POST['numberOfReminders'] = 10;
+}
 
 //Select reminders
-$sql = "SELECT * FROM reminders WHERE
-(classId=" . mysqli_real_escape_string($conn, $_POST['classId']) . "
-AND dateOfReminder>=" .	(!empty($_POST["from"]) ? "'".mysqli_real_escape_string($conn, $_POST['from']) . "' " : "CURDATE() " ) .
-(!empty($_POST["to"]) ? "AND dateOfReminder<='" . mysqli_real_escape_string($conn, $_POST['to']) . "' " : " " );
 
-
+$sql = "
+SELECT r.*, c.nameShort
+FROM reminders r, classMembers cm, classes c
+WHERE
+	c.classId=cm.classId
+	AND
+	r.classId=cm.classId
+	AND
+	cm.userId=$userId
+	AND
+	dateOfReminder>=" .	(!empty($_POST["from"]) ? "'".mysqli_real_escape_string($conn, $_POST['from']) . "' " : "CURDATE() " ) .
+	(!empty($_POST["to"]) ? "AND dateOfReminder<='" . mysqli_real_escape_string($conn, $_POST['to']) . "' " : " " );
 if(!empty($_POST['filters'])){
 	$sql .= " AND (";
 	$filtersLength = count($_POST['filters']);
@@ -35,9 +44,8 @@ if(!empty($_POST['filters'])){
 		 $sql .=  " type=" . mysqli_real_escape_string($conn, $_POST["filters"][$i]) . ($filtersLength == ($i+1) ? " " : " OR ");
 	}
 	$sql .= ") ";
-}
-
-$sql .= (!empty($_POST['numberOfReminders']) ? ") ORDER BY dateOfReminder ASC LIMIT " . mysqli_real_escape_string($conn, $_POST['numberOfReminders']) : ") ORDER BY dateOfReminder ASC LIMIT 10");
+};
+$sql .= " ORDER BY dateOfReminder ASC LIMIT " . mysqli_real_escape_string($conn, $_POST['numberOfReminders']);
 
 $query = mysqli_query($conn, $sql);
 

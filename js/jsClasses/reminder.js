@@ -18,35 +18,19 @@ class Reminder {
 		4 - Test - Red(#F44336) - assignment_late
 		5 - Lesson - Lime(#CDDC39) - book
 		*/
-	constructor(_json, _id = null, _name = null, _type = null, _subject = null, _date = null) {
-		if (_json) {
-			//Create from json
-			this.updateViaJSON(_json);
-		} else {
-			//Create from constructor parameters
-			if (_id == null || _name == null || _type == null || _subject == null || _date == null) {
-				console.error("SubjectBody class didn't recieved all needed parameters.");
-			} else {
-				this.updateViaParams(_id, _name, _type, _subject, _date);
-			}
-		}
+	constructor(_json, _displayClass = false) {
+		this.updateViaJSON(_json, _displayClass);
 	}
 
-	updateViaJSON(_json) {
+	updateViaJSON(_json, _displayClass) {
 		_json = JSON.parse(_json);
 		this.id = _json["id"];
 		this.name = _json["name"];
 		this.type = _json["type"];
 		this.subject = _json["subject"];
 		this.date = new Date(_json["dateOfReminder"]);
-	}
-
-	updateViaParams(_id, _name, _type, _subject, _date) {
-		this.id = _id;
-		this.name = _name;
-		this.type = _type;
-		this.subject = _subject;
-		this.date = new Date(_date);
+		this.class = _json["nameShort"];
+		this.displayClass = _displayClass;
 	}
 
 	toElement() {
@@ -54,7 +38,7 @@ class Reminder {
 
 		$(this.element).append('<div class="rIcon card-1" style="background-color:' + this.getColorFromId(this.type) + ';"><i class="material-icons">' + this.getIconFromId(this.type) + '</i></div>');
 
-		$(this.element).append('<h1>' + this.name + '</h1><h2>' + this.subject + '</h2>');
+		$(this.element).append('<h1>' + (this.displayClass ? this.class + ": " : "") + this.name + '</h1><h2>' + this.subject + '</h2>');
 
 		$(this.element).append('<div class="rButtons"><i class="material-icons">done</i><i class="material-icons">bookmark_border</i></div>');
 
