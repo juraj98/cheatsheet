@@ -54,6 +54,7 @@
 	<script type="text/javascript" src="js/jsClasses/user.js"></script>
 	<script type="text/javascript" src="js/jsClasses/post.js"></script>
 	<script type="text/javascript" src="js/jsClasses/message.js"></script>
+	<script type="text/javascript" src="js/jsClasses/activityItem.js"></script>
 
 	<!--OnLogin-->
 	<script type="text/javascript" src="js/onLogin.js"></script>
@@ -100,6 +101,12 @@
 	<link rel="stylesheet" type="text/css" href="css/account.css">
 	<script type="text/javascript" src="js/account/accoutClick.js"></script>
 	<script type="text/javascript" src="js/account/accoutInit.js"></script>
+	<!--=================-->
+	<!--=====Home=====-->
+	<!--=================-->
+	<link rel="stylesheet" type="text/css" href="css/home.css">
+	<script type="text/javascript" src="js/home/homeClick.js"></script>
+	<script type="text/javascript" src="js/home/homeInit.js"></script>
 
 	<!--=====-->
 	<!--Class-->
@@ -201,10 +208,6 @@
 				<i class="material-icons">account_box</i>
 				<span>Account</span>
 			</li>
-			<li class="collapsedSideMenuButton settingBtn">
-				<i class="material-icons">settings</i>
-				<span>Settings</span>
-			</li>
 			<li class="collapsedSideMenuButton logOutBtn">
 				<i class="material-icons">exit_to_app</i>
 				<span>Log Out</span>
@@ -271,62 +274,17 @@
 	<!-------------------------------CONTENT------------------------------>
 	<!-------------------------------------------------------------------->
 	<div class="content">
-		<!--User Info-->
-		<div id="aUserInfoPanel" class="card-1">
-			<div id="aUserImageDiv" class="unselectable card-1">
-				<i class="material-icons">person</i>
-				<div class="card-1" id="aUserImageUploadButton">
-					<i class="material-icons">file_upload</i><span>Upload image</span>
-				</div>
-			</div>
-			<h1 id="aUserNameAndSurname"></h1>
-			<h2 id="aUserUsername"></h2>
-			<h2 id="aUserMail"></h2>
-			<h3 id="aUserCheatpoints"></h3>
-
-			<input type="text" id="aUserNameEdit">
-			<input type="text" id="aUserSurnameEdit">
-			<input type="text" id="aUserUsernameEdit">
-			<input type="text" id="aUserMailEdit">
-			<!--TODO: Add gender-->
-
-			<i class="material-icons unselectable" id="aUserEditInfo">mode_edit</i>
-			<i class="material-icons unselectable" id="aUserSaveInfo">save</i>
+		<div id="hLeftSide">
 		</div>
-		<!--Messages-->
-		<div id="aMessagesHeader" class="aHeader">Name Surname messages:</div>
+		<div id="hRightSide">
+			<div class="hHeader">Current/Next Subject:</div>
+			<div class="ttSubject card-1" id="hCurrentNextSubject"><div class="ttSubjectHeader"><div class="number"><span>0</span>. Lesson</div><div class="time"><span class="start">07:05</span> - <span class="end">07:50</span></div></div><div class="bodysSortable"><div class="ttSubjectBody"><div style="background-color: #1976D2" class="ttSubjectIcon unselectable card-1">T</div><span class="ttSubjectName">Telesná výchova</span><span class="ttSubjectInfo">Stanislav Výbera - TELM - 1TV2</span><div class="ttSubjectNotifications unselectable"><i class="material-icons" style="color:#F44336; display:none;">mode_edit</i><i class="material-icons" style="display:none;">extension</i><i class="material-icons" style="display:none;">notifications</i></div></div></div></div>
 
-		<!--User messages-->
-		<div id="aUserMessages">
-			<div id="aMessageBox">
-				<img class="cImage card-1" src="images/placeholders/profilePicturePlaceholder.png" title="" style=""><span class="cName">New message</span>
-				<div class="cMsgConainer">
-					<div class="cMsgBox card-1">
-						<textarea></textarea>
-					</div>
-					<div class="cMsgBoxArrowConatiner">
-						<div class="cMsgBoxArrow"></div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<!--User contacts-->
-		<div id="aContactsHeader" class="aHeader">Messages:</div>
-		<div id="aUserContacts" class="unselectable card-1">
-			<div id="aUserNewMessage">
-				<i class="material-icons acceptClick">add</i><span class="acceptClick">New message</span>
-				<input type="text" id="aUserNewMessageInput">
-				<div id="aUserNewMessageSuggestions" class="card-2"></div>
-			</div>
-			<div class="aUserContact">
-				<img class="card-1" src="images/placeholders/profilePicturePlaceholder.png">
-			</div>
-			<div class="aUserContact">
-				<img class="card-1" src="images/placeholders/profilePicturePlaceholder.png">
-			</div>
-			<div class="aUserContact">
-				<img class="card-1" src="images/placeholders/profilePicturePlaceholder.png">
-			</div>
+			<div class="hHeader">Reminders:</div>
+
+			<div class="rReminder card-1"><div class="rIcon card-1" style="background-color:#2196F3;"><i class="material-icons">chrome_reader_mode</i></div><h1>ono to ide?</h1><h2>čo ti !€$€...</h2><div class="rButtons"><i class="material-icons">done</i><i class="material-icons">bookmark_border</i></div></div>
+			<div class="rReminder card-1"><div class="rIcon card-1" style="background-color:#2196F3;"><i class="material-icons">chrome_reader_mode</i></div><h1>ono to ide?</h1><h2>čo ti !€$€...</h2><div class="rButtons"><i class="material-icons">done</i><i class="material-icons">bookmark_border</i></div></div>
+			<div class="rReminder card-1"><div class="rIcon card-1" style="background-color:#2196F3;"><i class="material-icons">chrome_reader_mode</i></div><h1>ono to ide?</h1><h2>čo ti !€$€...</h2><div class="rButtons"><i class="material-icons">done</i><i class="material-icons">bookmark_border</i></div></div>
 		</div>
 	</div>
 	<!--Content end-->

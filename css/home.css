@@ -1,0 +1,72 @@
+#hLeftSide {
+	/**/
+	float: left;
+	margin-left: 16px;
+	margin-right: 8px;
+	width: calc(60% - 20px);
+	min-height: 1px;
+}
+#hRightSide {
+	/**/
+	width: calc(40% - 20px);
+	float: left;
+}
+
+.hActivity {
+	margin: 4px 0;
+	width: 100%;
+	background-color: white;
+	border-radius: 5px;
+	height: 75px;
+	float: left;
+}
+.hActivity > h1 {
+    float: left;
+    margin: 0;
+    margin-top: 13px;
+    color: #616161;
+    padding-right: 100px;
+    width: calc(100% - 184px);
+    font-size: 24px;
+}
+.hActivity > h2 {
+    float: left;
+    font-weight: 400;
+    padding-right: 100px;
+    width: calc(100% - 184px);
+    color: #616161;
+    margin: 0;
+    font-size: 16px;
+}
+.hHeader {
+	width: calc(100% - 16px);
+	font-size: 20px;
+	color: #757575;
+	margin: 8px;
+	margin-bottom: 4px;
+	border-bottom: 1px solid #757575;
+}
+.hIcon {
+	height: 60px;
+	width: 60px;
+	margin: 8px;
+	/* margin-right: 16px; */
+	display: inline-block;
+	background-color: #8bc34a;
+	border-radius: 180px;
+	float: left;
+}
+.hIcon > i {
+    height: 60px;
+    width: 60px;
+    display: inline-block;
+    color: white;
+    text-align: center;
+    line-height: 60px;
+    font-size: 32px;
+    font-style: normal;
+}
+#hCurrentNextSubject, #hRightSide > .rReminder {
+	width: 100%;
+	margin: 4px 0;
+}

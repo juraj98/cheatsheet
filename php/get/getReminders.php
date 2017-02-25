@@ -37,7 +37,7 @@ if(!empty($_POST['filters'])){
 	$sql .= ") ";
 }
 
-$sql .= (!empty($_POST['numberOfReminders']) ? ") LIMIT " . mysqli_real_escape_string($conn, $_POST['numberOfReminders']) : ") LIMIT 10");
+$sql .= (!empty($_POST['numberOfReminders']) ? ") ORDER BY dateOfReminder ASC LIMIT " . mysqli_real_escape_string($conn, $_POST['numberOfReminders']) : ") ORDER BY dateOfReminder ASC LIMIT 10");
 
 $query = mysqli_query($conn, $sql);
 

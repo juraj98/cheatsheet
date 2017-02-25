@@ -10,10 +10,6 @@ function sideMenusListeners(){
 	$(".remindersBtn").on("click", function() {
 		remindersClick();
 	});
-	$(".notesBtn").on("click", function() {
-		var html = "Notes";
-		$(".content").html(html);
-	});
 	$(".addClass").on("click", function() {
 		addClassClick();
 	});
@@ -22,8 +18,7 @@ function sideMenusListeners(){
 
 	});
 	$(".accountBtn").on("click", function() {
-		var html = "Account";
-		$(".content").html(html);
+		accountClick();
 	});
 	$(".settingBtn").on("click", function() {
 		var html = "Settings";

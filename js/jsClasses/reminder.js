@@ -17,8 +17,6 @@ class Reminder {
 		3 - Exam - DeepOrange(#FF5722) - assignment
 		4 - Test - Red(#F44336) - assignment_late
 		5 - Lesson - Lime(#CDDC39) - book
-
-
 		*/
 	constructor(_json, _id = null, _name = null, _type = null, _subject = null, _date = null) {
 		if (_json) {

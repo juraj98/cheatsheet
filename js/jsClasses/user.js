@@ -23,7 +23,7 @@ class User {
 				name: this.name,
 				surname: this.surname,
 				gender: this.gender,
-				image: this.image ? this.image : "null"
+				image: this.image
 			},
 			function(_ajaxData) {
 				if (_ajaxData['success']) {

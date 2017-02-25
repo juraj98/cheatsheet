@@ -24,7 +24,7 @@ $(window).ready(function() {
 
 function afterOnLoginTemp() {
 
-	accountInit();
+	homeInit();
 
 
 }
