@@ -1,0 +1,23 @@
+#tooltip {
+	display: none;
+	position: absolute;
+	background-color: #424242;
+	max-width: 150px;
+	color: white;
+	padding: 2px 8px;
+	border-radius: 2px;
+    word-wrap: break-word;
+	text-align: center;
+}
+#tooltip:before {
+	display: block;
+	position: absolute;
+	content: '';
+	height: 10px;
+	width: 10px;
+	transform: rotate(45deg);
+	bottom: -5px;
+	left: calc(50% - 5px);
+	background-color: #424242;
+
+}

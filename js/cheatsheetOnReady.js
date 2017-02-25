@@ -3,5 +3,6 @@ $(document).ready(function(){
 
 	console.info("%cFunction call:\t" + "%csetupDynamicListeners()", "color: #7986CB; font-weight:700", "color: #7986CB");
 	setupDynamicListeners();
-    materialFormInit();
+   materialFormInit();
+	tooltipInit();
 });
