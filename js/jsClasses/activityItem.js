@@ -37,19 +37,25 @@ class ActivityItem {
 	}
 
 	toElementMessage(){
-		this.element = $('<div class="hActivity card-1"><div class="hIcon card-1" style="background-color:#673AB7;"><i class="material-icons">message</i></div><h1>Message: ' + this.header + '</h1><h2>' + this.name + " " + this.surname + " | " + this.created + '</h2></div>');
+		this.element = $('<div class="card-1"><div class="hIcon card-1" style="background-color:#673AB7;"><i class="material-icons">message</i></div><h1>' + this.header + '</h1><h2>' + this.name + " " + this.surname + " | " + this.created + '</h2></div>');
+
+		$(this.element).children(".hIcon").attr("tooltip", "Message");
 
 		return $(this.element).data("Activity", this);
 	}
 
 	toElementPost(){
-		this.element = $('<div class="hActivity card-1"><div class="hIcon card-1" style="background-color:#3F51B5;"><i class="material-icons">file_upload</i></div><h1>Upload: ' + this.header + '</h1><h2>' + this.subject + '</h2></div>');
+		this.element = $('<div class="hActivity card-1"><div class="hIcon card-1" style="background-color:#3F51B5;"><i class="material-icons">file_upload</i></div><h1>' + this.header + '</h1><h2>' + this.subject + '</h2></div>');
+
+		$(this.element).children(".hIcon").attr("tooltip", "Upload");
 
 		return $(this.element).data("Activity", this);
 	}
 
 	toElementReminder(){
-		this.element = $('<div class="hActivity card-1"><div class="hIcon card-1" style="background-color:' + this.getColorFromId(this.reminderType) + ';"><i class="material-icons">' + this.getIconFromId(this.reminderType) + '</i></div><h1>' + this.getNameFromId(this.reminderType) + ': ' + this.header + '</h1><h2>' + this.subject + '</h2></div>');
+		this.element = $('<div class="hActivity card-1"><div class="hIcon card-1" style="background-color:' + this.getColorFromId(this.reminderType) + ';"><i class="material-icons">' + this.getIconFromId(this.reminderType) + '</i></div><h1>' + this.header + '</h1><h2>' + this.subject + '</h2></div>');
+
+		$(this.element).children(".hIcon").attr("tooltip", this.getNameFromId(this.reminderType));
 
 		return $(this.element).data("Activity", this);
 	}

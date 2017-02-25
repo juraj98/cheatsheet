@@ -4,10 +4,20 @@
 	background-color: #424242;
 	max-width: 150px;
 	color: white;
-	padding: 2px 8px;
+  word-wrap: break-word;
 	border-radius: 2px;
-    word-wrap: break-word;
 	text-align: center;
+	box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+}
+#tooltip > span {
+	position: relative;
+	z-index: 1;
+	padding: 4px 8px;
+	border-radius: 2px;
+	height: 100%;
+	line-height: 28px;
+	width: 100%;
+	background-color: #424242;
 }
 #tooltip:before {
 	display: block;
@@ -19,5 +29,7 @@
 	bottom: -5px;
 	left: calc(50% - 5px);
 	background-color: #424242;
+	box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+	z-index: 1;
 
 }

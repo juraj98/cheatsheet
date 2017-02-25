@@ -5,9 +5,9 @@ function tooltipInit(){
 
 	$("body").on("mouseenter", "[tooltip]", function() {
 		console.log("Tooltip");
-		$(tooltip).html($(this).attr("tooltip"));
+		$(tooltip).html('<span>' + $(this).attr("tooltip") + '</span>');
 		$(tooltip).show();
-		$(tooltip).css("top", $(this).offset().top - $(tooltip).height() - 15);
+		$(tooltip).css("top", $(this).offset().top - $(tooltip).height() - 12);
 		$(tooltip).css("left", $(this).offset().left + ($(this).outerWidth() - $(tooltip).outerWidth(true)) / 2);
 	});
 	$("body").on("mouseleave", "[tooltip]", function() {

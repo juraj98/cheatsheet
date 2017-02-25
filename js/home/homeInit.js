@@ -38,7 +38,7 @@ function getActivityData(_limit = null) {
 			$("#hLeftSide").html("");
 			for(var i = 0; i < _ajaxData.data.activity.length; i++){
 				var newActivityItem = new ActivityItem(JSON.stringify(_ajaxData.data.activity[i]));
-				$("#hLeftSide").prepend(newActivityItem.toElement());
+				$("#hLeftSide").prepend($(newActivityItem.toElement()).addClass("hActivity"));
 
 			}
 		} else {
