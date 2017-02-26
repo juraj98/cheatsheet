@@ -6,3 +6,15 @@ function easterEggMusic(){
 		$('head').append("<style>.easterEggMusic{animation:eastereggmusic .75s infinite;animation-timing-function:linear}@keyframes eastereggmusic{0%,100%{transform:translateY(-10px) rotate(1deg)}50%{transform:translateY(10px) rotate(-1deg)}}</style>");
 		}
 }
+
+$(document).ready(function(){
+	$("#searchBox > input").on("change keyup paste", function() {
+		var value = $.trim($(this).val());
+
+		//easter egg
+		if(value == "eastereggmusic"){
+			easterEggMusic();
+			return;
+		}
+	});
+});

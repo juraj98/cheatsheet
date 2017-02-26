@@ -42,6 +42,18 @@
 	position: absolute;
 	top: 25px;
 	left: calc(((100% - 210px) - (100% - 210px) * 0.8) / 2 + 210px);
+	color: white;
+	z-index: 50;
+	transition: 0.3s;
+}
+#searchBox.active {
+	background-color: white;
+	color: #212121;
+	font-weight: 700;
+	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 0;
+	/*Card-2*/
+	box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 }
 
 #searchBox > i {
@@ -49,7 +61,7 @@
 	height: 50px;
 	float: left;
 	text-align: center;
-	color: white;
+	color: inherit;
 	line-height: 50px;
 }
 
@@ -57,10 +69,11 @@
 	background-color: transparent!important;
 	border: none !important;
 	box-shadow: none !important;
-	color: white;
+	color: inherit;
 	padding: 0;
 	width: calc(100% - 50px);
 	height: 50px;
+	font-weight: inherit;
 	float: left;
 	font-size: 20px;
 	line-height: 50px;
@@ -83,19 +96,81 @@
 	/* Internet Explorer 10-11 */
 	color: rgba(255, 255, 255, 0.75);
 }
-
-#moreOptionsButton {
+#searchResults {
+	/**/
+	background-color: white;
 	position: absolute;
-	right: 75px;
-	top: 25px;
-	height: 50px;
-	width: 50px;
-	line-height: 50px;
-	text-align: center;
+	top: 70px;
+	left: calc(((100% - 210px) - (100% - 210px) * 0.8) / 2 + 210px);
+	width: calc((100% - 250px) * 0.8 - 8px);
+	margin-top: 5px;
+	z-index: 51;
+	border-top: none;
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+	box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+	max-height: 0px;
+	transition: 0.3s;
+	padding: 0 4px;
+	overflow: hidden;
+}
 
-	color: #fff;
-/*	font-size: 32px;*/
+#searchResults.active {
+	max-height: 100vh;
+	border-top: 1px solid #9E9E9E;
+}
+.srGroups {
+	/**/
+	width: calc(100% / 3 - 8px);
+	margin: 4px;
+	float: left;
+}
+.srGroups > h1 {
+	/**/
+	font-size: 20px;
+  color: #757575;
+  border-bottom: 1px solid #757575;
+	margin: 0;
+}
+.srGroups > span {
+	/**/
+	font-size: 16px;
+  color: #757575;
+	width: 100%;
 	cursor: pointer;
+	float: left;
+}
+.srGroups > span:hover {
+	/**/
+	background-color: #EEEEEE;
+}
+.srGroups > span:before {
+	/**/
+	font-family: 'Material Icons';
+	font-size: 16px;
+	line-height: 21px;
+	margin-right: 2px;
+  color: #757575;
+	float: left;
+}
+.srGroups > .srUser:before {
+	content: 'person';
+}
+.srGroups > .srClass:before {
+	content: 'star';
+}
+.srGroups > .srGroup:before {
+	content: 'group';
+}
+.srGroups > .nothing:before {
+	content: none;
+}
+.srGroups > .nothing:hover {
+	background-color: white;
+}
+.srGroups > .nothing {
+	text-align: center;
+	cursor: auto;
 }
 
 /*It's outside of header so z-index work*/

@@ -19,6 +19,8 @@ function onLogin() {
 
 					loadFromUrl();
 
+					homeClick();
+
 					//Temp
 					afterOnLoginTemp();
 				});
