@@ -165,7 +165,7 @@
 #cReminders > .rReminder {
 	margin: 0;
 	float: left;
-	/*	margin-bottom: 8px;*/
+		margin-bottom: 8px;
 	width: 100%;
 }
 

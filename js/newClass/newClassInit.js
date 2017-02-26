@@ -100,9 +100,7 @@ function setupReminders(_reminders){
 	for (var i = 0; i < countOfReminders; i++) {
 		reminders[i] = new Reminder(JSON.stringify(_reminders[i]));
 //		reminders[i] = new Reminder(null, _reminders[i].id, _reminders[i].name, _reminders[i].type, _reminders[i].subject, _reminders[i].dateOfReminder);
-		$("#cReminders").append(reminders[i].toElement().css("margin-bottom", (i + 1 == countOfReminders ? "0" : bottomMargin))
-
-		);
+		$("#cReminders").append(reminders[i].toElement());
 	}
 }
 
