@@ -27,7 +27,6 @@
 		top: 16px;
 		left: calc(((100% - 128px) - (100% - 128px) * 0.8) / 2 + 64px);
 	}
-
 	#cColumnRight {
 		display: none;
 	}
@@ -35,6 +34,18 @@
 		width: calc(100% - 16px);
     margin-left: 8px;
 	}
+
+	#hLeftSide {
+    margin-left: 8px;
+    margin-right: 8px;
+    width: calc(100% - 16px);
+	}
+	#hRightSide {
+    margin-left: 16px;
+    margin-right: 16px;
+    width: calc(100% - 32px);
+	}
+
 
 }
 

@@ -1,8 +1,6 @@
 #hLeftSide {
 	/**/
-	float: left;
-	margin-left: 16px;
-	margin-right: 8px;
+	float: right;
 	width: calc(60% - 20px);
 	min-height: 1px;
 	margin-bottom: 32px;
@@ -11,7 +9,9 @@
 #hRightSide {
 	/**/
 	width: calc(40% - 20px);
-	float: left;
+	margin-right: 16px;
+	margin-left: 8px;
+	float: right;
 }
 
 .hActivity:nth-child(2) {
