@@ -39,7 +39,7 @@ function getActivityData(_limit = null) {
 			$("#hLeftSide").html('<div class="hHeader" id="hActivityHeader">Activity feed:</div>');
 			for(var i = 0; i < _ajaxData.data.activity.length; i++){
 				var newActivityItem = new ActivityItem(JSON.stringify(_ajaxData.data.activity[i]));
-				$("#hActivityHeader").after($(newActivityItem.toElement()).addClass("hActivity"));
+				$("#hLeftSide").append($(newActivityItem.toElement()).addClass("hActivity"));
 			}
 			$(".hActivity").click(function(){
 				if($(this).hasClass("active")){
