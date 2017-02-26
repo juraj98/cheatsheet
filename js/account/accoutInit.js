@@ -177,7 +177,7 @@ function loadRecentMessages() {
 					chatInit($(this).data("contactId"));
 				});
 
-				$("#aUserNewMessage").after(contactElement);
+				$("#aUserContacts").append(contactElement);
 
 				if(i == 0) {
 					chatInit(contactId);
