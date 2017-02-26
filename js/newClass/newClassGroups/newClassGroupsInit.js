@@ -3,13 +3,13 @@ function newClassGroupsInit(_id) {
 
 	downlodGroupsData(_id);
 
-	$("#cOptions > .rightOption").click(function() {
+	$("#cOptions > .rightOption").off().click(function() {
 		$("#cAddNewGroupContainer").stop().slideToggle(300);
 
 		$(this).toggleClass("weight-700");
 	});
 
-	$("#cOptions > .leftOption").click(function() {
+	$("#cOptions > .leftOption").off().click(function() {
 		$("#cGroupsContainer").children(".cGroup").each(function() {
 			//			if($.inArray(,$(this).data("Group")["members"]) != -1){
 			//
