@@ -124,6 +124,7 @@
 	cursor: pointer;
 	color: #616161;
 }
+
 #aUserSaveInfo {
 	display: none;
 	position: absolute;
@@ -377,7 +378,8 @@
 
 #aUserUsernameEdit,
 #aUserMailEdit {
-	display: none;	font-weight: 700;
+	display: none;
+	font-weight: 700;
 	color: #616161;
 	margin-top: 2px;
 	float: left;
@@ -389,20 +391,24 @@
 	padding: 0;
 }
 
-.aUserContact > h1{
+.aUserContact > h1 {
 	float: left;
 	margin: 0;
 	margin-top: 13px;
 	color: #616161;
 	width: calc(100% - 75px);
 	font-size: 24px;
+	white-space: nowrap;
+	overflow: hidden;
 }
-.aUserContact > h2{
+
+.aUserContact > h2 {
 	float: left;
 	font-weight: 400;
-	padding-right: 100px;
-	width: calc(100% - 184px);
+	width: calc(100% - 84px);
 	color: #616161;
+	overflow: hidden;
 	margin: 0;
 	font-size: 16px;
+	white-space: nowrap;
 }
