@@ -2,8 +2,7 @@ function sideMenusListeners(){
 	$(".homeBtn").on("click", function() {
 		$(".sideMenuItemActive").removeClass("sideMenuItemActive");
 		$(".homeBtn").addClass("sideMenuItemActive");
-		var html = "Home";
-		$(".content").html(html);
+		homeClick();
 	});
 	$(".messagesBtn").on("click", function() {
 		$(".sideMenuItemActive").removeClass("sideMenuItemActive");
