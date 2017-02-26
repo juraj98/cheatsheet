@@ -13,7 +13,7 @@ class ActivityItem {
 		this.name = _json.name;
 		this.surname = _json.surname;
 		this.created = _json.created;
-		this.remainderDate = _json.remainderDate;
+		this.reminderDate = _json.reminderDate;
 		this.postContent = _json.postContent;
 
 		switch (this.activityType) {
@@ -55,7 +55,7 @@ class ActivityItem {
 	}
 
 	toElementReminder(){
-		this.element = $('<div class="hActivity card-1"><div class="hIcon card-1" style="background-color:' + this.getColorFromId(this.reminderType) + ';"><i class="material-icons">' + this.getIconFromId(this.reminderType) + '</i></div><h1>' + this.header + '</h1><div class="hContent"><span class="hContectReminderData">Type: '+ this.getNameFromId(this.reminderType) +'</span><span class="hContectReminderData">Date: '+ this.remainderDate +'</span><span class="hContectReminderData">Subject: ' + this.subject + '</span></div></div>');
+		this.element = $('<div class="hActivity card-1"><div class="hIcon card-1" style="background-color:' + this.getColorFromId(this.reminderType) + ';"><i class="material-icons">' + this.getIconFromId(this.reminderType) + '</i></div><h1>' + this.header + '</h1><div class="hContent"><span class="hContectReminderData">Type: '+ this.getNameFromId(this.reminderType) +'</span><span class="hContectReminderData">Date: '+ this.reminderDate +'</span><span class="hContectReminderData">Subject: ' + this.subject + '</span></div></div>');
 
 		$(this.element).children(".hIcon").attr("tooltip", this.getNameFromId(this.reminderType));
 
