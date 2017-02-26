@@ -6,7 +6,7 @@ function addCheatpoints($userId, $number = 1) {
 
 
 	$query = mysqli_query($conn, "UPDATE users SET cheatpoints=cheatpoints+$number
-	WHERE userId='$userId'");
+	WHERE id='$userId'");
 
 	if(!$query){
 		$response->success = false;
