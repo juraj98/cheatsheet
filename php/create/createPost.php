@@ -6,6 +6,7 @@ require_once	"../_includes/decodeIdToken.php";
 require_once	"../_includes/checkPostVariables.php";
 require_once	"../_includes/checkIfMemberOfClass.php";
 require_once	"../_includes/getUserIdFromSub.php";
+require_once	"../_includes/addCheatpoints.php";
 
 require_once	"../_includes/errorMessagesAndDetails.php";
 
@@ -48,6 +49,7 @@ if($response->success === false){
 $userId = getUserIdFromSub($idTokenData->{"sub"});
 //Check if user is member of class
 ckeckIfMemberOfClass($userId, $_POST['classId']);
+addCheatpoints($userId, 1);
 
 //Create post
 $stmt = $conn->prepare("INSERT INTO posts (classId, authorId, name, subject, content, tags, created) VALUES (?,?,?,?,?,?, NOW())");

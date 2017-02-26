@@ -89,6 +89,7 @@ if($response->success === false){
 $userId = getUserIdFromSub($idTokenData->{"sub"});
 //Check if user is member of class
 ckeckIfMemberOfClass($userId, $_POST['classId']);
+addCheatpoints($userId, 1);
 
 //Create reminder
 $stmt = $conn->prepare("INSERT INTO reminders (classId, name, type, subject, dateOfReminder, authorId, created) VALUES (?,?,?,?,?,?, NOW())");
