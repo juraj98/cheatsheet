@@ -18,9 +18,6 @@ function onLogin() {
 					searchInit();
 
 					loadFromUrl();
-
-					homeClick();
-
 					//Temp
 					afterOnLoginTemp();
 				});

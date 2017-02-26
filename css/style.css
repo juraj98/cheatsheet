@@ -921,6 +921,20 @@ textarea.materialInput {
 	clear: left !important;
 }
 
+/*
+.mce-edit-area {
+	border-width: 1px !important;
+	margin-top: 8px !important;
+}
+.mce-tinymce {
+	background: none !important;
+	border: none !important;
+}
+.mce-btn {
+	background: none !important;
+}
+*/
+
 #classTimetable {
 	width: 100%;
 	overflow: auto;

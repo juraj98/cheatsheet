@@ -7,12 +7,11 @@ function loadFromUrl(){
 	*/
 
 	switch(hash[0]){
-		case "messages":
-			break;
 		case "reminders":
 			remindersClick();
 			break;
 		case "addclass":
+			addClassClick();
 			break;
 		case "class":
 			console.log("HASH[2]: " + hash[2]);
@@ -33,12 +32,11 @@ function loadFromUrl(){
 			}
 			break;
 		case "account":
-			break;
-		case "settings":
+			accountClick();
 			break;
 		default:
 			window.location.hash = "";
-//			homeClick();
+			homeClick();
 			break;
 
 	}

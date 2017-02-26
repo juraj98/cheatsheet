@@ -25,12 +25,6 @@ function sideMenusListeners(){
 		$(".accountBtn").addClass("sideMenuItemActive");
 		accountClick();
 	});
-	$(".settingBtn").on("click", function() {
-		$(".sideMenuItemActive").removeClass("sideMenuItemActive");
-		$(".settingBtn").addClass("sideMenuItemActive");
-		var html = "Settings";
-		$(".content").html(html);
-	});
 	$(".logOutBtn").on("click", function() {
 		gapi.auth2.getAuthInstance().signOut().then(function() {
 			console.log('User signed out.');
