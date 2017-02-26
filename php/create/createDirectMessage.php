@@ -40,7 +40,9 @@ $userId = getUserIdFromSub($idTokenData->{"sub"});
 //Create message
 $stmt = $conn->prepare("INSERT INTO directMessages (authorId, receiverId, content, created) VALUES (?,?,?, NOW())");
 $stmt->bind_param("sss", $userId, $_POST['otherUserId'], $_POST["content"]);
-if(!$stmt->execute()) {
+if($stmt->execute()) {
+	$response->data->messageId = $stmt->insert_id;
+} else {
 	$response->success = false;
 	$response->error->code = 3;
 	$response->error->message = ERR_MSG_QUERY_FAILED;

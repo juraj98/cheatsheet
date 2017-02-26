@@ -5,41 +5,152 @@
 	margin-right: 8px;
 	width: calc(60% - 20px);
 	min-height: 1px;
+	margin-bottom: 32px;
 }
+
 #hRightSide {
 	/**/
 	width: calc(40% - 20px);
 	float: left;
 }
 
+.hActivity:nth-child(2) {
+	/*1 is header*/
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+}
+
+.hActivity:last-child {
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+}
+
 .hActivity {
-	margin: 4px 0;
-	width: 100%;
+	margin: 0 8px;
+	width: calc(100% - 16px);
 	background-color: white;
-	border-radius: 5px;
 	height: 50px;
+	cursor: pointer;
 	float: left;
+	min-height: 0px;
+	transition: 0.3s;
 }
+
 .hActivity > h1 {
-    float: left;
-    margin: 0;
-/*    margin-top: 13px;*/
-    color: #616161;
-    padding-right: 100px;
+	float: left;
+	margin: 0;
+	/*    margin-top: 13px;*/
+	color: #616161;
+	padding-right: 100px;
 	line-height: 50px;
-    width: calc(100% - 184px);
-    font-size: 24px;
+	width: calc(100% - 184px);
+	font-size: 24px;
+	transition: 0.3s;
 }
+
 .hActivity > h2 {
 	display: none;
-    float: left;
-    font-weight: 400;
-    padding-right: 100px;
-    width: calc(100% - 184px);
-    color: #616161;
-    margin: 0;
-    font-size: 16px;
+	float: left;
+	font-weight: 400;
+	padding-right: 100px;
+	width: calc(100% - 184px);
+	color: #616161;
+	margin: 0;
+	font-size: 16px;
 }
+
+.hActivity.active {
+	margin: 8px 0;
+	width: calc(100%);
+	border-radius: 5px;
+	box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+	height: auto;
+	min-height: 66px;
+}
+
+.hActivity .hContent {
+	display: none;
+	width: 100%;
+	max-height: 0;
+	float: left;
+	transition: 0.3s;
+}
+
+.hActivity .hContent > .hContentMessageTime {
+	display: block;
+	float: left;
+	font-weight: 400;
+	margin: 8px;
+	margin-top: 0;
+	width: calc(100% - 16px);
+	color: #616161;
+	border-bottom: solid 1px #616161;
+	font-size: 16px;
+}
+
+.hActivity .hContent > .hContentMessage {
+	display: block;
+	float: left;
+	font-weight: 400;
+	margin: 8px;
+	margin-top: 0;
+	width: calc(100% - 16px);
+	font-size: 16px;
+}
+.hActivity .hContent > .hContectReminderData {
+	display: block;
+	float: left;
+	font-weight: 400;
+	margin: 8px;
+	margin-top: 0;
+	width: calc(100% - 16px);
+	color: #616161;
+	font-size: 16px;
+}
+
+.hActivity .hContent > .hContectUploadData {
+	display: block;
+	float: left;
+	font-weight: 400;
+	margin: 8px;
+	margin-top: 0;
+	width: calc(100% - 16px);
+	color: #616161;
+	font-size: 16px;
+}
+
+.hActivity .hContent > .hContentUploadContent {
+	display: block;
+	float: left;
+	margin: 8px;
+	margin-top: 0;
+	border-top: solid 1px #616161;
+	width: calc(100% - 16px);
+}
+
+.hActivity.active .hContent {
+	display: block;
+	max-height: 10000px;
+}
+
+.hActivity.active .hIcon {
+	height: 50px;
+	width: 50px;
+	transition: 0.3s;
+}
+
+.hActivity.active .hIcon > i {
+	height: 50px;
+	width: 50px;
+	line-height: 50px;
+	font-size: 32px;
+	transition: 0.3s;
+}
+
+.hActivity.active > h1 {
+	line-height: 66px;
+}
+
 .hHeader {
 	width: calc(100% - 16px);
 	font-size: 20px;
@@ -48,6 +159,7 @@
 	margin-bottom: 4px;
 	border-bottom: 1px solid #757575;
 }
+
 .hIcon {
 	height: 34px;
 	width: 34px;
@@ -57,19 +169,24 @@
 	background-color: #8bc34a;
 	border-radius: 180px;
 	float: left;
+	transition: 0.1s;
 }
+
 .hIcon > i {
-    height: 34px;
-    width: 34px;
-    display: inline-block;
-    color: white;
-    text-align: center;
-    line-height: 34px;
-    font-size: 24px;
-    font-style: normal;
+	height: 34px;
+	width: 34px;
+	display: inline-block;
+	color: white;
+	text-align: center;
+	line-height: 34px;
+	font-size: 24px;
+	font-style: normal;
+	transition: 0.1s;
 }
-#hCurrentNextSubject, #hRightSide > .rReminder {
+
+#hCurrentNextSubject,
+#hRightSide > .rReminder {
 	width: 100%;
 	margin: 4px 0;
-    float: left;
+	float: left;
 }

@@ -13,6 +13,8 @@ class ActivityItem {
 		this.name = _json.name;
 		this.surname = _json.surname;
 		this.created = _json.created;
+		this.remainderDate = _json.remainderDate;
+		this.postContent = _json.postContent;
 
 		switch (this.activityType) {
 			case "reminder":
@@ -37,7 +39,7 @@ class ActivityItem {
 	}
 
 	toElementMessage(){
-		this.element = $('<div class="card-1"><div class="hIcon card-1" style="background-color:#673AB7;"><i class="material-icons">message</i></div><h1>' + this.header + '</h1><h2>' + this.name + " " + this.surname + " | " + this.created + '</h2></div>');
+		this.element = $('<div class="card-1"><div class="hIcon card-1" style="background-color:#673AB7;"><i class="material-icons">message</i></div><h1>' + this.name + " " + this.surname +' sent message</h1><div class="hContent"><span class="hContentMessageTime">'+ this.created +'</span><span class="hContentMessage">' + this.header + '</span></div></div>');
 
 		$(this.element).children(".hIcon").attr("tooltip", "Message");
 
@@ -45,7 +47,7 @@ class ActivityItem {
 	}
 
 	toElementPost(){
-		this.element = $('<div class="hActivity card-1"><div class="hIcon card-1" style="background-color:#3F51B5;"><i class="material-icons">file_upload</i></div><h1>' + this.header + '</h1><h2>' + this.subject + '</h2></div>');
+		this.element = $('<div class="hActivity card-1"><div class="hIcon card-1" style="background-color:#3F51B5;"><i class="material-icons">file_upload</i></div><h1>' + this.header + '</h1><div class="hContent"><span class="hContectUploadData">Subject: '+ this.subject +'</span><span class="hContectUploadData">Created: ' + this.created + '</span><div class="hContentUploadContent">' + this.postContent + '</div></div></div>');
 
 		$(this.element).children(".hIcon").attr("tooltip", "Upload");
 
@@ -53,7 +55,7 @@ class ActivityItem {
 	}
 
 	toElementReminder(){
-		this.element = $('<div class="hActivity card-1"><div class="hIcon card-1" style="background-color:' + this.getColorFromId(this.reminderType) + ';"><i class="material-icons">' + this.getIconFromId(this.reminderType) + '</i></div><h1>' + this.header + '</h1><h2>' + this.subject + '</h2></div>');
+		this.element = $('<div class="hActivity card-1"><div class="hIcon card-1" style="background-color:' + this.getColorFromId(this.reminderType) + ';"><i class="material-icons">' + this.getIconFromId(this.reminderType) + '</i></div><h1>' + this.header + '</h1><div class="hContent"><span class="hContectReminderData">Type: '+ this.getNameFromId(this.reminderType) +'</span><span class="hContectReminderData">Date: '+ this.remainderDate +'</span><span class="hContectReminderData">Subject: ' + this.subject + '</span></div></div>');
 
 		$(this.element).children(".hIcon").attr("tooltip", this.getNameFromId(this.reminderType));
 

@@ -42,7 +42,7 @@ $sql = "SELECT dm.id, dm.content, dm.created, dm.authorId
 						AND
 							dm.authorId='" . mysqli_real_escape_string($conn, $_POST['otherUserId']) . "'
 					)
-				ORDER BY dm.created ASC
+				ORDER BY dm.created DESC
 				LIMIT " . mysqli_real_escape_string($conn, $_POST['limit']) .
 				" OFFSET " . mysqli_real_escape_string($conn, $_POST['offset']);
 

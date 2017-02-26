@@ -34,7 +34,7 @@ $sql = "SELECT lm.*, fu.name AS firstName, fu.surname AS firstSurname, fu.image 
 					(lm.firstUserId=$userId OR lm.secondUserId=$userId)
 					AND fu.id=lm.firstUserId
 					AND su.id=lm.secondUserId
-				ORDER BY lm.lastMessage ASC
+				ORDER BY lm.lastMessage DESC
 				LIMIT " . mysqli_real_escape_string($conn, $_POST['limit']) .
 				" OFFSET " . mysqli_real_escape_string($conn, $_POST['offset']);
 //die($sql);

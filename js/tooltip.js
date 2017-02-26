@@ -1,6 +1,6 @@
 function tooltipInit(){
 
-	var tooltip = $('<div id="tooltip"></div>')
+	var tooltip = $('<div id="tooltip"></div>');
 	$("body").append(tooltip);
 
 	$("body").on("mouseenter", "[tooltip]", function() {
