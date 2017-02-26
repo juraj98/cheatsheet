@@ -27,7 +27,7 @@ function newClassMessagesInit(_id){
 
 				var newMessage = new Message(JSON.stringify(_ajaxData.data.messages[i]));
 
-				$(".content").append(newMessage.toElement());
+				$("#cNewMessageBox").after(newMessage.toElement());
 			}
 		} else {
 			popout(_ajaxData.error.message);
