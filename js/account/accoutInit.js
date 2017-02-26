@@ -137,7 +137,7 @@ function chatInit(_userId) {
 				}
 
 
-				$("#aMessageBox").after(newMessage.toElement());
+				$("#aUserMessages").append(newMessage.toElement());
 			}
 
 		} else {
