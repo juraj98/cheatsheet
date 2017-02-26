@@ -24,6 +24,4 @@ $(window).ready(function() {
 
 function afterOnLoginTemp() {
 
-	homeInit();
-
 }

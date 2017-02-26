@@ -4,12 +4,6 @@ function sideMenusListeners(){
 		$(".homeBtn").addClass("sideMenuItemActive");
 		homeClick();
 	});
-	$(".messagesBtn").on("click", function() {
-		$(".sideMenuItemActive").removeClass("sideMenuItemActive");
-		$(".messagesBtn").addClass("sideMenuItemActive");
-		var html = "Messages";
-		$(".content").html(html);
-	});
 	$(".remindersBtn").on("click", function() {
 		$(".sideMenuItemActive").removeClass("sideMenuItemActive");
 		$(".remindersBtn").addClass("sideMenuItemActive");
