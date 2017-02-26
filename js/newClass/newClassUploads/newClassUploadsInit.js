@@ -3,7 +3,7 @@ function newClassUploadsInit(_id) {
 
 	////TinyMCE
 	tinymce.init({
-		selector: '#cNewUploadContent',
+		selector: '.cNewUploadContent',
 		skin: 'cheatsheet',
 		plugins: "advlist autolink autoresize charmap code textcolor colorpicker link image media hr table responsivefilemanager codesample fullscreen",
 		statusbar: false,

@@ -428,7 +428,7 @@
 	float: left;
 	position: relative;
 }
-#cNewUploadContent {
+.cNewUploadContent {
 	width: 100%;
 }
 
