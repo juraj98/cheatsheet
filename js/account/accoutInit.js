@@ -16,8 +16,9 @@ function accountInit() {
 		}
 	});
 
-	$(".cMsgBox > textarea").on("keyup", function(e) {
+	$(".cMsgBox > textarea").on("keydown", function(e) {
 		if (e.which == 13) {
+      e.preventDefault();
 			var value = $.trim($(this).val());
 			if (value != "" && value != " ") {
 				$.post(baseDir + "/php/create/createDirectMessage.php", {
