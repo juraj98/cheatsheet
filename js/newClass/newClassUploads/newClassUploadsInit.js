@@ -75,11 +75,11 @@ function newClassUploadsInit(_id) {
 
 				var newPost = new Post(JSON.stringify(_ajaxData.data.posts[i]));
 
-				$("#cUploadsCollapsible").append(newPost.toElement());
+				$("#cUploadsCollapsible").prepend(newPost.toElement());
 				if (i == 0) {
-					newPost.element.addClass("firstItem");
-				} else if (i + 1 == _ajaxData.data.posts.length) {
 					newPost.element.addClass("lastItem");
+				} else if (i + 1 == _ajaxData.data.posts.length) {
+					newPost.element.addClass("firstItem");
 				}
 				newPost.setupListeners();
 			}
