@@ -1,7 +1,25 @@
+var timesActivityWasLoaded = 0;
+
 function homeInit(){
 	getActivityData();
 	getReminders(5);
 	getCurrentSubjects();
+	setupScrollListener();
+}
+
+function setupScrollListener(){
+	$(".content").off().scroll(function() {
+		/*
+			The Element.scrollHeight read-only property is a measurement of the height of an element's content, including content not visible on the screen due to overflow.
+
+			The scrollHeight value is equal to the minimum height the element would require in order to fit all the content in the viewpoint without using a vertical scrollbar. It includes the element's padding, but not its border or margin.
+		*/
+
+		//$(this)[0].scrollHeight - $(this).height() = maxScroll
+		if($(this).scrollTop() == $(this)[0].scrollHeight - $(this).height()){
+			getActivityData();
+		}
+	});
 }
 
 function getReminders(_limit = null){
@@ -28,15 +46,20 @@ function getReminders(_limit = null){
 
 function getActivityData(_limit = null) {
 	var getActivityPostData = {
-		idToken: googleTokenId
+		idToken: googleTokenId,
+		offset: (timesActivityWasLoaded*25)
 	}
 	if(_limit){
 		getActivityPostData["limit"] = _limit
 	}
 
+	if(timesActivityWasLoaded == 0) {
+		$("#hLeftSide").html('<div class="hHeader" id="hActivityHeader">Activity feed:</div>');
+	}
+
 	$.post(baseDir + "/php/get/getActivity.php", getActivityPostData, function(_ajaxData) {
 		if(_ajaxData.success){
-			$("#hLeftSide").html('<div class="hHeader" id="hActivityHeader">Activity feed:</div>');
+			timesActivityWasLoaded++
 			for(var i = 0; i < _ajaxData.data.activity.length; i++){
 				var newActivityItem = new ActivityItem(JSON.stringify(_ajaxData.data.activity[i]));
 				$("#hLeftSide").append($(newActivityItem.toElement()).addClass("hActivity"));
