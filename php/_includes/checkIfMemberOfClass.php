@@ -21,7 +21,7 @@ function ckeckIfMemberOfClass($userId, $classId) {
 		$response->success = false;
 		$response->error->code = 4;
 		$response->error->message = ERR_MSG_NO_PERMISSIONS;
-		$response->error->details = "User it's not a memeber of a class.";
+		$response->error->details = "User it's not a member of a class.";
 		die(json_encode($response));
 	}
 

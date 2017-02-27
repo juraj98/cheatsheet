@@ -73,5 +73,4 @@ if($query) {
 
 die(json_encode($response));
 
-
 ?>
