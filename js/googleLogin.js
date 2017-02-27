@@ -98,7 +98,7 @@ function googleLogin() {
 		googleTokenId = auth2.currentUser.get().getAuthResponse().id_token;
 		console.log(googleTokenId);
 
-		if (firstTimeLaod) {
+		if (googleProfile && firstTimeLaod) {
 			firstTimeLaod = false;
 			$(".g-signin2").hide();
 			$(".topMenuUserImage").show();
