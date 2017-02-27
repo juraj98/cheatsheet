@@ -6,6 +6,7 @@ require_once	"../_includes/decodeIdToken.php";
 require_once	"../_includes/checkPostVariables.php";
 require_once	"../_includes/checkIfMemberOfClass.php";
 require_once	"../_includes/getUserIdFromSub.php";
+require_once	"../_includes/addCheatpoints.php";
 
 require_once	"../_includes/errorMessagesAndDetails.php";
 
