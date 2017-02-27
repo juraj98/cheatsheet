@@ -2,6 +2,9 @@ function timetableEditorInit(_id) {
 	console.info("%cFunction run:\t" + "%ctimetableEditorInit()", "color: #303F9F; font-weight:700", "color: #303F9F");
 	console.log("Timetable init with id: " + _id);
 
+	editingBody = undefined;
+	subjectOptionActivated = false;
+
 	//Create timetable
 
 	$.post(baseDir + "/php/get/getTimetableData.php", {
@@ -217,8 +220,10 @@ function timetableEditorInit(_id) {
 				if (subjectOptionActivated) {
 					var value = $(this).parent().children(".firstTime").val() + ":" + ($(this).parent().children(".secondTime").val().length == 1 ? "0" + $(this).parent().children(".secondTime").val() : $(this).parent().children(".secondTime").val());
 
+
+
 					var subject = $(editingBody).parent().parent();
-					$(subject).data("Subject").start = value;
+					$(subject).data("Subject").start = new Time(value);
 					$(subject).find(".time > .start").html(value);
 
 					for (var i = 0; i < $(subject).data("Subject").bodies.length; i++) { //TODO: 12 Adding changed notification even when there was no change
@@ -235,7 +240,7 @@ function timetableEditorInit(_id) {
 					var value = $(this).parent().children(".firstTime").val() + ":" + ($(this).parent().children(".secondTime").val().length == 1 ? "0" + $(this).parent().children(".secondTime").val() : $(this).parent().children(".secondTime").val());
 
 					var subject = $(editingBody).parent().parent();
-					$(subject).data("Subject").end = value;
+					$(subject).data("Subject").end = new Time(value);
 					$(subject).find(".time > .end").html(value);
 
 					for (var i = 0; i < $(subject).data("Subject").bodies.length; i++) { //TODO: 13 Adding changed notification even when there was no change
