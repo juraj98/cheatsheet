@@ -2,6 +2,7 @@ function newClassMessagesInit(_id){
 	autosize($('#cNewMessageBox > textarea'));
 
 	$("#cNewMessageSendButton > span").click(function(){
+		console.log("SEND");
 		//TODO: Add new message to posts
 
 		$.post(baseDir + "/php/create/createMessage.php", {

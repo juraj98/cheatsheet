@@ -4,6 +4,7 @@ function newClassMessagesClick(_id){
 	//options hide for messages
 	$("#cOptionsHeader").hide();
 	$("#cOptions").hide();
+	$(".cUserMsg, .cOtherMsg").remove();
 
 	//Change header
 	$("#cMainHeader").html("Messages:");

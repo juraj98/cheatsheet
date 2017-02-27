@@ -4,6 +4,7 @@ function newClassUploadsClick(_id){
 	//options show for messages
 	$("#cOptionsHeader").show();
 	$("#cOptions").show();
+	$(".cUserMsg, .cOtherMsg").remove();
 
 	//Change header
 	$("#cOptionsHeader").html("Uploads options:");
