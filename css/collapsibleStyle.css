@@ -93,6 +93,9 @@
 .collapsibleHeader > .collapsibleDislikeButton.active {
 	color: #F44336;
 }
+.collapsibleCommentButton {
+	display: none;
+}
 
 
 .collapsibleHeader > i#collapsibleCommentButton:hover {
