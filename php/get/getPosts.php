@@ -30,39 +30,47 @@ $userId = getUserIdFromSub($idTokenData->{"sub"});
 //Check if user is member of class
 ckeckIfMemberOfClass($userId, $_POST['classId']);
 
+$sql = "
+SELECT
+	p.id, p.name, p.subject, p.content, p.created,
+	u.id AS userId, u.name AS userName, u.surname AS userSurname, u.image AS userImage,
+	SUM(CASE po.opinion WHEN 'like' THEN 1 ELSE 0 END) AS likeCount,
+	SUM(CASE po.opinion WHEN 'dislike' THEN 1 ELSE 0 END) AS dislikeCount
+FROM posts p
+LEFT JOIN users u ON u.id=p.authorId
+LEFT JOIN postOpinions po ON po.postId=p.id
+WHERE p.classId=" . mysqli_real_escape_string($conn, $_POST['classId']) . "
+GROUP BY p.id
+ORDER BY p.created DESC
+LIMIT " . mysqli_real_escape_string($conn, $_POST['limit']) . "
+OFFSET " . mysqli_real_escape_string($conn, $_POST['offset']);
+
 //Select posts
-$sql = "SELECT * FROM posts
-				WHERE classId='" . mysqli_real_escape_string($conn, $_POST['classId']) .
-				"' ORDER BY created DESC" .
-				" LIMIT " . mysqli_real_escape_string($conn, $_POST['limit']) .
-				" OFFSET " . mysqli_real_escape_string($conn, $_POST['offset']);
 $query = mysqli_query($conn, $sql);
 
+
 if($query) {
-	$data = mysqli_fetch_all($query, MYSQLI_ASSOC);
+	$response->data->posts = mysqli_fetch_all($query, MYSQLI_ASSOC);
 
-	$dataLength = count($data);
+	$postsLength = count($response->data->posts);
 
-	for($i = 0; $i < $dataLength; $i++){
-		//Decode tags
-		$data[$i]['tags'] = json_decode($data[$i]['tags']);
+	for($i = 0; $i < $postsLength; $i++){
+		$sql = "SELECT id, tag FROM postTags WHERE postId=" .	$response->data->posts[$i]['id'];
+
 
 		//Get user
-		$query = mysqli_query($conn, "SELECT id, username, name, surname, gender, image, cheatpoints FROM users WHERE id='" . $data[$i]['authorId'] . "'");
+		$query = mysqli_query($conn, $sql);
 		if($query) {
-			$secondQueryData = mysqli_fetch_all($query, MYSQLI_ASSOC);
-			$data[$i]['author'] = $secondQueryData[0];
-			unset($data[$i]['authorId']);
+			$response->data->posts[$i]['tags'] = mysqli_fetch_all($query, MYSQLI_ASSOC);
 		} else {
 			$response->success = false;
 			$response->error->code = 3;
 			$response->error->message = ERR_MSG_QUERY_FAILED;
-			$response->error->details = "Query fetching user data failed. Error: " . mysqli_error($conn);
+			$response->error->details = "Query fetching post tags failed. Error: " . mysqli_error($conn);
 			die(json_encode($response));
 		}
 	}
 	$response->success = true;
-	$response->data->posts = $data;
 
 } else {
 	$response->success = false;
