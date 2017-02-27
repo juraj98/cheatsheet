@@ -9,12 +9,6 @@ function homeInit(){
 
 function setupScrollListener(){
 	$(".content").off().scroll(function() {
-		/*
-			The Element.scrollHeight read-only property is a measurement of the height of an element's content, including content not visible on the screen due to overflow.
-
-			The scrollHeight value is equal to the minimum height the element would require in order to fit all the content in the viewpoint without using a vertical scrollbar. It includes the element's padding, but not its border or margin.
-		*/
-
 		//$(this)[0].scrollHeight - $(this).height() = maxScroll
 		if($(this).scrollTop() == $(this)[0].scrollHeight - $(this).height()){
 			getActivityData();

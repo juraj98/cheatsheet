@@ -17,7 +17,7 @@ checkPostVariables('idToken', 'classId');
 
 //Set optional post variables if not defined
 if(!isset($_POST['limit'])){
-	$_POST['limit'] = 100;
+	$_POST['limit'] = 25;
 }
 if(!isset($_POST['offset'])){
 	$_POST['offset'] = 0;
@@ -33,7 +33,8 @@ ckeckIfMemberOfClass($userId, $_POST['classId']);
 //Select posts
 $sql = "SELECT * FROM posts
 				WHERE classId='" . mysqli_real_escape_string($conn, $_POST['classId']) .
-				"' LIMIT " . mysqli_real_escape_string($conn, $_POST['limit']) .
+				"' ORDER BY created DESC" .
+				" LIMIT " . mysqli_real_escape_string($conn, $_POST['limit']) .
 				" OFFSET " . mysqli_real_escape_string($conn, $_POST['offset']);
 $query = mysqli_query($conn, $sql);
 

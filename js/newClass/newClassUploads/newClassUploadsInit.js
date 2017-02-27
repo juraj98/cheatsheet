@@ -64,23 +64,37 @@ function newClassUploadsInit(_id) {
 		});
 	});
 
+	loadPosts(_id);
+	setupScrollListener(_id);
+}
+
+var timesPostsWereLoaded = 0;
+
+function setupScrollListener(_id){
+	$(".content").off().scroll(function() {
+		//$(this)[0].scrollHeight - $(this).height() = maxScroll
+		if($(this).scrollTop() == $(this)[0].scrollHeight - $(this).height()){
+			loadPosts(_id);
+		}
+	});
+}
+
+function loadPosts(_id){
 	$.post(baseDir + "/php/get/getPosts.php", {
 		idToken: googleTokenId,
+		offset: timesPostsWereLoaded*25,
 		classId: _id
 	}, function(_ajaxData) {
 
 		if (_ajaxData.success) {
+			timesPostsWereLoaded++;
 
 			for (var i = 0; i < _ajaxData.data.posts.length; i++) {
 
 				var newPost = new Post(JSON.stringify(_ajaxData.data.posts[i]));
 
-				$("#cUploadsCollapsible").prepend(newPost.toElement());
-				if (i == 0) {
-					newPost.element.addClass("lastItem");
-				} else if (i + 1 == _ajaxData.data.posts.length) {
-					newPost.element.addClass("firstItem");
-				}
+				$("#cUploadsCollapsible").append(newPost.toElement());
+
 				newPost.setupListeners();
 			}
 
@@ -88,7 +102,4 @@ function newClassUploadsInit(_id) {
 			popout(_ajaxData.error.message);
 		}
 	});
-
-
-
 }
