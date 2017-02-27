@@ -31,7 +31,7 @@ class Post {
 	}
 
 	toElement() {
-		this.element = $('<li><div class="collapsibleHeader"><div class="icon unselectable card-1" unselectable="on"><i class="">' + this.subject.charAt(0).toUpperCase() + '</i></div><div><h1 class="unselectable" unselectable="on">' + this.name + '</h1><h2 class="unselectable" unselectable="on">' + this.author.name + ' ' + this.author.surname + '</h2> </div><i hidden class="material-icons unselectable" class="collapsibleCommentButton" unselectable="on">comment</i><i class="material-icons unselectable" class="collapsibleDislikeButton" unselectable="on">thumb_down</i><i class="material-icons unselectable" class="collapsibleLikeButton" unselectable="on">thumb_up</i><h3 class="unselectable" unselectable="on">' + this.created + '</h3></div></li>');
+		this.element = $('<li><div class="collapsibleHeader"><div class="icon unselectable card-1" unselectable="on"><i class="">' + this.subject.charAt(0).toUpperCase() + '</i></div><div><h1 class="unselectable" unselectable="on">' + this.name + '</h1><h2 class="unselectable" unselectable="on">' + this.author.name + ' ' + this.author.surname + '</h2> </div><i hidden class="material-icons unselectable collapsibleCommentButton" unselectable="on">comment</i><i class="material-icons unselectable collapsibleDislikeButton" unselectable="on">thumb_down</i><i class="material-icons unselectable collapsibleLikeButton" unselectable="on">thumb_up</i><h3 class="unselectable" unselectable="on">' + this.created + '</h3></div></li>');
 
 		var body = $('<div class="collapsibleBody"></div>');
 		var tags = $('<div class="collapsibleTags"></div>')
@@ -48,12 +48,14 @@ class Post {
 	}
 
 	setupListeners() {
+		var that = this;
+
 		if (!this.element) {
 			console.error("Element is not generated");
 			return;
 		}
 
-		$(this.element).children(".collapsibleHeader").on('click', function () {
+		$(this.element).children(".collapsibleHeader").on('click', function() {
 			$(".active").children(".collapsibleComments").slideUp(200);
 			if ($(this).parent().hasClass("active")) {
 				$(this).parent().removeClass("active");
@@ -67,11 +69,10 @@ class Post {
 				$(this).parent().addClass("active");
 				$(".active").children(".collapsibleBody").slideDown(200);
 			}
-		}).on('click', 'i', function (e) {
+		}).on('click', 'i', function(e) {
 			e.stopPropagation();
-			switch ($(this).attr("id")) {
-			case "collapsibleCommentButton":
-				console.log("Comment Click");
+			console.log("TEST");
+			if ($(this).hasClass("collapsibleCommentButton")) {
 				if ($(this).parent().parent().children(".collapsibleComments").is(":visible")) {
 					$(this).parent().parent().children(".collapsibleComments").slideUp(200);
 				} else {
@@ -86,39 +87,41 @@ class Post {
 						$(this).parent().parent().children(".collapsibleComments").slideDown(200);
 					}
 				}
-				break;
-			case "collapsibleLikeButton":
-				console.log("Like Click");
-				break;
-			case "collapsibleDislikeButton":
-				console.log("Dislike Click");
-				break;
+			} else if ($(this).hasClass("collapsibleLikeButton")) {
+				that.opinionChange("like");
+				$(".collapsibleDislikeButton").removeClass("active");
+				$(this).toggleClass("active");
+			} else if ($(this).hasClass("collapsibleDislikeButton")) {
+				that.opinionChange("dislike");
+				$(".collapsibleLikeButton").removeClass("active");
+				$(this).toggleClass("active");
 			}
 		});
 	}
 
+	opinionChange(_opinion) {
+		if (_opinion == "like") {
+			if ($(this.element).find(".collapsibleLikeButton").hasClass("active")) {
+				opinion = "none";
+			} else {
+				opinion = "like";
+			}
+		} else if (_opinion == "dislike") {
+			var opinion;
+			if ($(this.element).find(".collapsibleDislikeButton").hasClass("active")) {
+				opinion = "none";
+			} else {
+				opinion = "dislike";
+			}
+		}
+		$.post(baseDir + "/php/user/postOpinion.php", {
+			idToken: googleTokenId,
+			postId: this.id,
+			opinion: opinion
+		}, function (_ajaxData) {
+			if (!_ajaxData.success) {
+				popout(_ajaxData.error.message);
+			}
+		});
+	}
 }
-
-/*
-;<li class="firstItem">
-;	<div class="collapsibleHeader">
-;		<div class="icon unselectable card-1" unselectable="on"><i class="">' + this.subject.charAt(0).toUpperCase() + '</i></div>
-;		<div>
-;			<h1 class="unselectable" unselectable="on">' + this.name + '</h1>
-;			<h2 class="unselectable" unselectable="on">' + this.author + '</h2>
-;		</div>
-;		<i hidden class="material-icons unselectable" id="collapsibleCommentButton" unselectable="on">comment</i>
-;		<i class="material-icons unselectable" id="collapsibleDislikeButton" unselectable="on">thumb_down</i>
-;		<i class="material-icons unselectable" id="collapsibleLikeButton" unselectable="on">thumb_up</i>
-;		<h3 class="unselectable" unselectable="on">12:34 01.05.2016</h3>
-;	</div>
-;	<div class="collapsibleBody">
-;		<div class="collapsibleTags">
-			<div class="collapsibleTag">Tag 1</div>
-;		</div>
-		<div class="collapsibleContent">
-
-		</div>
-;	</div>
-;</li>
-*/

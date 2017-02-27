@@ -78,16 +78,22 @@
 }
 
 .collapsibleHeader > i {
-	height: 16px;
-	padding-left: 12px;
+	margin-left: 12px;
 	font-size: 22px;
-	padding-top: 9px;
+	margin-top: 9px;
 	line-height: 25px;
 	float: right;
 	position: relative;
 	transition: 0.1s;
 	color: #757575;
 }
+.collapsibleHeader > .collapsibleLikeButton.active {
+	color: #8BC34A;
+}
+.collapsibleHeader > .collapsibleDislikeButton.active {
+	color: #F44336;
+}
+
 
 .collapsibleHeader > i#collapsibleCommentButton:hover {
 	color: #424242;
