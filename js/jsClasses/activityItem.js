@@ -15,6 +15,8 @@ class ActivityItem {
 		this.created = _json.created;
 		this.reminderDate = _json.reminderDate;
 		this.postContent = _json.postContent;
+		if(this.activityType == "post")
+			this.tags = _json.tags;
 
 		switch (this.activityType) {
 			case "reminder":
@@ -47,7 +49,19 @@ class ActivityItem {
 	}
 
 	toElementPost(){
-		this.element = $('<div class="hActivity card-1"><div class="hIcon card-1" style="background-color:#3F51B5;"><i class="material-icons">file_upload</i></div><h1>' + this.header + '</h1><div class="hContent"><span class="hContectUploadData">Subject: '+ this.subject +'</span><span class="hContectUploadData">Created: ' + this.created + '</span><div class="hContentUploadContent">' + this.postContent + '</div></div></div>');
+
+		var tags = $("");
+
+		if(this.tags.length != 0){
+			tags = $('<div class="collapsibleTags"></div>');
+			for(var i = 0; i < this.tags.length; i++){
+				$(tags).append('<div class="collapsibleTag">'+this.tags[i].tag+'</div>');
+			}
+		}
+
+		console.log(tags);
+
+		this.element = $('<div class="hActivity card-1"><div class="hIcon card-1" style="background-color:#3F51B5;"><i class="material-icons">file_upload</i></div><h1>' + this.header + '</h1><div class="hContent">'+ $(tags)[0].outerHTML +'<span class="hContectUploadData">Subject: '+ this.subject +'</span><span class="hContectUploadData">Created: ' + this.created + '</span><div class="hContentUploadContent">' + this.postContent + '</div></div></div>');
 
 		$(this.element).children(".hIcon").attr("tooltip", "Upload");
 

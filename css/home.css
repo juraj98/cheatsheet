@@ -76,6 +76,17 @@
 	transition: 0.3s;
 }
 
+.hActivity .collapsibleTags{
+	padding-top: 0;
+}
+
+.hActivity .collapsibleTags > .collapsibleTag {
+	background-color: #3F51B5;
+}
+
+.hActivity .collapsibleTags > .collapsibleTag:hover {
+	background-color: #3949AB;
+}
 .hActivity .hContent > .hContentMessageTime {
 	display: block;
 	float: left;

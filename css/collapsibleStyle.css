@@ -123,14 +123,14 @@
 	padding: 0 16px;
 }
 
-.collapsibleBody > .collapsibleTags {
+.collapsibleTags {
 	padding: 0 12px;
 	padding-top: 4px;
 	width: calc(100% - 24px);
 	overflow: auto;
 }
 
-.collapsibleBody > .collapsibleTags > .collapsibleTag {
+.collapsibleTags > .collapsibleTag {
 	display: inline-block;
 	height: 32px;
 	font-size: 13px;
@@ -146,12 +146,12 @@
 	transition: 0.1s;
 }
 
-.collapsibleBody > .collapsibleTags > .collapsibleTag:hover {
+.collapsibleTags > .collapsibleTag:hover {
 	background-color: #7CB342;
 	transition: 0.1s;
 }
 
-.collapsibleBody > .collapsibleTags > .collapsibleTag > i {
+.collapsibleTags > .collapsibleTag > i {
 	float: right;
 	font-size: 16px;
 	line-height: 32px;
