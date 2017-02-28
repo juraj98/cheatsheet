@@ -155,7 +155,9 @@ if(!$response->data->timetableData->nextSubject) {
 if($_POST['numberOfReminders']){
 	$sql = "SELECT * FROM reminders WHERE
 	(classId=" . mysqli_real_escape_string($conn, $_POST['classId']) . "
-	AND dateOfReminder>=NOW()) ORDER BY dateOfReminder ASC LIMIT " . mysqli_real_escape_string($conn, $_POST['numberOfReminders']);
+	AND dateOfReminder>=CURDATE()) ORDER BY dateOfReminder ASC LIMIT " . mysqli_real_escape_string($conn, $_POST['numberOfReminders']);
+
+//die($sql);
 
 	$query = mysqli_query($conn, $sql);
 
