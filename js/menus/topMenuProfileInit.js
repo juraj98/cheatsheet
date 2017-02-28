@@ -12,7 +12,9 @@ function topMenuProfileInit() {
 	}
 
 	$(".topMenuUserImage").click(function () {
-		$(this).addClass("topMenuUserImageActive"); //FIXME: transition fix
+		return;
+
+		$(this).addClass("topMenuUserImageActive");
 		return false;
 	});
 	$('.topMenuUserImageActive').on('click', function (e) {

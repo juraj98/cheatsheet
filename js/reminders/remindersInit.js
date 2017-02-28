@@ -1,6 +1,8 @@
 function remindersInit() {
 	console.info("%cFunction run:\t" + "%cremindersInit()", "color: #303F9F; font-weight:700", "color: #303F9F");
 
+	timesOfRemindersWereLoaded = 0;
+
 	var options = "[";
 	for(var i = 0; i < user.classes.length; i++){
 		options += '"' + user.classes[i].nameShort + (i+1==user.classes.length ? '"' : '", ');
@@ -21,22 +23,22 @@ function remindersInit() {
 
 		if (!name) {
 			valid = false;
-			console.log("Empty name");
+			popout("Empty name");
 		}
 		if (!type) {
 			valid = false;
-			console.log("Wrong type");
+			popout("Wrong type");
 		}
 		if (!subject) {
 			valid = false;
-			console.log("Empty subject");
+			popout("Empty subject");
 		}
 		if (date < today || !date) {
 			valid = false;
-			console.log("Wrong date");
+			popout("Wrong date");
 		}
 		if (valid) {
-			console.log("DATE: " + dateToSqlFormat(date));
+			popout("DATE: " + dateToSqlFormat(date));
 
 			var reminder = JSON.stringify({
 				reminderName: name,
@@ -96,15 +98,23 @@ function remindersInit() {
 		updateFilters();
 	});
 
+	setupRemindersListeners();
+
 	rFilters = [true, true, true, true, true, true];
 	updateFiltersPanel();
 
-	fromDate = new Date(today.getTime());
-	toDate = new Date(new Date().getTime() + 86400000 * 365);
-
 	clearReminders();
 
-	getReminderData("50", null, dateToSqlFormat(fromDate), dateToSqlFormat(toDate));
+	loadReminders(null);
+}
+
+function setupRemindersListeners(){
+	$(".content").off().scroll(function() {
+		//$(this)[0].scrollHeight - $(this).height() = maxScroll
+		if($(this).scrollTop() == $(this)[0].scrollHeight - $(this).height()){
+			loadReminders(null);
+		}
+	});
 }
 
 function clearReminders(){
@@ -141,17 +151,18 @@ function updateFiltersPanel() {
 	$("#rLessonFilterButton").attr("class", (rFilters[5] ? "rFilterButton" : "rFilterButton rDisabled"));
 }
 
-function getReminderData(_numberOfReminders, _filters, _from, _to) {
+var timesOfRemindersWereLoaded;
+
+function loadReminders(_filters) {
 	$.post(baseDir + "/php/get/getReminders.php", {
 		idToken: googleTokenId,
-		numberOfReminders: _numberOfReminders,
-		filters: _filters,
-		from: _from,
-		to: _to
+		offset: timesOfRemindersWereLoaded*10,
+		filters: _filters
 	}, function(_ajaxData) {
-		console.log("AJAXDATA");
-		console.log(_ajaxData);
+		timesOfRemindersWereLoaded++;
 		if(_ajaxData.success){
+
+			console.log("Reminders loaded: " + _ajaxData.data.reminders.length);
 			var remindersCreatedFromData = createRemindersFromData(_ajaxData.data.reminders);
 
 			setupRemindersDays(remindersCreatedFromData);
@@ -160,7 +171,7 @@ function getReminderData(_numberOfReminders, _filters, _from, _to) {
 
 			addRemindersToPage();
 		} else {
-			popout(_ajaxData.error.message);
+			popout(_ajaxData.error.message + " | " + _ajaxData.error.details);
 		}
 	});
 }
@@ -194,6 +205,8 @@ function setupRemindersDays(_data) {
 function addRemindersToPage() {
 
 	//TODO: 10 Handle empty reminders
+
+	$(".rDay").remove();
 
 	for (var i in remindersDays) {
 		$("#rTarget").before(remindersDays[i].toElement());

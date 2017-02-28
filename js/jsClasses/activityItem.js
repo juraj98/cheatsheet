@@ -50,7 +50,7 @@ class ActivityItem {
 
 	toElementPost(){
 
-		var tags = $("");
+		var tags;
 
 		if(this.tags.length != 0){
 			tags = $('<div class="collapsibleTags"></div>');
@@ -59,9 +59,7 @@ class ActivityItem {
 			}
 		}
 
-		console.log(tags);
-
-		this.element = $('<div class="hActivity card-1"><div class="hIcon card-1" style="background-color:#3F51B5;"><i class="material-icons">file_upload</i></div><h1>' + this.header + '</h1><div class="hContent">'+ $(tags)[0].outerHTML +'<span class="hContectUploadData">Subject: '+ this.subject +'</span><span class="hContectUploadData">Created: ' + this.created + '</span><div class="hContentUploadContent">' + this.postContent + '</div></div></div>');
+		this.element = $('<div class="hActivity card-1"><div class="hIcon card-1" style="background-color:#3F51B5;"><i class="material-icons">file_upload</i></div><h1>' + this.header + '</h1><div class="hContent">'+ (this.tags.length != 0 ? $(tags)[0].outerHTML : "") +'<span class="hContectUploadData">Subject: '+ this.subject +'</span><span class="hContectUploadData">Created: ' + this.created + '</span><div class="hContentUploadContent">' + this.postContent + '</div></div></div>');
 
 		$(this.element).children(".hIcon").attr("tooltip", "Upload");
 

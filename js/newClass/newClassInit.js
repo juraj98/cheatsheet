@@ -68,6 +68,10 @@ function newClassInit(_id, _tab = 0) {
 		newClassMessagesClick(_id);
 	});
 	$("#cClassGroups").click(function () {
+
+		popout("Comming soon");
+		return;
+
 		removeClassElement();
 		$(".cMenuButton.active").removeClass("active");
 		$(this).addClass("active");

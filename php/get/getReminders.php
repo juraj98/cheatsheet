@@ -19,8 +19,12 @@ $idTokenData = decodeIdToken($_POST['idToken']);
 //Get user id
 $userId = getUserIdFromSub($idTokenData->{"sub"});
 
-if(empty($_POST['numberOfReminders'])){
-	$_POST['numberOfReminders'] = 10;
+if(empty($_POST['offset'])){
+	$_POST['offset'] = 0;
+}
+
+if(empty($_POST['limit'])){
+	$_POST['limit'] = 10;
 }
 
 //Select reminders
@@ -45,7 +49,7 @@ if(!empty($_POST['filters'])){
 	}
 	$sql .= ") ";
 };
-$sql .= " ORDER BY dateOfReminder ASC LIMIT " . mysqli_real_escape_string($conn, $_POST['numberOfReminders']);
+$sql .= " ORDER BY dateOfReminder ASC LIMIT " . mysqli_real_escape_string($conn, $_POST['limit']) . " OFFSET " . mysqli_real_escape_string($conn, $_POST['offset']);
 
 $query = mysqli_query($conn, $sql);
 

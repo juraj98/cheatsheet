@@ -13,8 +13,11 @@ header('Content-Type: application/json');	//Needed for not showing ads
 
 
 //Check post variables
-checkPostVariables('idToken', 'userId', 'username', 'mail', 'name', 'surname', 'gender', 'image');
+checkPostVariables('idToken', 'username', 'mail', 'name', 'surname', 'gender', 'image');
 
+if(empty($_POST['image'])){
+	$_POST['image'] = null;
+}
 
 //Decode ID token
 $idTokenData = decodeIdToken($_POST['idToken']);
@@ -30,6 +33,7 @@ $stmt->bind_param("sssssss",
 				 $_POST['image'],
 				 $idTokenData->{'sub'}
 				 );
+
 
 if($stmt->execute()){
 	if($stmt->affected_rows == 0){
