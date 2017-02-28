@@ -1,5 +1,11 @@
+var createdDirectMessages = 0;
+var timesDirectMessagesWereLoaded = 0;
+
 function accountInit() {
 
+
+	createdDirectMessages = 0;
+ 	timesDirectMessagesWereLoaded = 0;
 	updateInfo()
 
 	autosize($('#aMessageBox .cMsgBox > textarea'));
@@ -27,14 +33,15 @@ function accountInit() {
 					content: value
 				}, function(_ajaxData) {
 					if (_ajaxData.success) {
+						createdDirectMessages++;
 						var nowDate = new Date();
 						var created =
 								nowDate.getFullYear() + "-" +
-								((nowDate.getMonth()+1).length == 1 ? "0" + (nowDate.getMonth()+1) : (nowDate.getMonth()+1)) + "-" +
-								(nowDate.getDate().length == 1 ? "0" + nowDate.getDate() : nowDate.getDate()) + " " +
-								(nowDate.getHours().length == 1 ? "0" + nowDate.getHours() : nowDate.getHours()) + ":" +
-								(nowDate.getMinutes().length == 1 ? "0" + nowDate.getMinutes() : nowDate.getMinutes()) + ":" +
-								(nowDate.getMinutes().length == 1 ? "0" + nowDate.getMinutes() : nowDate.getMinutes());
+								((nowDate.getMonth()+1).toString().length == 1 ? "0" + (nowDate.getMonth()+1) : (nowDate.getMonth()+1)) + "-" +
+								(nowDate.getDate().toString().length == 1 ? "0" + nowDate.getDate() : nowDate.getDate()) + " " +
+								(nowDate.getHours().toString().length == 1 ? "0" + nowDate.getHours() : nowDate.getHours()) + ":" +
+								(nowDate.getMinutes().toString().length == 1 ? "0" + nowDate.getMinutes() : nowDate.getMinutes()) + ":" +
+								(nowDate.getMinutes().toString().length == 1 ? "0" + nowDate.getMinutes() : nowDate.getMinutes());
 						var newMessage = new Message(
 							null,
 							-1,
@@ -55,6 +62,7 @@ function accountInit() {
 		}
 	});
 
+	setupDirectMessagesScrollListener();
 	loadRecentMessages();
 
 	var previousSearch;
@@ -93,22 +101,35 @@ function accountInit() {
 		saveProfileInfo();
 	});
 
+}
 
-
+function setupDirectMessagesScrollListener(){
+	$("#aUserMessages").off().scroll(function() {
+		if($(this).scrollTop() == $(this)[0].scrollHeight - $(this).height()){
+			loadDirectMessages();
+		}
+	});
 }
 
 function chatInit(_userId) {
 
 	chatingWith = _userId;
+	$("#aUserMessages > .cUserMsg, #aUserMessages > .cOtherMsg").remove();
+	loadDirectMessages();
+}
 
+
+function loadDirectMessages(){
 	$.post(baseDir + "/php/get/getDirectMessages.php", {
 		idToken: googleTokenId,
-		otherUserId: _userId
+		otherUserId: chatingWith,
+		offset: timesDirectMessagesWereLoaded*20+createdDirectMessages
 	}, function(_ajaxData) {
 		if (_ajaxData.success) {
-			$("#aUserMessages > .cUserMsg, #aUserMessages > .cOtherMsg").remove();
-
+			timesDirectMessagesWereLoaded++;
 			$("#aMessagesHeader").html(_ajaxData.data.user.name + " " + _ajaxData.data.user.surname + " messages:");
+
+			console.log("Messages loaded: " + _ajaxData.data.messages.length);
 
 			for (var i = 0; i < _ajaxData.data.messages.length; i++) {
 				var newMessage;
