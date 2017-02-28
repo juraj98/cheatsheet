@@ -36,7 +36,7 @@ $sql = "SELECT m.id, m.content, m.created, m.userId, u.name, u.surname, u.image
 				FROM messages m, users u
 				WHERE m.classId='" . mysqli_real_escape_string($conn, $_POST['classId']) .
 				"' AND m.userId = u.id
-				ORDER BY m.created ASC
+				ORDER BY m.created DESC
 				LIMIT " . mysqli_real_escape_string($conn, $_POST['limit']) .
 				" OFFSET " . mysqli_real_escape_string($conn, $_POST['offset']);
 //die($sql);

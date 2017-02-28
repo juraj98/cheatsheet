@@ -64,13 +64,14 @@ function newClassUploadsInit(_id) {
 		});
 	});
 
+	timesPostsWereLoaded = 0;
 	loadPosts(_id);
-	setupScrollListener(_id);
+	setupPostsScrollListener(_id);
 }
 
 var timesPostsWereLoaded = 0;
 
-function setupScrollListener(_id){
+function setupPostsScrollListener(_id){
 	$(".content").off().scroll(function() {
 		//$(this)[0].scrollHeight - $(this).height() = maxScroll
 		if($(this).scrollTop() == $(this)[0].scrollHeight - $(this).height()){
@@ -88,7 +89,6 @@ function loadPosts(_id){
 
 		if (_ajaxData.success) {
 			timesPostsWereLoaded++;
-
 			for (var i = 0; i < _ajaxData.data.posts.length; i++) {
 
 				var newPost = new Post(JSON.stringify(_ajaxData.data.posts[i]));
@@ -99,7 +99,7 @@ function loadPosts(_id){
 			}
 
 		} else {
-			popout(_ajaxData.error.message);
+			popout(_ajaxData.error.message + " | " + _ajaxData.error.details);
 		}
 	});
 }

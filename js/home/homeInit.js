@@ -1,17 +1,20 @@
-var timesActivityWasLoaded = 0;
+var timesActivityWereLoaded = 0;
 
 function homeInit(){
+	console.log("Home init");
+	timesActivityWereLoaded = 0;
 	getActivityData();
 	getReminders(5);
 	getCurrentSubjects();
-	setupScrollListener();
+	setupHomeScrollListener();
 }
 
-function setupScrollListener(){
+function setupHomeScrollListener(){
 	$(".content").off().scroll(function() {
 		//$(this)[0].scrollHeight - $(this).height() = maxScroll
 		if($(this).scrollTop() == $(this)[0].scrollHeight - $(this).height()){
 			getActivityData();
+
 		}
 	});
 }
@@ -41,19 +44,20 @@ function getReminders(_limit = null){
 function getActivityData(_limit = null) {
 	var getActivityPostData = {
 		idToken: googleTokenId,
-		offset: (timesActivityWasLoaded*25)
+		offset: (timesActivityWereLoaded*25)
 	}
 	if(_limit){
 		getActivityPostData["limit"] = _limit
 	}
 
-	if(timesActivityWasLoaded == 0) {
+	if(timesActivityWereLoaded == 0) {
 		$("#hLeftSide").html('<div class="hHeader" id="hActivityHeader">Activity feed:</div>');
 	}
 
 	$.post(baseDir + "/php/get/getActivity.php", getActivityPostData, function(_ajaxData) {
 		if(_ajaxData.success){
-			timesActivityWasLoaded++
+			timesActivityWereLoaded++
+			console.log("Loaded activity: " + _ajaxData.data.activity.length);
 			for(var i = 0; i < _ajaxData.data.activity.length; i++){
 				var newActivityItem = new ActivityItem(JSON.stringify(_ajaxData.data.activity[i]));
 				$("#hLeftSide").append($(newActivityItem.toElement()).addClass("hActivity"));

@@ -638,6 +638,10 @@
 	line-height: 35px;
 	font-size: 16px;
 }
+.content > .cUserMsg:last-child,
+.content > .cOtherMsg:last-child {
+	margin-bottom: 16px;
+}
 
 .cUserMsg {
 /*	background-color: bisque;*/

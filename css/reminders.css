@@ -92,6 +92,7 @@
 }
 
 .rReminder > .rButtons {
+	display: none;
 	/*	*/
 	position: absolute;
 	right: 8px;
