@@ -16,7 +16,7 @@ function sideMenusListeners(){
 	});
 	$(".classBtn").on("click", function() {
 		$(".sideMenuItemActive").removeClass("sideMenuItemActive");
-		$(".classBtn").addClass("sideMenuItemActive");
+		$(this).addClass("sideMenuItemActive");
 		newClassClick($(this).data("classId"));
 
 	});

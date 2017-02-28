@@ -122,6 +122,9 @@
 .collapsibleBody > .collapsibleContent {
 	padding: 0 16px;
 }
+.collapsibleContent > div:last-child {
+	margin-bottom: 16px;
+}
 
 .collapsibleTags {
 	padding: 0 12px;

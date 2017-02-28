@@ -1,6 +1,14 @@
 function remindersInit() {
 	console.info("%cFunction run:\t" + "%cremindersInit()", "color: #303F9F; font-weight:700", "color: #303F9F");
 
+	var options = "[";
+	for(var i = 0; i < user.classes.length; i++){
+		options += '"' + user.classes[i].nameShort + (i+1==user.classes.length ? '"' : '", ');
+	}
+	options += "]";
+	$("#rClasses").attr("options", options);
+
+
 	materialFormInit();
 
 	$("#rAddButtonBtn").click(function() {
@@ -37,11 +45,16 @@ function remindersInit() {
 				dateOfReminder: dateToSqlFormat(date)
 			});
 
-			console.log("Reminder: " + reminder);
+			var classShortName = JSON.parse($("#rClasses").attr("options"))[$("#rClasses").attr("result")];
+			var classId;
+			for(var i = 0; i < user.classes.length; i++){
+				if(user.classes[i].nameShort = classShortName)
+					classId = user.classes[i].classId;
+			}
 
 			$.post(baseDir + "/php/create/createReminder.php", {
 					idToken: googleTokenId,
-					classId: workingWithRemindersOfClass,
+					classId: classId,
 					reminderData: reminder
 				},
 				function(_ajaxData) {
@@ -129,7 +142,6 @@ function updateFiltersPanel() {
 }
 
 function getReminderData(_numberOfReminders, _filters, _from, _to) {
-	workingWithRemindersOfClass = 1;
 	$.post(baseDir + "/php/get/getReminders.php", {
 		idToken: googleTokenId,
 		numberOfReminders: _numberOfReminders,
@@ -144,9 +156,7 @@ function getReminderData(_numberOfReminders, _filters, _from, _to) {
 
 			setupRemindersDays(remindersCreatedFromData);
 
-			console.log(remindersDays);
 			sortRemindersDays();
-			console.log(remindersDays);
 
 			addRemindersToPage();
 		} else {
@@ -190,19 +200,3 @@ function addRemindersToPage() {
 	}
 
 }
-
-//function createDay(_day) {
-//
-//	//Get this from database
-//	var ajaxData = JSON.parse('[{"name":"asd","type":0,"subject":"dsa","date":1484521200000},{"name":"asd","type":0,"subject":"dsa","date":1484521200000}]');
-//
-//	var element = $('<div class="rDay"><div class="rDayInfo">' + getReminderDayNameFromDate(_day) + '</div></div>');
-//	for (var i = 0; i < ajaxData.length; i++) {
-//		ajaxData[i]["id"] = i;
-//		var reminder = new Reminder(JSON.stringify(ajaxData[i]));
-//		(element).append(reminder.toElement());
-//	}
-//
-//	return $(element);
-//
-//}

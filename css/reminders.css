@@ -183,7 +183,8 @@
 	float: left;
 }
 
-#rSide > #rAddReminder > #rExpand> #rCategories {
+#rSide > #rAddReminder > #rExpand> #rCategories,
+#rSide > #rAddReminder > #rExpand> #rClasses {
 	float: left;
 	clear: left;
 	width: 284px;
