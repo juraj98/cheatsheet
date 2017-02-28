@@ -126,7 +126,7 @@
 .collapsibleBody > .collapsibleTags {
 	padding: 0 12px;
 	padding-top: 4px;
-	width: 100%;
+	width: calc(100% - 24px);
 	overflow: auto;
 }
 

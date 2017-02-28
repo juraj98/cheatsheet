@@ -4,7 +4,7 @@ class Post {
 		if (_json) {
 			this.updateViaJSON(_json);
 		} else {
-			this.updateViaParams(_id, _name, _author, _subject, _content, _tags, _created);
+//			this.updateViaParams(_id, _name, _author, _subject, _content, _tags, _created);
 		}
 	}
 
@@ -13,31 +13,39 @@ class Post {
 
 		this.id = _json["id"];
 		this.name = _json["name"];
-		this.author = _json["author"];
 		this.subject = _json["subject"];
 		this.content = _json["content"];
 		this.tags = _json["tags"];
 		this.created = _json["created"];
+		this.userId = _json["userId"];
+    this.userName = _json["userName"];
+    this.userSurname = _json["userSurname"];
+    this.userImage = _json["userImage"];
+		this.likeCount = _json['likeCount'];
+		this.dislikeCount = _json['dislikeCount'];
+
+		console.log(_json);
 	}
 
-	updateViaParams(_id, _name, _author, _subject, _content, _tags, _created) {
-		this.id = _id;
-		this.name = _name;
-		this.author = _author;
-		this.subject = _subject;
-		this.content = _content;
-		this.tags = JSON.parse(_tags);
-		this.created = _created;
-	}
+//	updateViaParams(_id, _name, _author, _subject, _content, _tags, _created) {
+//		this.id = _id;
+//		this.name = _name;
+//		this.author = _author;
+//		this.subject = _subject;
+//		this.content = _content;
+//		this.tags = JSON.parse(_tags);
+//		this.created = _created;
+//	}
 
 	toElement() {
-		this.element = $('<li><div class="collapsibleHeader"><div class="icon unselectable card-1" unselectable="on"><i class="">' + this.subject.charAt(0).toUpperCase() + '</i></div><div><h1 class="unselectable" unselectable="on">' + this.name + '</h1><h2 class="unselectable" unselectable="on">' + this.author.name + ' ' + this.author.surname + '</h2> </div><i hidden class="material-icons unselectable collapsibleCommentButton" unselectable="on">comment</i><i class="material-icons unselectable collapsibleDislikeButton" unselectable="on">thumb_down</i><i class="material-icons unselectable collapsibleLikeButton" unselectable="on">thumb_up</i><h3 class="unselectable" unselectable="on">' + this.created + '</h3></div></li>');
+
+		this.element = $('<li><div class="collapsibleHeader"><div class="icon unselectable card-1" unselectable="on"><i class="">' + this.subject.charAt(0).toUpperCase() + '</i></div><div><h1 class="unselectable" unselectable="on">' + this.name + '</h1><h2 class="unselectable" unselectable="on">' + this.userName + ' ' + this.userSurname + '</h2> </div><i hidden class="material-icons unselectable collapsibleCommentButton" unselectable="on">comment</i><i class="material-icons unselectable collapsibleDislikeButton" unselectable="on">thumb_down</i><i class="material-icons unselectable collapsibleLikeButton" unselectable="on">thumb_up</i><h3 class="unselectable" unselectable="on">' + this.created + '</h3></div></li>');
 
 		var body = $('<div class="collapsibleBody"></div>');
-		var tags = $('<div class="collapsibleTags"></div>')
+		var tags = $('<div class="collapsibleTags"></div>');
 
 		for (var i = 0; i < this.tags.length; i++) {
-			$(tags).append('<div class="collapsibleTag">' + this.tags[i] + '</div>');
+			$(tags).append($('<div class="collapsibleTag">' + this.tags[i].tag + '</div>').data("tagId", this.tags[i].tagId));
 		}
 		$(body).append(tags);
 		$(body).append('<div class="collapsibleContent">' + this.content + '</div>');

@@ -52,18 +52,34 @@ ckeckIfMemberOfClass($userId, $_POST['classId']);
 addCheatpoints($userId, 1);
 
 //Create post
-$stmt = $conn->prepare("INSERT INTO posts (classId, authorId, name, subject, content, tags, created) VALUES (?,?,?,?,?,?, NOW())");
-$stmt->bind_param("ssssss", $_POST["classId"], $userId, $_POST["header"], $_POST["subject"], $_POST["content"], $_POST["tags"]);
+$stmt = $conn->prepare("INSERT INTO posts (classId, authorId, name, subject, content, created) VALUES (?,?,?,?,?, NOW())");
+$stmt->bind_param("sssss", $_POST["classId"], $userId, $_POST["header"], $_POST["subject"], $_POST["content"]);
 if($stmt->execute()){
-	$response->success = true;
-	die(json_encode($response));
+	$postId = $stmt->insert_id;
+
+	$_POST['tags'] = json_decode($_POST['tags']);
+	$tagsLength = count($_POST['tags']);
+
+	$stmt = $conn->prepare("INSERT INTO postTags (postId, tag) VALUES ($postId, ?)");
+
+	for($i = 0; $i < $tagsLength; $i++){
+		$stmt->bind_param("s", $_POST["tags"][$i]);
+		if(!$stmt->execute()) {
+			$response->success = false;
+			$response->error->code = 3;
+			$response->error->message = ERR_MSG_QUERY_FAILED;
+			$response->error->details = "Query inserting new post failed. Error: " . mysqli_error($conn);
+			die(json_encode($response));
+		}
+	}
 } else {
 	$response->success = false;
 	$response->error->code = 3;
 	$response->error->message = ERR_MSG_QUERY_FAILED;
 	$response->error->details = "Query inserting new post failed. Error: " . mysqli_error($conn);
-	die(json_encode($response));
 }
 
+$response->success = true;
+die(json_encode($response));
 
 ?>

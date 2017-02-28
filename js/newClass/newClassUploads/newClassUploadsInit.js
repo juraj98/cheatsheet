@@ -59,7 +59,7 @@ function newClassUploadsInit(_id) {
 			if (_ajaxData.success) {
 				 popout("Success");
 			} else {
-				popout(_ajaxData.error.message);
+				popout(_ajaxData.error.message + " | " + _ajaxData.error.details);
 			}
 		});
 	});
