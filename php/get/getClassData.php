@@ -65,7 +65,9 @@ if(!$date){
 $dayIndex = getdate($date)['wday'];
 
 $date = getdate($date);
-$currentTime = strtotime($date['hours'] . ":" . $date['minutes']);
+$currentTime = strtotime($date['hours'] . ":" . $date['minutes'] . ":" . $date['seconds']);
+
+$response->debug->currentTime = $currentTime;
 
 //TODO: 14 Check what happens if database is empty
 
@@ -111,15 +113,23 @@ while(!$response->data->timetableData->subject && !$response->data->timetableDat
 			if(!$response->data->timetableData->subject){
 				$start = strtotime($subject->start);
 				$end = strtotime($subject->end);
-				if($start < $currentTime && $end > $currentTime) {
+				$response->debug->start = $start;
+				$response->debug->end = $end;
+
+
+//		$response->debug->currentTime = date('G:i:s' , $currentTime);
+//		$response->debug->start = date('G:i:s' , $start);
+//		$response->debug->end = date('G:i:s' , $end);
+
+				if($start <= $currentTime && $end > $currentTime) {
 					//Current subject
 					$response->data->timetableData->subject = $subject;
 					$response->data->timetableData->subjectFromToday = $attempts;
+
 					$subjectNotFound = false;
 					continue;
 				} else if(!($end < $currentTime)){
 					//Next subject
-
 					$response->data->timetableData->isCurrent = false;
 					$response->data->timetableData->subject = $subject;
 					$response->data->timetableData->subjectFromToday = $attempts;

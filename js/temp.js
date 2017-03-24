@@ -23,5 +23,6 @@ $(window).ready(function() {
 });
 
 function afterOnLoginTemp() {
-
+	timetableEditorClick(-1);
+	console.log("Upload working");
 }

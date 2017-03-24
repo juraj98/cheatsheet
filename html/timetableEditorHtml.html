@@ -1,0 +1,43 @@
+<div id="teContent">
+	<div class="teRow">
+		<div class="teSubjectOptions card-1">
+			<div class="teSubjectImage card-1 disabled"><i class="material-icons">school</i></div>
+			<div class="materialColorPicker disabled" id="teColorPicker" label="Subject color">
+				<div class="cpPreviewColor" style="background-color: #8bc34a;"></div><span class="cpColorCode"></span></div>
+			<div class="materialLineInput materialInput disabled" id="teSubjectNumber" maxLength="3" label="Number">
+				<input type="text">
+			</div>
+			<div class="materialLineInput materialInput disabled" id="teSubjectAcronym" maxLength="3" label="Acr">
+				<input type="text" style="text-transform:uppercase">
+			</div>
+			<div class="materialLineInput teLongInput materialInput disabled" maxLength="50" label="Name of subject" id="teSubjectName">
+				<input type="text">
+			</div>
+			<div class="materialTimePicker disabled" id="teStartTime" style="width:60px;"><span>Start</span>
+				<center>
+					<input class="firstTime" maxlength="2">
+					<p>:</p>
+					<input class="secondTime" maxlength="2">
+				</center>
+			</div>
+			<div class="materialLineInput teLongInput materialInput disabled" maxLength="50" label="Teacher\'s name" id="teTeacher">
+				<input type="text">
+			</div>
+			<div class="materialTimePicker disabled" id="teEndTime" style="width: 60px;"><span>End</span>
+				<center>
+					<input class="firstTime" maxlength="2">
+					<p>:</p>
+					<input class="secondTime" maxlength="2">
+				</center>
+			</div>
+			<div class="materialLineInput teLongInput materialInput disabled" maxLength="50" label="Location" id="teLocation">
+				<input type="text">
+			</div>
+			<div class="teButtons disabled">
+				<div class="tebutton" id="save">Save</div>
+				<div class="tebutton" id="remove">Remove</div>
+			</div>
+		</div>
+	</div>
+	<div class="timetableEditor"></div>
+</div>
