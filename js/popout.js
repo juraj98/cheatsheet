@@ -2,7 +2,6 @@ var popoutContainer;
 
 function popoutInit() {
 	popoutContainer = $('#popoutContainer');
-
 }
 
 function popout(_text) {
