@@ -9,5 +9,6 @@ const ERR_MSG_NO_PERMISSIONS = "User doesn’t have permissions.";
 const ERR_MSG_WRONG_FORMAT = "Wrong format of object.";
 const ERR_MSG_LIMITS_VIOLATED = "Variables limits violated.";
 const ERR_MSG_NO_ROWS_AFFECTED = "No database rows affected.";
+const ERR_MSG_WRONG_INVITE_TOKEN = "Wrong invite token.";
 
 ?>

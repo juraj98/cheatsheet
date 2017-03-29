@@ -30,10 +30,17 @@ if(!$query){
 }
 $tokenData = mysqli_fetch_assoc($query);
 
+if($tokenData == null) {
+	$response->success = false;
+	$response->error->code = 3;
+	$response->error->message = ERR_MSG_WRONG_INVITE_TOKEN;
+	$response->error->details = "Invite token doesn't exists.";
+	die(json_encode($response));
+}
+
 //Add user to class
 
-$sql = "INSERT INTO classMembers (userId, classId)
-VALUES (" . $userId . ", " . $tokenData["classId"] . ")";
+$sql = "INSERT INTO classMembers (userId, classId) VALUES (" . $userId . ", " . $tokenData["classId"] . ")";
 
 $query = mysqli_query($conn, $sql);
 
@@ -58,7 +65,7 @@ if($query){
 	$response->success = false;
 	$response->error->code = 3;
 	$response->error->message = ERR_MSG_QUERY_FAILED;
-	$response->error->details = "Query adding user to class failed. Error: " . mysqli_error($conn);
+	$response->error->details = "Query adding user to class failed. Error: " . mysqli_error($conn) . " SQL: " . $sql;
 	$response->error->duplicate = mysqli_errno($conn) == 1062;
 }
 
