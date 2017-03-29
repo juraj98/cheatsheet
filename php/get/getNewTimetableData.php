@@ -61,15 +61,23 @@ if(isset($_POST["classId"])) {
 				$response->data->timetable[getDayByIndex($downloadedData[$i]["dayIndex"])][$downloadedData[$i]["subjectId"]]["endTime"] = $downloadedData[$i]["endTime"];
 			}
 
-			//Add body
-			$body["name"] = $downloadedData[$i]["bodyName"];
-			$body["acronym"] = $downloadedData[$i]["acronym"];
-			$body["icon"] = $downloadedData[$i]["icon"];
-			$body["color"] = $downloadedData[$i]["color"];
+			//Add bodyData
 			$body["locationId"] = $downloadedData[$i]["locationId"];
 			$body["teacherId"] = $downloadedData[$i]["teacherId"];
+			$body["bodyId"] = $downloadedData[$i]["bodyId"];
 
-			$response->data->timetable[getDayByIndex($downloadedData[$i]["dayIndex"])][$downloadedData[$i]["subjectId"]]["bodies"][$downloadedData[$i]["bodyId"]] = $body;
+			$response->data->timetable[getDayByIndex($downloadedData[$i]["dayIndex"])][$downloadedData[$i]["subjectId"]]["bodies"][] = $body;
+
+			//Check bodies
+			if(isset($response->data->bodies[$downloadedData[$i]["bodyId"]])){
+				//Body exists
+			} else {
+				//Body is not added
+				$response->data->bodies[$downloadedData[$i]["bodyId"]]["name"] = $downloadedData[$i]["bodyName"];
+				$response->data->bodies[$downloadedData[$i]["bodyId"]]["acronym"] = $downloadedData[$i]["acronym"];
+				$response->data->bodies[$downloadedData[$i]["bodyId"]]["icon"] = $downloadedData[$i]["icon"];
+				$response->data->bodies[$downloadedData[$i]["bodyId"]]["color"] = $downloadedData[$i]["color"];
+			}
 
 			//Check teacher
 			if(isset($response->data->teachers[$downloadedData[$i]["teacherId"]])){
@@ -84,10 +92,10 @@ if(isset($_POST["classId"])) {
 			//Check if location exists
 			if(isset($response->data->locations[$downloadedData[$i]["locationId"]])){
 				//location exists
-			} else
+			} else {
 				//location is not added
 				$response->data->locations[$downloadedData[$i]["locationId"]]["name"] = $downloadedData[$i]["locationName"];
-				$response->data->locations[$downloadedData[$i]["locationId"]]["description"] = $downloadedData[$i]["locationDescription"];
+				$response->data->locations[$downloadedData[$i]["locationId"]]["surname"] = $downloadedData[$i]["locationDescription"];
 			}
 		}
 
