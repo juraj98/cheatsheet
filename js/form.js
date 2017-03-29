@@ -325,7 +325,7 @@ function materialDropdownInit() {
 			dropDownOptions.slideUp(300, function() {
 				activeDropDown = that;
 				dropDownOptions.width(that.width());
-				dropDownOptions.css("top", that.offset().top + $(".content").scrollTop());
+				dropDownOptions.css("top", that.offset().top + $(".content").scrollTop() - 120);
 				dropDownOptions.css("left", that.offset().left - $(".content").offset().left);
 				dropDownOptions.html(optionsHTML);
 				dropDownOptions.slideDown(300);

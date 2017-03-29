@@ -32,7 +32,7 @@ $data = mysqli_fetch_assoc($query);
 
 if($data['COUNT(*)'] == 0){
 	//Insert user
-	$stmt = $conn->prepare("INSERT INTO users (googleSub, mail, name, surname, image, classes, created) VALUES (?,?,?,?,?,'[]','NOW()')");
+	$stmt = $conn->prepare("INSERT INTO users (googleSub, mail, name, surname, image, created) VALUES (?,?,?,?,?,'NOW()')");
 
 	$stmt->bind_param("sssss", $idTokenData->{'sub'}, $idTokenData->{'email'}, $idTokenData->{'given_name'}, $idTokenData->{'family_name'}, $idTokenData->{'picture'});
 

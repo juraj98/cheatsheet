@@ -103,7 +103,7 @@ textarea.materialInput {
 .sideMenu {
 	width: 250px;
 	height: calc(100vh - 250px);
-	margin-top: 8px;
+	padding-top: 8px;
 	position: fixed;
 	top: 250px;
 	left: 0;
@@ -1334,6 +1334,7 @@ textarea.materialInput {
 	border-radius: 5px;
 	background-color: white;
 	padding: 8px;
+	width: calc(100% - 16px);
 }
 
 /*Shadows*/

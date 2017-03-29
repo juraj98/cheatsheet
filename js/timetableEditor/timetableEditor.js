@@ -275,6 +275,5 @@ function timetableEditorInit(_id) {
 }
 
 function resizeNumberInput() {
-	$("#teSubjectNumber").width($(".teSubjectOptions").outerWidth(true) - ($("#teColorPicker").outerWidth(true) + 82));
 	//	console.log("Size: " + $(".teSubjectOptions").outerWidth(true) + " - (" + $("#teColorPicker").outerWidth(true) + " + 82)" + " = " + ($(".teSubjectOptions").outerWidth(true) - ($("#teColorPicker").outerWidth(true) + 82)));
 }
