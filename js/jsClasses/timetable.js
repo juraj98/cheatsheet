@@ -8,7 +8,7 @@ class Timetable{
     this.locations = {};
     this.teachers = {};
     this.bodies = {};
-    this.subjects = {};
+    // this.subjects = {};
     this.newBodyIdMultiplier = 1;
     this.newLocationIdMultiplier = 1;
     this.newTeacherIdMultiplier = 1;
@@ -33,12 +33,12 @@ class Timetable{
       this.bodies[index] = new Body(index, json.bodies[index].name, json.bodies[index].acronym, json.bodies[index].icon, json.bodies[index].color);
     }
 
-    //Create subjects
+    //Create subject+s
     this.days = {
       "monday": [],
-      "thursday": [],
-      "wednesday": [],
       "tuesday": [],
+      "wednesday": [],
+      "thursday": [],
       "friday": [],
       "saturday": [],
       "sunday": []
@@ -75,7 +75,8 @@ class Timetable{
   placeTimetableOn(_element) {
 		//Calculate nuberof rows
 		this.number = Math.floor($(_element).width() / 350);
-		this.timetableDayWidth = $(_element).width() / this.number - 16;
+		this.timetableDayWidth = $(_element).width() / this.number - 4;
+    //-4px for margin: 2px 0;
 
 		$(_element).replaceWith(this.toElement(this.number, this.timetableDayWidth));
 
@@ -111,7 +112,7 @@ class Timetable{
       }
     }
 
-    return $(dayElement);
+    return $(dayElement).data("dayIndex", _dayIndex).data("dayName", this.getNameByIndex(_dayIndex));
   }
 
   toElement(_number, _timetableDayWidth){
@@ -124,8 +125,7 @@ class Timetable{
 
     if (_number <= 1) {
       var currentHeaderDay = $('<div class="ttHeaderDay card-1">' + getDayById(this.activeDay) + '</div>');
-      $(this.element).children(".ttHeader").append($(currentHeaderDay));
-      $(currentHeaderDay).width(_timetableDayWidth - 58);
+      $(this.element).children(".ttHeader").append($(currentHeaderDay).addClass("both"));
 
     } else {
 			var loop = _number
@@ -135,12 +135,12 @@ class Timetable{
           console.log("Break loop");
           for(var j = 0; j < _number; j++){
             var currentHeaderDay = $('<div class="ttHeaderDay card-1">' + getDayById(this.activeDay + j) + '</div>');
-  					$(this.element).children(".ttHeader").append($(currentHeaderDay));
   					if (j - (loop - _number) == 0 || j + 1 == loop) {
-  						$(currentHeaderDay).width(_timetableDayWidth - 29);
+            $(currentHeaderDay).addClass("one");
   					} else {
   						$(currentHeaderDay).width(_timetableDayWidth);
   					}
+            $(this.element).children(".ttHeader").append($(currentHeaderDay));
           }
           break;
         }
@@ -183,11 +183,7 @@ class Timetable{
 
 					$(timetableDay).width(_timetableDayWidth);
 
-					if (i - (loop - _number) == 0) {
-						$(timetableDay).css("margin-left", "0");
-					} else if (i + 1 == loop) {
-						$(timetableDay).css("margin-right", "0");
-					}
+
 				}
       }
     }
@@ -199,9 +195,9 @@ class Timetable{
   toArray(){
 
     var returnArray = {
-      bodies: JSON.parse(JSON.stringify(this.bodies)),
-      locations: JSON.parse(JSON.stringify(this.locations)),
-      teachers: JSON.parse(JSON.stringify(this.teachers))
+      bodies: jQuery.extend(true, {}, this.bodies),
+      locations: jQuery.extend(true, {}, this.locations),
+      teachers: jQuery.extend(true, {}, this.teachers)
     };
 
     var subjects = [];
@@ -217,9 +213,12 @@ class Timetable{
         currentSubject.startTime = currentSubject.startTime.getTime();
         currentSubject.endTime = currentSubject.endTime.getTime();
 
+        delete currentSubject.element;
+
         //parse bodies
         for(var j = 0; j < currentSubject.bodies.length; j++){
           var currentSubjectBody = currentSubject.bodies[j];
+          // var currentSubjectBody = jQuery.extend(true, {}, currentSubject.bodies[j]);
 
           delete currentSubjectBody.element;
           delete currentSubjectBody.notificationArea;
@@ -382,6 +381,11 @@ class Timetable{
       $(this).after($(lastInsertBodyElement)).after(newSubjectBody.toElement()).after($(firstInsertBodyElement)).remove();
       newSubjectBody.element.find(".ttSubjectIcon").html('<i class="material-icons">school</i>');
 
+      //Set changed
+      newSubjectBody.body.changed = true;
+      newSubjectBody.teacher.changed = true;
+      newSubjectBody.location.changed = true;
+
       //Add subjectBody stuff to timetable's arrays
       that.locations[newSubjectBody.location.id] = newSubjectBody.location;
       that.teachers[newSubjectBody.teacher.id] = newSubjectBody.teacher;
@@ -468,7 +472,13 @@ class Timetable{
       that.teachers[newSubject.bodies[0].teacher.id] = newSubject.bodies[0].teacher;
       that.bodies[newSubject.bodies[0].body.id] = newSubject.bodies[0].body;
 
-			//Trigger click so that user can edit it right awayA
+      //Set change
+      newSubject.changed = true;
+      newSubject.bodies[0].body.changed = true;
+      newSubject.bodies[0].location.changed = true;
+      newSubject.bodies[0].teacher.changed = true;
+
+			//Trigger click so that user can edit it right away
 			$(newSubject.bodies[0].element).trigger("click");
 
 			//Call resize function on newSubject's frist/only body
@@ -498,11 +508,11 @@ class Timetable{
     switch (_name) {
       case "monday":
         return 1;
-      case "thursday":
+      case "tuesday":
         return 2;
       case "wednesday":
         return 3;
-      case "tuesday":
+      case "thursday":
         return 4;
       case "friday":
         return 5;
@@ -527,20 +537,20 @@ class Timetable{
     }
 
     switch (_index) {
+      case 0:
+        return "sunday";
       case 1:
         return "monday";
       case 2:
-        return "thursday";
+        return "tuesday";
       case 3:
         return "wednesday";
       case 4:
-        return "tuesday";
+        return "thursday";
       case 5:
         return "friday";
       case 6:
         return "saturday";
-      case 0:
-        return "sunday";
       default:
         console.log("Unknow index: " + _index);
         return;

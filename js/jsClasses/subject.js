@@ -10,14 +10,14 @@ class Subject {
 
   toElement(_isEditor){
     //Create basic jQuery element(.ttSubject);
-    var element = $('<div class="ttSubject card-1"></div>');
+    this.element = $('<div class="ttSubject card-1"></div>');
 
     //Create start of innerHTML for element
     var elementHTML = '<div class="ttSubjectHeader"><div class="number"><span>' + this.number + '</span>. Lesson</div><div class="time"><span class="start">' + this.startTime.getTime() + '</span> - <span class="end">' + this.endTime.getTime() + '</span></div></div><div class="bodysSortable"></div>';
 
     //Insert innerHTML to element
-    $(element).html(elementHTML);
-    var elementBodiesDiv = $(element).children(".bodysSortable");
+    $(this.element).html(elementHTML);
+    var elementBodiesDiv = $(this.element).children(".bodysSortable");
 
     //Insert first .insert element into element
     if (_isEditor) {
@@ -36,6 +36,6 @@ class Subject {
       $(elementBodiesDiv).append($('<div class="insertSubjectBody bottom"><span class="blockText unselectable" unselectable="on">Add new subject</span></div>'));
     }
 
-    return $(element).data("Subject", this);
+    return $(this.element).data("Subject", this);
   }
 }

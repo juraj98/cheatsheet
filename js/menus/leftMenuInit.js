@@ -29,4 +29,6 @@ function leftMenuInit() {
 		$(classDivider).before(classElements[i].data("classId", user.classes[i]['classId']));
 	}
 
+	$(".sideMenu").show();
+
 }

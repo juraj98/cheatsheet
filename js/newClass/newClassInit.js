@@ -25,7 +25,6 @@ function newClassInit(_id, _tab = 0) {
 	});
 
 	//Members listener
-//	$("#collapsedBackground")
 	$("#cClassMembers").click(function(){
 		$("#membersBackground, #cMembersPanel").show();
 	});
@@ -39,7 +38,7 @@ function newClassInit(_id, _tab = 0) {
 		}, function (_ajaxData) {
 			if (_ajaxData.success) {
 				//TODO: 1 Copy to clipboard
-				$("#cMembersTokenSpan").html(_ajaxData.data.token);
+				$("#cMembersTokenSpan").html("<b>Token: </b>" + _ajaxData.data.token);
 
 			} else {
 				popout(_ajaxData.error.message);
@@ -115,8 +114,47 @@ function setupSubject(_timetableData){
 		$("#cSubjectHeader").html("Next subject:");
 	}
 
-	var currentSubject = new Subject(JSON.stringify (_timetableData.subject));
-  $("#cCurrentSubject").replaceWith(currentSubject.toElement().attr("id", "cCurrentSubject"));
+	var firstSubject,
+			firstSubjectBodies = [],
+			secondSubject,
+			secondSubjectBodies = [];
+
+	for(var i = 0; i < _timetableData.firstSubject.bodies.length; i++){
+		var currentSubjectBody = _timetableData.firstSubject.bodies[i];
+		firstSubjectBodies.push(new SubjectBody(
+			new Body(currentSubjectBody.bodyId, currentSubjectBody.bodyName, currentSubjectBody.acronym, currentSubjectBody.icon, currentSubjectBody.color),
+			new Teacher(currentSubjectBody.teacherId, currentSubjectBody.teacherName, currentSubjectBody.teacherSurname, currentSubjectBody.teacherDescription, null),
+			new Location(currentSubjectBody.locationId, currentSubjectBody.locationName, currentSubjectBody.locationDescription)
+		));
+	}
+	for(var i = 0; i < _timetableData.secondSubject.bodies.length; i++){
+		var currentSubjectBody = _timetableData.firstSubject.bodies[i];
+		secondSubjectBodies.push(new SubjectBody(
+			new Body(currentSubjectBody.bodyId, currentSubjectBody.bodyName, currentSubjectBody.acronym, currentSubjectBody.icon, currentSubjectBody.color),
+			new Teacher(currentSubjectBody.teacherId, currentSubjectBody.teacherName, currentSubjectBody.teacherSurname, currentSubjectBody.teacherDescription, null),
+			new Location(currentSubjectBody.locationId, currentSubjectBody.locationName, currentSubjectBody.locationDescription)
+		));
+	}
+
+
+	var firstSubject = new Subject(
+		_timetableData.firstSubject.subjectId,
+		_timetableData.firstSubject.dayIndex,
+		_timetableData.firstSubject.number,
+		new Time(_timetableData.firstSubject.startTime),
+		new Time(_timetableData.firstSubject.endTime),
+		firstSubjectBodies);
+	var secondSubject = new Subject(
+		_timetableData.secondSubject.subjectId,
+		_timetableData.secondSubject.dayIndex,
+		_timetableData.secondSubject.number,
+		new Time(_timetableData.secondSubject.startTime),
+		new Time(_timetableData.secondSubject.endTime),
+		secondSubjectBodies);
+
+	//Note: Second subject is not used here
+
+  $("#cCurrentSubject").replaceWith(firstSubject.toElement().attr("id", "cCurrentSubject"));
 
 }
 

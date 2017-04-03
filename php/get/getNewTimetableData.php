@@ -153,11 +153,11 @@ function getDayByIndex($index){
 		case 1:
 			return "monday";
 		case 2:
-			return "thursday";
+			return "tuesday";
 		case 3:
 			return "wednesday";
 		case 4:
-			return "tuesday";
+			return "thursday";
 		case 5:
 			return "friday";
 		case 6:

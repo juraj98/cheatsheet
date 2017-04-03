@@ -1,6 +1,6 @@
 <?php
 
-/*Version 1.1*/
+/*Version 1.11*/
 
 require_once "../connection.php";
 
@@ -71,38 +71,6 @@ if($_POST['filters'][0] === true){
 	}
 }
 
-//Get groups
-if($_POST['filters'][1] === true){
-	$sql = "
-		SELECT
-			g.id, g.name, g.description, g.class, g.members
-		FROM
-			groups g, classes c, classMembers cm
-		WHERE
-			cm.userId='" . mysqli_real_escape_string($conn, $userId) . "'
-			AND
-			c.classId = g.class
-			AND (";
-	for($i = 0; $i < $searchTermsLength; $i++){
-		$sql .= ($i==0 ? " " : " OR ") . "
-			g.name LIKE '%" . mysqli_real_escape_string($conn, $searchTerms[$i]) . "%'
-			OR
-			g.description LIKE '%" . mysqli_real_escape_string($conn, $searchTerms[$i]) . "%'
-		";
-	}
-	$sql .= ")";
-
-	$query = mysqli_query($conn, $sql);
-
-	if($query){
-		$response->data->groups = mysqli_fetch_all($query, MYSQLI_ASSOC);
-	} else {
-		$response->success = false;
-		$response->error->code = 3;
-		$response->error->message = ERR_MSG_QUERY_FAILED;
-		$response->error->details = "Query fetching groups failed. Error: " . mysqli_error($conn);
-	}
-}
 
 //Get users
 if($_POST['filters'][2] === true){

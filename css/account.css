@@ -1,7 +1,12 @@
+.aSide {
+	width: 50%;
+	float: left;
+}
+
 /*Headers*/
 
 .aHeader {
-	width: calc(50% - 20px);
+	width: calc(100% - 20px);
 	font-size: 20px;
 	color: #757575;
 	border-bottom: 1px solid #757575;
@@ -22,7 +27,7 @@
 }
 
 #aUserInfoPanel {
-	width: calc(50% - 12px);
+	width: calc(100% - 12px);
 	margin-right: 4px;
 	margin-left: 8px;
 	background-color: white;
@@ -140,7 +145,7 @@
 /*User contacts*/
 
 #aUserContacts {
-	width: calc(50% - 12px);
+	width: calc(100% - 12px);
 	margin-right: 4px;
 	margin-left: 8px;
 	background-color: white;
@@ -235,7 +240,7 @@
 }
 
 #aUserMessages {
-	width: calc(50% - 12px);
+	width: calc(100% - 12px);
 	margin-left: 4px;
 	margin-right: 8px;
 	height: calc(100vh - 160px);

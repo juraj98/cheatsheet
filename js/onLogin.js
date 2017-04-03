@@ -10,14 +10,20 @@ function onLogin() {
 				user = new User();
 				user.downloadUser(function() {
 
-					leftMenuInit();
-					topMenuProfileInit();
-					collapsedMenuInit();
-					sideMenusListeners();
 					popoutInit();
 					searchInit();
 
-					loadFromUrl();
+					if(user.classes.length == 0){
+						//User have no classes
+						addClassClick();
+					} else {
+						loadFromUrl();
+						leftMenuInit();
+						topMenuProfileInit();
+						collapsedMenuInit();
+						sideMenusListeners();
+					}
+
 					//Temp
 					afterOnLoginTemp();
 				});

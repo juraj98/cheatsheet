@@ -1,5 +1,5 @@
 function addClassInit() {
-	$("#ccCreateClassButton").click(function() {
+	$("#acCreateClassButton").click(function() {
 		console.log("click");
 		var name = $("#ccName > input").val();
 		var longName = $("#ccLongName > input").val();
@@ -13,7 +13,7 @@ function addClassInit() {
 		if (longName) {
 			data['name'] = longName;
 		}
-		if (longName) {
+		if (school) {
 			data['school'] = school;
 		}
 
@@ -22,6 +22,7 @@ function addClassInit() {
 			function(_ajaxData) {
 
 				if (_ajaxData.success) {
+					window.location.replace("http://cheatsheet.sk");
 					popout("Success");
 				} else {
 					popout(_ajaxData.error.message);
@@ -30,7 +31,7 @@ function addClassInit() {
 		);
 
 	});
-	$("#ccJoinClassButton").click(function() {
+	$("#acJoinClassButton").click(function() {
 
 		console.log("click");
 		var token = $("#ccInviteToken > input").val();
@@ -41,6 +42,7 @@ function addClassInit() {
 			function(_ajaxData) {
 
 				if (_ajaxData.success) {
+					window.location.replace("http://cheatsheet.sk");
 					popout("Success");
 				} else {
 					popout(_ajaxData);

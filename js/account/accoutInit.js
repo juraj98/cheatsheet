@@ -113,6 +113,9 @@ function setupDirectMessagesScrollListener(){
 
 function chatInit(_userId) {
 
+	timesDirectMessagesWereLoaded = 0;
+	createdDirectMessages = 0;
+
 	chatingWith = _userId;
 	$("#aUserMessages > .cUserMsg, #aUserMessages > .cOtherMsg").remove();
 	loadDirectMessages();
@@ -120,6 +123,8 @@ function chatInit(_userId) {
 
 
 function loadDirectMessages(){
+	timesDirectMessagesWereLoaded
+	createdDirectMessages
 	$.post(baseDir + "/php/get/getDirectMessages.php", {
 		idToken: googleTokenId,
 		otherUserId: chatingWith,
@@ -196,6 +201,7 @@ function loadRecentMessages() {
 				}
 
 				var contactElement = $('<div class="aUserContact"><img class="card-1" src="' + (contactImage == null ? "images/placeholders/profilePicturePlaceholder.png" : contactImage) + '" style=""><h1>' + contactName + " " + contactSurname + '</h1><h2>' + _ajaxData.data.lastMessages[i].content + '</h2></div>').data("contactId", contactId).click(function(){
+
 					chatInit($(this).data("contactId"));
 				});
 

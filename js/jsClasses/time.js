@@ -33,10 +33,10 @@ class Time {
         this.minutes = _time.substring(_time.indexOf(":")+1, (_time.indexOf("-") == -1 ? _time.length : _time.indexOf("-")));
     }
     getMinutes(hours = false, days = false) {
-        return this.minutes + (hours ? this.hours * 60 : 0) + (days ? this.day * 24 : 0);
+        return this.minutes;
     }
     getHours(days = false) {
-        return this.hours + (days ? this.days * 24 : 0);
+        return this.hours;
     }
     getDays() {
         return this.days;

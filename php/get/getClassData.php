@@ -68,98 +68,6 @@ $date = getdate($date);
 $currentTime = strtotime($date['hours'] . ":" . $date['minutes'] . ":" . $date['seconds']);
 
 
-//TODO: 14 Check what happens if database is empty
-
-// $attempts = 0;
-// $firstSubjectFound = null;
-// $response->data->timetableData->isCurrent = true;
-//
-// while(!$response->data->timetableData->subject && !$response->data->timetableData->nextSubject && $attempts < 7){
-// 	$sql = "SELECT " . getDayByIndex($dayIndex + $attempts) . " FROM timetables WHERE class='" . mysqli_real_escape_string( $conn, $_POST['classId'] ) . "'";
-// 	$query = mysqli_query($conn, $sql);
-//
-// 	if($query) {
-// 		$data = json_decode(mysqli_fetch_all($query, MYSQLI_ASSOC)[0][getDayByIndex($dayIndex + $attempts)]);
-//
-// 		if(count($data) == 0) {
-// 			$attempts++;
-// 			continue;
-// 		}
-// 		if($response->data->timetableData->subject) {
-// 			$response->data->timetableData->nextSubject = $data[0];
-// 			$response->data->timetableData->nextSubjectFromToday = $attempts;
-// 			break;
-// 		}
-// 		if($attempts != 0){
-// 			$response->data->timetableData->subject = $data[0];
-// 			$response->data->timetableData->subjectFromToday = $attempts;
-// 			$response->data->timetableData->isCurrent = false;
-// 			if($data[1]){
-// 				$response->data->timetableData->nextSubject = $data[1];
-// 				$response->data->timetableData->nextSubjectFromToday = $attempts;
-// 				break;
-// 			} else {
-// 				$attempts++;
-// 				continue;
-// 			}
-// 		}
-//
-// 		foreach($data as $subject){
-// 			if(!$firstSubjectFound){
-// 				$firstSubjectFound = $subject;
-// 			}
-//
-// 			if(!$response->data->timetableData->subject){
-// 				$start = strtotime($subject->start);
-// 				$end = strtotime($subject->end);
-// 				$response->debug->start = $start;
-// 				$response->debug->end = $end;
-//
-//
-// //		$response->debug->currentTime = date('G:i:s' , $currentTime);
-// //		$response->debug->start = date('G:i:s' , $start);
-// //		$response->debug->end = date('G:i:s' , $end);
-//
-// 				if($start <= $currentTime && $end > $currentTime) {
-// 					//Current subject
-// 					$response->data->timetableData->subject = $subject;
-// 					$response->data->timetableData->subjectFromToday = $attempts;
-//
-// 					$subjectNotFound = false;
-// 					continue;
-// 				} else if(!($end < $currentTime)){
-// 					//Next subject
-// 					$response->data->timetableData->isCurrent = false;
-// 					$response->data->timetableData->subject = $subject;
-// 					$response->data->timetableData->subjectFromToday = $attempts;
-// 					$subjectNotFound = false;
-// 					continue;
-// 				}
-// 			}
-//
-// 			if($response->data->timetableData->subject) {
-// 				$response->data->timetableData->nextSubject = $subject;
-// 				$response->data->timetableData->nextSubjectFromToday = $attempts;
-// 				break;
-// 			}
-// 		}
-//
-// 		$attempts++;
-//
-// 	} else {
-// 		$response->success = false;
-// 		$response->error->code = 3;
-// 		$response->error->message = "Query failed.";
-// 		$response->error->details = "Query fetching timetable failed. Error: " . mysqli_error($conn);
-// 		die(json_encode($response));
-// 	}
-// }
-//
-// if(!$response->data->timetableData->nextSubject) {
-// 	$response->data->timetableData->nextSubject  = $firstSubjectFound;
-// 	$response->data->timetableData->nextSubjectFromToday  = $attempts;
-// }
-
 $sql = "SELECT
 	subjects.id AS subjectId, subjects.dayIndex, subjects.number, subjects.startTime, subjects.endTime, subjects.position
 FROM
@@ -178,6 +86,11 @@ if($query){
 
 	for($i = 0; $i < $downloadedDataLength; $i++){
 
+		if($dayIndex > intval($downloadedData[$i]["dayIndex"])){
+			$response->debug->set = $response->debug->data . $i;
+			continue;
+		}
+
 		if($response->data->timetableData->firstSubject){
 			$response->data->timetableData->secondSubject = $downloadedData[$i];
 			break;
@@ -191,12 +104,12 @@ if($query){
 
 		if($start <= $currentTime && $end > $currentTime) {
 			//Current subject
-			$response->data->timetableData->firstSubject = $subject;
+			$response->data->timetableData->firstSubject = $downloadedData[$i];
 			continue;
 		} else if(!($end < $currentTime)){
 			//Next subject
 			$response->data->timetableData->isCurrent = false;
-			$response->data->timetableData->firstSubject = $subject;
+			$response->data->timetableData->firstSubject = $downloadedData[$i];
 			$subjectNotFound = false;
 			continue;
 		} else {
@@ -352,7 +265,5 @@ function getCorrentIndex($index){
 
 	return $index;
 }
-
-
 
 ?>

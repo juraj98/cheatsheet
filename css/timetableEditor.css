@@ -1,6 +1,5 @@
-.teRow,
-.timetableEditor {
-	width: calc(33% - 16px);
+.teRow {
+	width: calc(50% - 16px);
 	margin: 0 8px;
 	float: right;
 }
@@ -10,6 +9,46 @@
 	overflow: visible;
 	width: calc(100% - 15px);
 	margin: auto;
+}
+
+#teButtonsConatiner{
+	width: 100%;
+	float: left;
+	overflow: visible;;
+}
+.teButton {
+	margin: 8px 0;
+	min-width: 100px;
+	height: 35px;
+	line-height: 35px;
+	text-align: center;
+	border-radius: 4px;
+	cursor: pointer;
+	display: block;
+	transition: 0.2s;
+}
+#teSave {
+	float: right;
+	color: white;
+	background-color: #8BC34A;
+}
+#teSave:hover {
+	background-color: #7CB342;
+}
+#teSave:active {
+	background-color: #689F38;
+}
+#teRemove {
+	float: left;
+	color: #8BC34A;
+	background-color: #FAFAFA;
+}
+#teRemove:hover {
+	background-color: #F5F5F5;
+	color: #8BC34A;
+}
+#teRemove:active {
+	background-color: #EEEEEE;
 }
 
 
@@ -169,7 +208,7 @@
 	float: left;
 	overflow: visible;
 	background-color: white;
-	border-radius: 5px;
+	border-radius: 2px;
 }
 
 #tePriorities > div:first-child {

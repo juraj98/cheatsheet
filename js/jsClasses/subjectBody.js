@@ -9,12 +9,12 @@ class SubjectBody {
     this.notificationArea = new SubjectNotificationArea(this.changed);
   }
 
-  toElement() {
-    //Create element
-    this.element = $('<div class="ttSubjectBody"><div' +  (this.body.color ? ' style="background-color:' + this.body.color + ';"' : "") + ' class="ttSubjectIcon unselectable card-1"></div><span class="ttSubjectName"></span><span class="ttSubjectInfo"></span></div>');
+  updateElement(){
+    //Color
+    if(this.body.color){
+      $(this.element).find(".ttSubjectIcon").css("background-color", this.body.color);
+    }
 
-    //Add data
-    //Icon
     if(this.body.icon){
       //Icon is set
       $(this.element).find(".ttSubjectIcon").html('<i class="material-icons">' + this.body.icon + '</i>');
@@ -35,6 +35,13 @@ class SubjectBody {
         $(this.element).find(".ttSubjectInfo").html(this.location.name);
       }
     }
+  }
+
+  toElement() {
+    //Create element
+    this.element = $('<div class="ttSubjectBody"><div class="ttSubjectIcon unselectable card-1"></div><span class="ttSubjectName"></span><span class="ttSubjectInfo"></span></div>');
+
+    this.updateElement();
 
     //Add notificationArea
     $(this.element).append(this.notificationArea.toElement());

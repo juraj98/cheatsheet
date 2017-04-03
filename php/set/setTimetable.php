@@ -45,7 +45,6 @@ if(isset($_POST["classId"])) {
 	$relations;
 	$i = 0;
 
-
 		//Handle bodies
 	  foreach ($timetableData->bodies as $key => $value) {
 			if($value->changed){
@@ -55,10 +54,10 @@ if(isset($_POST["classId"])) {
 					$sql = "INSERT INTO bodies
 									(name, acronym, icon, color, classId)
 					VALUES 	(" .
-					mysqli_real_escape_string($conn, $value->name) . ", " .
-					mysqli_real_escape_string($conn, $value->acronym) . ", " .
-					mysqli_real_escape_string($conn, $value->icon) . ", " .
-					mysqli_real_escape_string($conn, $value->color) . ", " .
+					($value->name ? mysqli_real_escape_string($conn, $value->name) : '""') . ", " .
+					($value->acronym ? mysqli_real_escape_string($conn, $value->acronym) : '""') . ", " .
+					($value->icon ? mysqli_real_escape_string($conn, $value->icon) : '""') . ", " .
+					($value->color ? mysqli_real_escape_string($conn, $value->color) : '""') . ", " .
 					mysqli_real_escape_string($conn, $_POST['classId']) . ")";
 
 					$query = mysqli_query($conn, $sql);
@@ -106,9 +105,9 @@ if(isset($_POST["classId"])) {
 					//Id is negative => insert new location
 					$sql = "INSERT INTO locations
 									(name, description, classId)
-					VALUES 	(" .
-					mysqli_real_escape_string($conn, $value->name) . ", " .
-					mysqli_real_escape_string($conn, $value->description) . ", " .
+					VALUES 	('" .
+					mysqli_real_escape_string($conn, $value->name). "', '" .
+					mysqli_real_escape_string($conn, $value->description) . "', " .
 					mysqli_real_escape_string($conn, $_POST['classId']) . ")";
 
 					$query = mysqli_query($conn, $sql);
@@ -122,6 +121,7 @@ if(isset($_POST["classId"])) {
 						$response->error->code = 3;
 						$response->error->message = ERR_MSG_QUERY_FAILED;
 						$response->error->details = "Query inserting location with id=" . $value->id . "  failed. Error: " . mysqli_error($conn);
+						$response->debug->sql = $sql;
 						die(json_encode($response));
 					}
 				} else {
@@ -152,10 +152,10 @@ if(isset($_POST["classId"])) {
 					//Teacher was changed => check id
 					if($value->id < 0){
 						//Id is negative => insert new teacher
-						$sql = "INSERT INTO bodies (name, surname, description, classId) VALUES 	(" .
-						mysqli_real_escape_string($conn, $value->name) . ", " .
-						mysqli_real_escape_string($conn, $value->surname) . ", " .
-						mysqli_real_escape_string($conn, $value->description) . ", " .
+						$sql = "INSERT INTO teachers (name, surname, description, classId) VALUES 	('" .
+						mysqli_real_escape_string($conn, $value->name) . "', '" .
+						mysqli_real_escape_string($conn, $value->surname). "', '" .
+						mysqli_real_escape_string($conn, $value->description) . "', " .
 						mysqli_real_escape_string($conn, $_POST['classId']) . ")";
 
 						$query = mysqli_query($conn, $sql);
@@ -169,11 +169,12 @@ if(isset($_POST["classId"])) {
 							$response->error->code = 3;
 							$response->error->message = ERR_MSG_QUERY_FAILED;
 							$response->error->details = "Query inserting teacher with id=" . $value->id . "  failed. Error: " . mysqli_error($conn);
+							$response->debug->sql = $sql;
 							die(json_encode($response));
 						}
 					}else {
 						//Id is positive => update teacher
-						$sql = "UPDATE locations
+						$sql = "UPDATE teachers
 						SET name='" .
 						mysqli_real_escape_string($conn, $value->name) . "', surname='" .
 						mysqli_real_escape_string($conn, $value->surname) . "', description='" .
@@ -203,14 +204,13 @@ if(isset($_POST["classId"])) {
 				if($value->id < 0){
 					//Id is negative => insert new subject
 					$sql = "INSERT INTO subjects (position, dayIndex, number, startTime, endTime, classId)
-					VALUES 	(" . $position++ . ", " .
-					mysqli_real_escape_string($conn, $value->dayIndex) . ", " .
-					mysqli_real_escape_string($conn, $value->number) . ", " .
-					mysqli_real_escape_string($conn, $value->startTime) . ", " .
-					mysqli_real_escape_string($conn, $value->endTime) . ", " .
+					VALUES 	(" . $position++ . ", '" .
+					mysqli_real_escape_string($conn, $value->dayIndex) . "', '" .
+					mysqli_real_escape_string($conn, $value->number) . "', '" .
+					mysqli_real_escape_string($conn, $value->startTime) . "', '" .
+					mysqli_real_escape_string($conn, $value->endTime) . "', " .
 					mysqli_real_escape_string($conn, $_POST['classId']) . ")";
 
-					// $response->debug->position = $response->debug->position . $position  . " | ";
 					// $position = $position + 1;
 					$query = mysqli_query($conn, $sql);
 					if($query) {
@@ -223,6 +223,7 @@ if(isset($_POST["classId"])) {
 						$response->error->code = 3;
 						$response->error->message = ERR_MSG_QUERY_FAILED;
 						$response->error->details = "Query inserting subject with id=" . $value->id . "  failed. Error: " . mysqli_error($conn);
+						$response->error->details = $sql;
 						die(json_encode($response));
 					}
 				} else {
@@ -234,7 +235,6 @@ if(isset($_POST["classId"])) {
 					mysqli_real_escape_string($conn, $value->endTime) . "'
 					WHERE id=". mysqli_real_escape_string($conn, $value->id);
 
-					// $response->debug->position = $response->debug->position . $position . " | ";
 					// $position += 1;
 					$query = mysqli_query($conn, $sql);
 
@@ -252,7 +252,6 @@ if(isset($_POST["classId"])) {
 				$sql = "UPDATE subjects	SET position='" . $position++ . "'
 								WHERE id=" . mysqli_real_escape_string($conn, $value->id);
 
-				// $response->debug->position = $response->debug->position . $position . " | ";
 				// $position += 1;
 				$query = mysqli_query($conn, $sql);
 
@@ -268,7 +267,6 @@ if(isset($_POST["classId"])) {
 
 			// Insert relations
 			foreach ($value->bodies as $bodyKey => $subjectBody) {
-				$response->debug->id = $response->debug->id . " | " . $value->id;
 				$relations[$i]['subjectId'] = $value->id < 0 ? $updatedSubjectsIds[$value->id] : $value->id;
 				$relations[$i]['bodyId'] = $subjectBody->bodyId < 0 ? $updatedBodiesIds[$subjectBody->bodyId] : $subjectBody->bodyId;
 				$relations[$i]['locationId'] = $subjectBody->locationId < 0 ? $updatedLocationsIds[$subjectBody->locationId] : $subjectBody->locationId;
@@ -311,10 +309,10 @@ if(isset($_POST["classId"])) {
 		$relationsLength = sizeOf($relations);
 		for($i = 0; $i < $relationsLength; $i++){
 			$sql .= " ($timetableId,
-				". mysqli_real_escape_string($conn, $relations[$i]["subjectId"]) .",
-				". mysqli_real_escape_string($conn, $relations[$i]["bodyId"]) .",
-				". mysqli_real_escape_string($conn, $relations[$i]["locationId"]) .",
-				". mysqli_real_escape_string($conn, $relations[$i]["teacherId"]) ."
+				'". mysqli_real_escape_string($conn, $relations[$i]["subjectId"]) ."',
+				'". mysqli_real_escape_string($conn, $relations[$i]["bodyId"]) ."',
+				'". mysqli_real_escape_string($conn, $relations[$i]["locationId"]) ."',
+				'". mysqli_real_escape_string($conn, $relations[$i]["teacherId"]) ."'
 			)" . ($i+1 == $relationsLength ? "" : ",");
 		}
 

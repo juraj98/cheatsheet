@@ -27,16 +27,11 @@ function searchInit() {
 						classGroup.append($('<span class="nothing">No classes found</span>'));
 					} else {
 						_ajaxData.data.classes.forEach(function(item, index) {
-							classGroup.append($('<span class="srClass">' + item.nameShort + '</span>').data("classId", item.classId));
-						});
-					}
-					//Groups
-					var groupsGroup = $('<div class="srGroups"><h1>Groups:</h1></div>');
-					if (_ajaxData.data.groups.length == 0) {
-						groupsGroup.append($('<span class="nothing">No groups found</span>'));
-					} else {
-						_ajaxData.data.groups.forEach(function(item, index) {
-							groupsGroup.append($('<span class="srClass">' + item.name + '</span>').data("classId", item.class))
+							var classElement = $('<span class="srClass">' + item.nameShort + '</span>').data("classId", item.classId);
+							classElement.click(function(){
+								newClassClick($(this).data("classId"));
+							});
+							classGroup.append(classElement);
 						});
 					}
 					//Users
@@ -48,7 +43,7 @@ function searchInit() {
 							usersGroup.append($('<span class="srClass">' + item.name + " " + item.surname + '</span>').data("userId", item.id))
 						});
 					}
-					$("#searchResults").html("").append(classGroup).append(groupsGroup).append(usersGroup);
+					$("#searchResults").html("").append(classGroup).append(usersGroup);
 				} else {
 					popout(_ajaxData.error.message);
 				}

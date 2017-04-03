@@ -531,9 +531,11 @@
 }
 #cMembersTokenSpan {
 	font-size: 12px;
-	line-height: 16px;
-	float: left;
-	display: inline-block;
+  line-height: 35px;
+  float: left;
+  display: inline-block;
+  width: calc(100% - 125px);
+  text-align: center;
 }
 #cMembersGenerateTokenButton {
 	min-width: 125px;

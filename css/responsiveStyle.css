@@ -9,7 +9,7 @@
 		display: none !important;
 	}
 	.sideMenu {
-		display: none;
+		display: none !important;
 	}
 	#menuButton {
 		display: block;
@@ -27,6 +27,13 @@
 		top: 16px;
 		left: calc(((100% - 128px) - (100% - 128px) * 0.8) / 2 + 64px);
 	}
+	#searchResults {
+		left: calc(((100% - 128px) - (100% - 128px) * 0.8) / 2 + 64px);
+		width: calc((100% - 128px) * 0.8 - 8px);
+		top: 61px
+
+	}
+
 	#cColumnRight {
 		display: none;
 	}
@@ -57,6 +64,9 @@
 	#rReminders {
 		width: calc(100% - 32px);
 		margin: 0 16px;
+	}
+	.aSide{
+		width: 100%;
 	}
 }
 @media screen and (max-width: 600px){

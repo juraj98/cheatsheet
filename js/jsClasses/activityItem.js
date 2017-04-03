@@ -29,7 +29,6 @@ class ActivityItem {
 	}
 
 	toElement() {
-
 		switch (this.activityType) {
 			case "message":
 				return this.toElementMessage();
@@ -49,7 +48,6 @@ class ActivityItem {
 	}
 
 	toElementPost(){
-
 		var tags;
 
 		if(this.tags.length != 0){
@@ -89,12 +87,12 @@ class ActivityItem {
 				return "#F44336";
 			case "5":
 				return "#CDDC39";
-//			case "6":
-//				return "#3F51B5"
-//			case "7":
-//				return "#673AB7";
-//			default:
-//				return "#8BC34A";
+			case "6":
+				return "#3F51B5"
+			case "7":
+				return "#673AB7";
+			default:
+				return "#8BC34A";
 		}
 
 	}
@@ -112,12 +110,12 @@ class ActivityItem {
 				return "assignment_late";
 			case "5":
 				return "book";
-//			case "6":
-//				return "file_upload";
-//			case "7":
-//				return "message";
-//			default:
-//				return "star_rate";
+			case "6":
+				return "file_upload";
+			case "7":
+				return "message";
+			default:
+				return "star_rate";
 		}
 	}
 

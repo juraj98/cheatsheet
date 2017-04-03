@@ -104,8 +104,6 @@ function setupDynamicListeners() {
 		// TODO: change limits
 
 		if (editingBody) {
-			console.log("NOTIFICATION AREA");
-			console.log(editingBody.data("SubjectBody").notificationArea);
 			$(editingBody.data("SubjectBody").notificationArea.editingElement).css("display", "none");
 			editingBody.data("SubjectBody").notificationArea.editing = false;
 		}

@@ -1,49 +1,57 @@
-#ccContainer {
-	overflow: auto;
+#acContent {
 	width: 90%;
 	max-width: 700px;
 	margin: auto;
-	background-color: white;
-	border-radius: 5px;
 	display: block;
 	padding: 0 16px;
+	overflow: visible;
 }
-#ccContainer > .materialInput {
+
+#acContent > .cardDiv {
+	float: left;
+	height: auto;
+	width: 100%;
+	overflow: auto;
+}
+
+#acContent > .cardDiv .materialInput {
 	position: relative;
 	float: left;
 	margin-left: 0;
 	margin-right: 0;
 }
-#ccContainer > #ccName {
+#acContent > .cardDiv #ccName {
 	width: calc(30% - 8px);
 	margin-right: 16px;
 
 }
-#ccContainer > #ccLongName {
+#acContent > .cardDiv #ccLongName {
 	width: calc(70% - 8px);
 
 }
-#ccContainer > #ccSchool {
+#acContent > .cardDiv #ccSchool {
 	width: 100%;
 }
 
-.ccButton {
-	min-width: 125px;
+.acButton {
 	cursor: pointer;
-	height: 35px;
-	line-height: 35px;
 	float: right;
 	text-align: center;
 	color: white;
-	border-radius: 5px;
-	margin: 16px 0;
+	border-radius: 3px;
+	padding: 8px 12px;
 	clear: both;
-	background-color: #8BC34A;
+	text-transform: uppercase;
+	margin-top: 8px;
+	color: #9E9E9E;
 	transition: 0.2s;
 }
 
-.ccButton:active {
-    background-color: #7CB342;
+.acButton:hover {
+  background-color: #DDDDDD;
+}
+.acButton:active {
+  background-color: #CCCCCC;
 }
 
 #ccDivider {
@@ -53,6 +61,6 @@
 	margin: 4px 0;
 	float: left;
 }
-#ccContainer > #ccInviteToken {
+#acContent > .cardDiv #ccInviteToken {
 	width: 100%;
 }

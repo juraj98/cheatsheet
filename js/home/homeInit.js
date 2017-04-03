@@ -62,7 +62,10 @@ function getActivityData(_limit = null) {
 				var newActivityItem = new ActivityItem(JSON.stringify(_ajaxData.data.activity[i]));
 				$("#hLeftSide").append($(newActivityItem.toElement()).addClass("hActivity"));
 			}
-			$(".hActivity").click(function(){
+			$(".hActivity").off().click(function(){
+				console.log("Click");
+
+
 				if($(this).hasClass("active")){
 					$(".hActivity.active").removeClass("active");
 				} else {
@@ -83,26 +86,49 @@ function getCurrentSubjects(){
 		idToken: googleTokenId,
 		dateNow: dateNow
 	}, function(_ajaxData) {
-		console.log(_ajaxData);
+		// console.log(_ajaxData);
 		if(_ajaxData.success){
-			$(".hCurrentNextSubjectHeader, .hCurrentNextSubject").remove();
-			for(var i = 0; i < _ajaxData.data.timetableData.length; i++){
-				var header = $('<div class="hHeader hCurrentNextSubjectHeader">' + _ajaxData.data.timetableData[i].nameShort + (_ajaxData.data.timetableData[i].isCurrent ? ' current subject:' : ' next subject:') + '</div>');
-				$("#hRightSide").prepend(header);
+			_ajaxData.data.isCurrent ? "Current subject:" :"Next subject:"
 
-				var subject = new Subject(JSON.stringify(_ajaxData.data.timetableData[i].subject));
+			var firstSubject,
+					firstSubjectBodies = [],
+					secondSubject,
+					secondSubjectBodies = [];
 
-				if(_ajaxData.data.timetableData[i].isCurrent){
-					var nextHeader = $('<div class="hHeader hCurrentNextSubjectHeader">' + _ajaxData.data.timetableData[i].nameShort + ' next subject:' + '</div>');
-					$(header).after(nextHeader);
-					var nextSubject = new Subject(JSON.stringify(_ajaxData.data.timetableData[i].nextSubject));
-					$(nextHeader).after(nextSubject.toElement());
-				}
-
-				$(header).after(subject.toElement());
-
-
+			for(var i = 0; i < _ajaxData.data.firstSubject.bodies.length; i++){
+				var currentSubjectBody = _ajaxData.data.firstSubject.bodies[i];
+				firstSubjectBodies.push(new SubjectBody(
+					new Body(currentSubjectBody.bodyId, currentSubjectBody.bodyName, currentSubjectBody.acronym, currentSubjectBody.icon, currentSubjectBody.color),
+					new Teacher(currentSubjectBody.teacherId, currentSubjectBody.teacherName, currentSubjectBody.teacherSurname, currentSubjectBody.teacherDescription, null),
+					new Location(currentSubjectBody.locationId, currentSubjectBody.locationName, currentSubjectBody.locationDescription)
+				));
 			}
+			for(var i = 0; i < _ajaxData.data.secondSubject.bodies.length; i++){
+				var currentSubjectBody = _ajaxData.data.firstSubject.bodies[i];
+				secondSubjectBodies.push(new SubjectBody(
+					new Body(currentSubjectBody.bodyId, currentSubjectBody.bodyName, currentSubjectBody.acronym, currentSubjectBody.icon, currentSubjectBody.color),
+					new Teacher(currentSubjectBody.teacherId, currentSubjectBody.teacherName, currentSubjectBody.teacherSurname, currentSubjectBody.teacherDescription, null),
+					new Location(currentSubjectBody.locationId, currentSubjectBody.locationName, currentSubjectBody.locationDescription)
+				));
+			}
+
+
+			var firstSubject = new Subject(
+				_ajaxData.data.firstSubject.subjectId,
+				_ajaxData.data.firstSubject.dayIndex,
+				_ajaxData.data.firstSubject.number,
+				new Time(_ajaxData.data.firstSubject.startTime),
+				new Time(_ajaxData.data.firstSubject.endTime),
+				firstSubjectBodies);
+			var secondSubject = new Subject(
+				_ajaxData.data.secondSubject.subjectId,
+				_ajaxData.data.secondSubject.dayIndex,
+				_ajaxData.data.secondSubject.number,
+				new Time(_ajaxData.data.secondSubject.startTime),
+				new Time(_ajaxData.data.secondSubject.endTime),
+				secondSubjectBodies);
+
+				$("#hRightSide").prepend(secondSubject.toElement()).prepend((_ajaxData.data.isCurrent ? '<div class="hHeader" id="hRemindersHeader">Next subject:</div>' :"")).prepend(firstSubject.toElement()).prepend('<div class="hHeader" id="hRemindersHeader">' + (_ajaxData.data.isCurrent ? "Current subject" :"Next subjects") + ':</div>');
 		} else {
 			popout(_ajaxData.error.message + "<br><br>" + _ajaxData.error.details);
 		}

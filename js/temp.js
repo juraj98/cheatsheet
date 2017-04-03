@@ -26,5 +26,4 @@ function afterOnLoginTemp() {
 	setTimeout(function () {
 		timetableEditorClick(1);
 	}, 500);
-	console.log("Upload working");
 }

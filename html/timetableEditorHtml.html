@@ -1,5 +1,5 @@
 <div id="teContent">
-	<div class="teRow">
+	<div class="teRow" hidden>
 		<div class="cHeader" id="cSubjectHeader">Options:</div>
 		<div class="cardDiv" id="teSelection">
 			<div unselectable="on" class="unselectable materialDropDown" placeholder="Class" options='["Class1", "Class2"]'></div>
@@ -101,7 +101,13 @@
 				<textarea rows="1"></textarea>
 			</div>
 		</div>
+		<div id="teButtonsConatiner">
+			<div class="teButton card-1 unselectable" id="teSave">SAVE</div>
+			<div class="teButton card-1 unselectable" id="teRemove">REMOVE</div>
+		</div>
 	</div>
-	<div class="cHeader" id="cSubjectHeader" style="width: calc(33% - 24px); margin: 8px 0; margin-left: 24px;">Timetable Editor:</div>
-	<div class="timetableEditor"></div>
+	<div class="teRow">
+		<div class="cHeader" id="cSubjectHeader" style="width: calc(100% - 24px); margin: 8px 0; margin-left: 12px;">Timetable Editor:</div>
+		<div class="timetableEditor"></div>
+	</div>
 </div>

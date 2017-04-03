@@ -5,15 +5,16 @@
 	/* Define width for every row specifically */
 }
 .timetableDay {
-	margin: 2px;
 	width: calc(100% - 4px);
+	margin: 0 2px !important;
 	float: left;
 	overflow: visible;
 }
 /*Timetable header*/
 
 .ttHeader {
-	width: 100%;
+	width: calc(100% - 4px);
+	margin: 0 2px;
 	height: 25px;
 	margin-bottom: 2px;
 	overflow: visible;
@@ -40,8 +41,14 @@
 
 
 .ttHeader > .ttHeaderDay {
-    width: calc(100% - 58px);
+  width: 100%;
 	margin: 0 2px;
+}
+.ttHeader > .ttHeaderDay.one {
+  width: calc(100% - 29px);
+}
+.ttHeader > .ttHeaderDay.both {
+  width: calc(100% - 58px);
 }
 
 .ttHeader > .leftArrow {
