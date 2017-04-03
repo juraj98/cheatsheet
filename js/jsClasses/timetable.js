@@ -1,277 +1,459 @@
-class Timetable {
-	/*
-	Variables:
-	  this.monday
-	  this.tuesday
-	  this.wednesday
-	  this.thursday
-	  this.friday
-	  this.saturday
-	  this.sunday
+class Timetable{
 
-	  this.element
-	  this.date
-	  this.isEditor
-	*/
-	//Constructor
-	constructor(_json, _isEditor, _date, _mondayJSON = null, _tuesdayJSON = null, _wednesdayJSON = null, _thursdayJSON = null, _fridayJSON = null, _saturdayJSON = null, _sundayJSON = null) {
-		if (_json) {
-			this.updateViaJSON(_json);
-		} else {
-			this.updateViaDays(_mondayJSON, _tuesdayJSON, _wednesdayJSON, _thursdayJSON, _fridayJSON, _saturdayJSON, _sundayJSON);
-		}
-		if (_date) {
-			this.date = _date;
-		} else {
-			this.date = new Date();
-		}
-		this.isEditor = _isEditor;
+  constructor(_json, _isEditor){
+    //Parse JSON
+    var json = JSON.parse(_json);
+
+    //Declare variables
+    this.locations = {};
+    this.teachers = {};
+    this.bodies = {};
+    this.subjects = {};
+    this.newBodyIdMultiplier = 1;
+    this.newLocationIdMultiplier = 1;
+    this.newTeacherIdMultiplier = 1;
+    var today = new Date();
+    // today.setDate(today.getDate() - 1);
+    this.activeDay = today.getDay();
+    this.isEditor = _isEditor;
+
+    //Create locations
+    for (var index in json.locations) {
+      this.locations[index] = new Location(index, json.locations[index].name, json.locations[index].description);
+    }
+
+    //Create teachers
+    for (var index in json.teachers) {
+      this.teachers[index] = new Teacher(index, json.teachers[index].name, json.teachers[index].surname, json.teachers[index].description, null);
+      // TODO: Add image
+    }
+
+    //Create bodies
+    for(var index in json.bodies) {
+      this.bodies[index] = new Body(index, json.bodies[index].name, json.bodies[index].acronym, json.bodies[index].icon, json.bodies[index].color);
+    }
+
+    //Create subjects
+    this.days = {
+      "monday": [],
+      "thursday": [],
+      "wednesday": [],
+      "tuesday": [],
+      "friday": [],
+      "saturday": [],
+      "sunday": []
+    };
+
+    for(var timetableIndex in json.timetable){
+      //loop through timetable days
+      for(var subjectIndex in json.timetable[timetableIndex]){
+          //Loop through day subjects
+          var subjectBodies = [];
+          for(var j = 0; j < json.timetable[timetableIndex][subjectIndex].bodies.length; j++){
+            subjectBodies.push(new SubjectBody(
+              this.bodies[json.timetable[timetableIndex][subjectIndex].bodies[j].bodyId],
+              this.teachers[json.timetable[timetableIndex][subjectIndex].bodies[j].teacherId],
+              this.locations[json.timetable[timetableIndex][subjectIndex].bodies[j].locationId]
+            ));
+          }
+
+          this.days[timetableIndex].push(new Subject(
+            json.timetable[timetableIndex][subjectIndex].id,
+            this.getIndexByName(timetableIndex),
+            json.timetable[timetableIndex][subjectIndex].number,
+            new Time(json.timetable[timetableIndex][subjectIndex].startTime),
+            new Time(json.timetable[timetableIndex][subjectIndex].endTime),
+            subjectBodies
+          ));
+        }
+    }
+
+    // console.log("==TIMETABLE==");
+    // console.log(JSON.stringify(this.toArray()));
+  }
+
+  placeTimetableOn(_element) {
+		//Calculate nuberof rows
+		this.number = Math.floor($(_element).width() / 350);
+		this.timetableDayWidth = $(_element).width() / this.number - 16;
+
+		$(_element).replaceWith(this.toElement(this.number, this.timetableDayWidth));
+
+		$(this.element).find(".ttSubjectBody").each(function () {
+			$(this).data("SubjectBody").resize();
+		});
 	}
+  generateDay(_dayIndex){
+    //Variables
+    var day = this.days[this.getNameByIndex(_dayIndex)];
+    var dayElement = $('<div class="timetableDay"></div>');
 
-	//Updates
-	updateViaJSON(_json) {
-		_json = JSON.parse(_json);
-		if (_json["monday"] || true) {
-			this.monday = new TimetableDay(JSON.stringify(_json["monday"]));
-		} else {
-			this.monday = null;
-		}
-		if (_json["tuesday"] || true) {
-			this.tuesday = new TimetableDay(JSON.stringify(_json["tuesday"]));
-		} else {
-			this.tuesday = null;
-		}
-		if (_json["wednesday"] || true) {
-			this.wednesday = new TimetableDay(JSON.stringify(_json["wednesday"]));
-		} else {
-			this.wednesday = null;
-		}
-		if (_json["thursday"] || true) {
-			this.thursday = new TimetableDay(JSON.stringify(_json["thursday"]));
-		} else {
-			this.thursday = null;
-		}
-		if (_json["friday"] || true) {
-			this.friday = new TimetableDay(JSON.stringify(_json["friday"]));
-		} else {
-			this.friday = null;
-		}
-		if (_json["saturday"] || true) {
-			this.saturday = new TimetableDay(JSON.stringify(_json["saturday"]));
-		} else {
-			this.saturday = null;
-		}
-		if (_json["sunday"] || true) {
-			this.sunday = new TimetableDay(JSON.stringify(_json["sunday"]));
-		} else {
-			this.sunday = null;
-		}
-	}
-	updateViaDays(_mondayJSON = null, _tuesdayJSON = null, _wednesdayJSON = null, _thursdayJSON = null, _fridayJSON = null, _saturdayJSON = null, _sundayJSON = null) {
-		this.monday = new TimetableDay(_moday);
-		this.tuesday = new TimetableDay(_tuesday);
-		this.wednesday = new TimetableDay(_wednesday);
-		this.thursday = new TimetableDay(_thursday);
-		this.friday = new TimetableDay(_friday);
-		this.saturday = new TimetableDay(_saturday);
-		this.sunday = new TimetableDay(_sunday);
-	}
+    //If day is empty, return
+    if(day.length == 0){
+      return $(dayElement);
+    }
 
-	//Listeners
-	addListeners() { //It's called just once on end of toElement();
-		//Reference for this for functions in listeners
-		var that = this;
 
-		//Click listener for left arrow in header
-		this.element.find(".ttHeader > .leftArrow").click(function () {var notChanged = true;
-			while (notChanged) {
-				that.date.setTime(that.date.getTime() - (24 * 60 * 60 * 1000));
-				if (that.getCurrentTimetableDay().subjects.length != 0) {
-					notChanged = false;
+    //If isEditor - add insertSubject on top
+    if(this.isEditor){
+      $(dayElement).append('<div class="insertSubject' + (i==0 ? " top" : "") + '"><span class="blockText  unselectable" unselectable="on">Add new subject</span></div>');
+    }
+
+    //Loop through subjects
+    for(var i = 0; i < day.length; i++){
+
+      //Generate subject
+      $(dayElement).append(day[i].toElement(this.isEditor));
+
+      //If isEditor - add inserSubject
+      if(this.isEditor){
+        $(dayElement).append('<div class="insertSubject' + (i+1==day.length ? " bottom" : "") + '"><span class="blockText  unselectable" unselectable="on">Add new subject</span></div>');
+      }
+    }
+
+    return $(dayElement);
+  }
+
+  toElement(_number, _timetableDayWidth){
+
+    //Create basic header
+    this.element = $('<div class="ttTimetableRow' + (this.isEditor ? " timetableEditor" : "") + '"></div>');
+
+		//Header
+		$( this.element).html('<div class="ttHeader"><div class="card-1 unselectable leftArrow"><i class="material-icons">keyboard_arrow_left</i></div></div>');
+
+    if (_number <= 1) {
+      var currentHeaderDay = $('<div class="ttHeaderDay card-1">' + getDayById(this.activeDay) + '</div>');
+      $(this.element).children(".ttHeader").append($(currentHeaderDay));
+      $(currentHeaderDay).width(_timetableDayWidth - 58);
+
+    } else {
+			var loop = _number
+
+			for (var i = 0; i < loop; i++) {
+        if(loop - _number > 7) {
+          console.log("Break loop");
+          for(var j = 0; j < _number; j++){
+            var currentHeaderDay = $('<div class="ttHeaderDay card-1">' + getDayById(this.activeDay + j) + '</div>');
+  					$(this.element).children(".ttHeader").append($(currentHeaderDay));
+  					if (j - (loop - _number) == 0 || j + 1 == loop) {
+  						$(currentHeaderDay).width(_timetableDayWidth - 29);
+  					} else {
+  						$(currentHeaderDay).width(_timetableDayWidth);
+  					}
+          }
+          break;
+        }
+				if (Object.keys(this.days[this.getNameByIndex(this.activeDay + i)]).length == 0) {
+					loop++;
+				} else {
+					var currentHeaderDay = $('<div class="ttHeaderDay card-1">' + getDayById(this.activeDay + i + loop - _number) + '</div>');
+					$(this.element).children(".ttHeader").append($(currentHeaderDay));
+					if (i - (loop - _number) == 0 || i + 1 == loop) {
+						$(currentHeaderDay).width(_timetableDayWidth - 29);
+					} else {
+						$(currentHeaderDay).width(_timetableDayWidth);
+					}
 				}
 			}
-			//Disable subject options
+		}
+    $(this.element).children(".ttHeader").append('<div class="card-1 unselectable rightArrow"><i class="material-icons">keyboard_arrow_right</i></div>');
 
-			subjectOptionActivated = false;
-			$(".teSubjectOptions").children().each(function () {
-				$(this).addClass("disabled");
-			});
+    //Body
+    if(_number <= 1){
+      var timetableDay = this.generateDay(this.activeDay);
+			$(this.element).append($(timetableDay));
+    } else {
+      var loop = _number;
+			for (var i = 0; i < loop; i++) {
+        if(loop - _number > 7) {
+          for(var j = 0; j < _number; j++){
+          	$(this.element).append($("<div class='timetableDay'></div>"));
+          }
+          console.log("Break loop");
+          break;
+        }
+				if (this.days[this.getNameByIndex(this.activeDay + i)].length == 0) {
+					loop++;
+				} else {
 
-			if (editingBody) {
-				$(editingBody.data("SubjectBody").notificationArea.editingElement).css("display", "none");
-				editingBody.data("SubjectBody").notificationArea.editing = false;
-				editingBody.data("SubjectBody").resize();
-			}
-			editingBody = null;
-			$(that.element).replaceWith(that.toElement());
-		});
+          var timetableDay = this.generateDay(this.activeDay + i);
 
-		//Click listener for right arrow in header
-		this.element.find(".ttHeader > .rightArrow").click(function () {
-			var notChanged = true;
-			while (notChanged) {
-				that.date.setTime(that.date.getTime() + (24 * 60 * 60 * 1000));
-				if (that.getCurrentTimetableDay().subjects.length != 0) {
-					notChanged = false;
+					$(this.element).append($(timetableDay));
+
+					$(timetableDay).width(_timetableDayWidth);
+
+					if (i - (loop - _number) == 0) {
+						$(timetableDay).css("margin-left", "0");
+					} else if (i + 1 == loop) {
+						$(timetableDay).css("margin-right", "0");
+					}
 				}
-			}
+      }
+    }
+    this.addListeners();
+    return $(this.element).data("Timetable", this);
+  }
 
-			//Disable subject options
-			if (subjectOptionActivated) {
-				subjectOptionActivated = false;
-				$(".teSubjectOptions").children(".disabled").each(function () {
-					$(this).addClass("disabled");
-				});
-			}
-			if (editingBody) {
-				$(editingBody.data("SubjectBody").notificationArea.editingElement).css("display", "none");
-				editingBody.data("SubjectBody").notificationArea.editing = false;
-				editingBody.data("SubjectBody").resize();
-			}
-			editingBody = null;
-			$(that.element).replaceWith(that.toElement());
-		});
 
-		//Add listeners for every .insertSubjectBody button between subjects
+  toArray(){
+
+    var returnArray = {
+      bodies: JSON.parse(JSON.stringify(this.bodies)),
+      locations: JSON.parse(JSON.stringify(this.locations)),
+      teachers: JSON.parse(JSON.stringify(this.teachers))
+    };
+
+    var subjects = [];
+
+    //loop through subjects
+    var subjectPosition = 0;
+    for(var index in this.days){
+
+      for(var i = 0; i < this.days[index].length; i++){
+        var currentSubject = jQuery.extend(true, {}, this.days[index][i]);
+
+        //parse time
+        currentSubject.startTime = currentSubject.startTime.getTime();
+        currentSubject.endTime = currentSubject.endTime.getTime();
+
+        //parse bodies
+        for(var j = 0; j < currentSubject.bodies.length; j++){
+          var currentSubjectBody = currentSubject.bodies[j];
+
+          delete currentSubjectBody.element;
+          delete currentSubjectBody.notificationArea;
+
+          //Check body
+          if(returnArray.bodies[currentSubjectBody.body.id] == undefined){
+            //add body to bodies array if not exists
+            console.log("Adding body. ID: " + currentSubjectBody.body.id);
+            returnArray.bodies[currentSubjectBody.body.id] = currentSubjectBody.body;
+          }
+          //Parse body
+          currentSubjectBody.bodyId = currentSubjectBody.body.id;
+          delete currentSubjectBody.body;
+          // currentSubjectBody.body = "TEST";
+
+          //Check teacher
+          if(returnArray.teachers[currentSubjectBody.teacher.id] == undefined){
+            //add body to bodies array if not exists
+            console.log("Adding teacher. ID: " + currentSubjectBody.teacher.id);
+            returnArray.teachers[currentSubjectBody.teacher.id] = currentSubjectBody.teacher;
+          }
+          //Parse teacher
+          currentSubjectBody.teacherId = currentSubjectBody.teacher.id;
+          delete currentSubjectBody.teacher;
+          // currentSubjectBody.teacher = "TEST";
+
+
+          //Check location
+          if(returnArray.locations[currentSubjectBody.location.id] == undefined){
+            //add location to locations array if not exists
+            console.log("Adding location. ID: " + currentSubjectBody.location.id);
+            returnArray.locations[currentSubjectBody.location.id] = currentSubjectBody.location;
+          }
+          //Parse location
+          currentSubjectBody.locationId = currentSubjectBody.location.id;
+          delete currentSubjectBody.location;
+          // currentSubjectBody.location = "TEST";
+        }
+
+        currentSubject.position = subjectPosition++;
+
+        subjects.push(currentSubject);
+      }
+
+    }
+    returnArray["subjects"] = subjects;
+
+    return returnArray;
+
+  }
+
+  //Listeners
+  addListeners() {
+    console.log("Add listeners");
+    var that = this;
+
+    //Left Arrow
+    $(this.element).find(".ttHeader > .leftArrow").click(function(){
+      console.log("Left Arrow");
+      editingBody = null;
+      // that.saveDay();
+      var notChanged = true;
+      while (notChanged){
+        that.activeDay--;
+        if(that.activeDay < 0){
+          that.activeDay += 6;
+        }
+        if(Object.keys(that.days[that.getNameByIndex(that.activeDay)]).length != 0){
+          notChanged = false;
+        }
+      }
+
+      // TODO: Add call for disable timetable options function
+
+			$(that.element).replaceWith(that.toElement(that.number, that.timetableDayWidth));
+
+    });
+
+    //Right arrow
+    $(this.element).find(".ttHeader > .rightArrow").click(function(){
+      console.log("Right Arrow");
+      editingBody = null;
+
+      // that.saveDay();
+      var notChanged = true;
+      while (notChanged){
+        console.log("Active day: " + that.activeDay);
+        that.activeDay++;
+        if(that.activeDay > 6){
+          that.activeDay -= 6;
+        }
+        console.log("Active day after: " + that.activeDay);
+        if(Object.keys(that.days[that.getNameByIndex(that.activeDay)]).length != 0){
+          notChanged = false;
+        }
+      }
+
+      // TODO: Add call for disable timetable options function
+
+			$(that.element).replaceWith(that.toElement(that.number, that.timetableDayWidth));
+    });
+
+    //Add listeners for every .insertSubjectBody button between subjects
 		var subjectBodyInsertButtons = this.element.find(".insertSubjectBody"); //Select all element with class .insertSubjectBody and store them in array
 		for (var i = 0; i < subjectBodyInsertButtons.length; i++) { //Loop through ^ elements                                         ^
 			this.addInsertSubjectBodyListener($(subjectBodyInsertButtons[i])); //Call addInsertSubjectBodyListener() for every element stored in ^ array;
 		}
 
-		//Add listeners for every .insertSubject button between subjects
+    //Add listeners for every .insertSubject button between subjects
 		var subjectInsertButtons = this.element.find(".insertSubject"); //Select all element with class .insertSubject and store them in array
 		for (var i = 0; i < subjectInsertButtons.length; i++) { //Loop through ^ elements                                     ^
 			this.addInsertSubjectListener($(subjectInsertButtons[i])); //Call addInsertSubjectListener() for every element stored in ^ array;
 		}
-	}
-	addInsertSubjectBodyListener(_element) { //Setup click listener for inserting subject body for _element
-		var that = this; //Reference for later
-		$(_element).click(function () {
-			//variables
-			var currentTimetableDay = that.getCurrentTimetableDay(), //Save reference of current displayed TimetableDay object for later
-				firstInsertBodyElement, //Variable for first button that will be on top of inserted SubjectBody
-				lastInsertBodyElement, //Variable for first button that will be bottom of inserted SubjectBody
-				referenceBodyId; //Variable for body's id that will be used as reference to inserted body
-			var subjectId = $(this).parent().parent().data("Subject").id; //Id of subject in with is .insertSubjectBody button
-			var newBodyId = Math.max.apply(Math, that.findInCurrentTimetableDay(currentTimetableDay, subjectId).usedIds) + 1, //Id of body currently being inserted - created by incrementing currently biggest used id by 1
+  }
 
-				newSubjectBody = new SubjectBody(null, newBodyId, "", "", "", "", true); //New subjectBody object
+  addInsertSubjectBodyListener(_element){
+    var that = this;
+    $(_element).click(function(){
+      var firstInsertBodyElement;
+      var lastInsertBodyElement;
+      var referenceBodyId;
+      var subject = $(this).parent().parent().data("Subject");
+      var newSubjectBody = new SubjectBody(new Body(-1*that.newBodyIdMultiplier, "", "", null, null), new Teacher(-1*that.newTeacherIdMultiplier, "", "", null, null), new Location(-1*that.newLocationIdMultiplier, "", null));
 
-			that.findInCurrentTimetableDay(currentTimetableDay, subjectId).usedIds.push(newBodyId);
+      if ($(this).hasClass("bottom")) {
 
-			//Check if $(this) element is bottom
-			if ($(this).hasClass("bottom")) {
+  				//If this element is bottom
+  				firstInsertBodyElement = $('<div class="insertSubjectBody"><span class="blockText  unselectable" unselectable="on">Add new subject</span></div>');
+  				lastInsertBodyElement = $('<div class="insertSubjectBody bottom"><span class="blockText  unselectable" unselectable="on">Add new subject</span></div>');
+          referenceBodyId = $(this).prev(".ttSubjectBody").data("SubjectBody").id; //Find id of reference body
 
-				//If this element is bottom
-				firstInsertBodyElement = $('<div class="insertSubjectBody"><span class="blockText  unselectable" unselectable="on">Add new subject</span></div>');
-				lastInsertBodyElement = $('<div class="insertSubjectBody bottom"><span class="blockText  unselectable" unselectable="on">Add new subject</span></div>');
+          subject.bodies.push(newSubjectBody); //Push newSubjectBody object on end of bodies array
+          //No need to find corrent position, because it's bottom insert emelent so it's last position
 
-				referenceBodyId = $(this).prev(".ttSubjectBody").data("SubjectBody").id; //Find id of reference body
+      } else {
+        if ($(this).hasClass("top")) {
+          //If this element is top
+          firstInsertBodyElement = $('<div class="insertSubjectBody top"><span class="blockText  unselectable" unselectable="on">Add new subject</span></div>');
+          lastInsertBodyElement = $('<div class="insertSubjectBody"><span class="blockText  unselectable" unselectable="on">Add new subject</span></div>');
+        } else {
+          //If this element is not top
+          firstInsertBodyElement = $('<div class="insertSubjectBody"><span class="blockText  unselectable" unselectable="on">Add new subject</span></div>');
+          lastInsertBodyElement = $('<div class="insertSubjectBody"><span class="blockText  unselectable" unselectable="on">Add new subject</span></div>');
+        }
 
-				that.findInCurrentTimetableDay(currentTimetableDay, subjectId).bodies.push(newSubjectBody); //Push newSubjectBody object on end of bodies array
-
-			} else {
-
-				//If this element is not bottom
-				if ($(this).hasClass("top")) {
-					//If this element is top
-					firstInsertBodyElement = $('<div class="insertSubjectBody top"><span class="blockText  unselectable" unselectable="on">Add new subject</span></div>');
-					lastInsertBodyElement = $('<div class="insertSubjectBody"><span class="blockText  unselectable" unselectable="on">Add new subject</span></div>');
-				} else {
-					//If this element is not top
-					firstInsertBodyElement = $('<div class="insertSubjectBody"><span class="blockText  unselectable" unselectable="on">Add new subject</span></div>');
-					lastInsertBodyElement = $('<div class="insertSubjectBody"><span class="blockText  unselectable" unselectable="on">Add new subject</span></div>');
-				}
-
-				referenceBodyId = $(this).next(".ttSubjectBody").data("SubjectBody").id; //Find id of reference body
-
-				for (var i = 0; i < that.findInCurrentTimetableDay(currentTimetableDay, subjectId).bodies.length; i++) { //Loop through all bodies of current subject
-					if (that.findInCurrentTimetableDay(currentTimetableDay, subjectId).bodies[i].id == referenceBodyId) { //Check if current's body id is same as reference body id
-						that.findInCurrentTimetableDay(currentTimetableDay, subjectId).bodies.splice(i, 0, newSubjectBody); //If ^ is true insert newSubjectBody before reference body
+        for (var i = 0; i < subject.bodies.length; i++) { //Loop through all bodies of current subject
+					if (subject.bodies[i].id == referenceBodyId) { //Check if current's body id is same as reference body id
+						subject.bodies.splice(i, 0, newSubjectBody); //If ^ is true insert newSubjectBody before reference body
 						break; //Stop the loop
 					}
 				}
-			}
+      }
 
 			//Add listeners for newly created insertSubjectBody element
 			that.addInsertSubjectBodyListener($(firstInsertBodyElement));
 			that.addInsertSubjectBodyListener($(lastInsertBodyElement));
 
 
-			//Add firstInsertBodyElement, newSubjectBody and lastInsertBodyElement after $(this) and than removes it
-			$(this).after($(lastInsertBodyElement)).after(newSubjectBody.toElement()).after($(firstInsertBodyElement)).remove();
+      //Add firstInsertBodyElement, newSubjectBody and lastInsertBodyElement after $(this) and than removes it
+      $(this).after($(lastInsertBodyElement)).after(newSubjectBody.toElement()).after($(firstInsertBodyElement)).remove();
+      newSubjectBody.element.find(".ttSubjectIcon").html('<i class="material-icons">school</i>');
 
-			//Trigger click so that user can edit it right awayA
-			$(newSubjectBody.element).trigger("click");
+      //Add subjectBody stuff to timetable's arrays
+      that.locations[newSubjectBody.location.id] = newSubjectBody.location;
+      that.teachers[newSubjectBody.teacher.id] = newSubjectBody.teacher;
+      that.bodies[newSubjectBody.body.id] = newSubjectBody.body;
 
-			//Call resize function on newSubjectBody
-			newSubjectBody.resize();
-		});
-	}
-	addInsertSubjectListener(_element) {
+      //Trigger click so that user can edit it right awayA
+      $(newSubjectBody.element).trigger("click");
+
+      //Call resize function on newSubjectBody
+      newSubjectBody.resize();
+
+
+    });
+  }
+
+  addInsertSubjectListener(_element){
 		var that = this; //Reference for later
 		$(_element).click(function () {
-			//variables
-			var currentTimetableDay = that.getCurrentTimetableDay(), //Save reference of current displayed TimetableDay object for later
-				newSubjectId; //if starting from 0 this will make sure that newSubjectId will be always bigger by one of last userdId
-			if (currentTimetableDay.usedIds.length == 0) {
-				newSubjectId = 0;
-			} else {
-				newSubjectId = Math.max.apply(Math, currentTimetableDay.usedIds) + 1;
-			}
-			var newSubjectNumber = "1", //Number for subject TODO: Add automatic calculation
-				newSubjectStart = "00:00", //Start of subject TODO: Add automatic calculation
-				newSubjectEnd = "00:00", //End of subject TODO: Add automatic calculation
-				referenceSubjectId, //Variable for body's id that will be used as reference to inserted body
-				firstInsertSubjectElement, //Variable for first button that will be on top of inserted SubjectBody
-				lastInsertSubjectElement, //Variable for first button that will be bottom of inserted SubjectBody
-				newSubjectBody = new SubjectBody(null, 0, "", "", "", "", true), //New subjectBody object
-				newSubject = new Subject(null, newSubjectId, newSubjectNumber, newSubjectStart, newSubjectEnd, "[" + newSubjectBody.toJSON() + "]"); //New subjectBody object
+      var firstInsertSubjectElement; //Variable for first button that will be on top of inserted SubjectBody
+      var lastInsertSubjectElement; //Variable for first button that will be bottom of inserted SubjectBody
+      var newSubject = new Subject(-1, that.activeDay, 0, new Time("00:00"), new Time("00:00"), [new SubjectBody(new Body(-1*that.newBodyIdMultiplier, "", "", null, null), new Teacher(-1*that.newTeacherIdMultiplier, "", "", null, null), new Location(-1*that.newLocationIdMultiplier, "", null))]);
+      var day = that.days[that.getNameByIndex(that.activeDay)];
+      var referenceSubjectId;
 
-			//If it's first in TimetableDay
-			currentTimetableDay.usedIds.push(newSubjectId);
+      if ($(this).hasClass("insertFirstSubject")) {
+        firstInsertSubjectElement = $('<div class="insertSubject top"><span class="blockText  unselectable" unselectable="on">Add new subject</span></div>');
+        lastInsertSubjectElement = $('<div class="insertSubject bottom"><span class="blockText  unselectable" unselectable="on">Add new subject</span></div>');
 
-			//Check if $(this) element should add first subject
-			if ($(this).hasClass("insertFirstSubject")) {
-				firstInsertSubjectElement = $('<div class="insertSubject top"><span class="blockText  unselectable" unselectable="on">Add new subject</span></div>');
-				lastInsertSubjectElement = $('<div class="insertSubject bottom"><span class="blockText  unselectable" unselectable="on">Add new subject</span></div>');
+        day.push(newSubject);
+      } else {
+        if ($(this).hasClass("top")) {
+          //If this element is top
+          firstInsertSubjectElement = $('<div class="insertSubject top"><span class="blockText  unselectable" unselectable="on">Add new subject</span></div>');
+          lastInsertSubjectElement = $('<div class="insertSubject"><span class="blockText  unselectable" unselectable="on">Add new subject</span></div>');
+                  day.push(newSubject);
+        } else {
+          //Check if $(this) element is bottom
+  				if ($(this).hasClass("bottom")) {
+  					//If $(this) element is bottom
+  					firstInsertSubjectElement = $('<div class="insertSubject"><span class="blockText  unselectable" unselectable="on">Add new subject</span></div>');
+  					lastInsertSubjectElement = $('<div class="insertSubject bottom"><span class="blockText  unselectable" unselectable="on">Add new subject</span></div>');
 
-				currentTimetableDay.subjects.push(newSubject); //Push newSubjectBody object on end of subjects array
-			} else {
-				//Check if $(this) element is bottom
-				if ($(this).hasClass("bottom")) {
-					//If $(this) element is bottom
-					firstInsertSubjectElement = $('<div class="insertSubject"><span class="blockText  unselectable" unselectable="on">Add new subject</span></div>');
-					lastInsertSubjectElement = $('<div class="insertSubject bottom"><span class="blockText  unselectable" unselectable="on">Add new subject</span></div>');
+  					//Useless for now
+  					//referenceSubjectId = $(this).prev(".ttSubject").data("Subject").id; //Find id of reference subject
 
-					//Useless for now
-					//referenceSubjectId = $(this).prev(".ttSubject").data("Subject").id; //Find id of reference subject
+  					day.push(newSubject); //Push newSubjectBody object on end of subjects array
 
-					currentTimetableDay.subjects.push(newSubject); //Push newSubjectBody object on end of subjects array
+  				} else {
+  					//If $(this) element is not bottom
+  					if ($(this).hasClass("top")) {
+  						//If this element is top
+  						firstInsertSubjectElement = $('<div class="insertSubject top"><span class="blockText  unselectable" unselectable="on">Add new subject</span></div>');
+  						lastInsertSubjectElement = $('<div class="insertSubject"><span class="blockText  unselectable" unselectable="on">Add new subject</span></div>');
+  					} else {
+  						//If this element is not top
+  						firstInsertSubjectElement = $('<div class="insertSubject"><span class="blockText  unselectable" unselectable="on">Add new subject</span></div>');
+  						lastInsertSubjectElement = $('<div class="insertSubject"><span class="blockText  unselectable" unselectable="on">Add new subject</span></div>');
+  					}
 
-				} else {
-					//If $(this) element is not bottom
-					if ($(this).hasClass("top")) {
-						//If this element is top
-						firstInsertSubjectElement = $('<div class="insertSubject top"><span class="blockText  unselectable" unselectable="on">Add new subject</span></div>');
-						lastInsertSubjectElement = $('<div class="insertSubject"><span class="blockText  unselectable" unselectable="on">Add new subject</span></div>');
-					} else {
-						//If this element is not top
-						firstInsertSubjectElement = $('<div class="insertSubject"><span class="blockText  unselectable" unselectable="on">Add new subject</span></div>');
-						lastInsertSubjectElement = $('<div class="insertSubject"><span class="blockText  unselectable" unselectable="on">Add new subject</span></div>');
-					}
+  					referenceSubjectId = $(this).next(".ttSubject").data("Subject").id; //Find id of reference subject
 
-					referenceSubjectId = $(this).next(".ttSubject").data("Subject").id; //Find id of reference subject
+            for (var i = 0; i < day.length; i++) { //Loop through all bodies of current subject
+              console.log("-Loop id: " + day[i].id);
+  						if (day[i].id == referenceSubjectId) { //Check if current's body id is same as reference body id
+  							day.splice(i, 0, newSubject); //If ^ is true insert newSubjectBody before reference body
+  							break; //Stop the loop
+  						}
+  					}
+  				}
+        }
+      }
 
-					for (var i = 0; i < currentTimetableDay.subjects.length; i++) { //Loop through all bodies of current subject
-						if (currentTimetableDay.subjects[i].id == referenceSubjectId) { //Check if current's body id is same as reference body id
-							currentTimetableDay.subjects.splice(i, 0, newSubject); //If ^ is true insert newSubjectBody before reference body
-							break; //Stop the loop
-						}
-
-					}
-				}
-			}
 			//Add listeners for newly created insertSubject elements
 			that.addInsertSubjectListener($(firstInsertSubjectElement));
 			that.addInsertSubjectListener($(lastInsertSubjectElement));
@@ -281,311 +463,87 @@ class Timetable {
 			//Add firstInsertSubjectElement, newSubject and lastInsertSubjectElement after $(this) and than removes it
 			$(this).after($(lastInsertSubjectElement)).after(newSubjectElement = newSubject.toElement(true)).after($(firstInsertSubjectElement)).remove();
 
+      //Add subject's subjectBody's stuff to timetable's arrays
+      that.locations[newSubject.bodies[0].location.id] = newSubject.bodies[0].location;
+      that.teachers[newSubject.bodies[0].teacher.id] = newSubject.bodies[0].teacher;
+      that.bodies[newSubject.bodies[0].body.id] = newSubject.bodies[0].body;
+
 			//Trigger click so that user can edit it right awayA
 			$(newSubject.bodies[0].element).trigger("click");
 
 			//Call resize function on newSubject's frist/only body
 			newSubject.bodies[0].resize();
 
-			//Setup new subject to be sortable
-			that.setupSubjectSortable($(newSubjectElement));
-
 			//Add listeners for newly created insertSubject elements
-			$(newSubjectElement).find(".insertSubjectBody").each(function () { //Loop through all of the .insertSubjectBody elements inside of newSubject and add listeners to them
+      $(newSubjectElement).find(".insertSubjectBody").each(function () { //Loop through all of the .insertSubjectBody elements inside of newSubject and add listeners to them
 				that.addInsertSubjectBodyListener($(this));
 			});
 
-			//TO-DO: Call that.setupSortableBodies() and that.setupSortableSubjects() function
-		});
-	}
-
-	//Sortable
-	setupSubjectSortable(_element) {
-
-		//Setup fixed height for TimetableDay so when last item is dragged it don't scroll wierdly
-		//FIX ME: Adding extra space on bottom
-		var height = 0;
-		$(_element).parent().children().each(function () {
-			height += $(this).height();
-		});
-		$(_element).parent().height(height == 0 ? "auto" : height);
-
-		var inserts; //Variable to store all of the InserSubjectBody elements
-		var that = this; //Reference for later
-		$(_element).children(".bodysSortable").sortable({
-			axis: "y", //Enable dragging only by y axis
-			items: '.ttSubjectBody', //Selector for elements that can be dragged
-			helper: 'clone', //While dragging use clone of element for helper, not original element. This'll remove bug that while dragging helper si moved to left edge of container
-			distance: 15, //sorting will not start until after mouse is dragged beyond 15 pixels
-			start: function (event, ui) { //Function called on start of drag;
-				inserts = $(this).children(".insertSubjectBody").detach(); //store all .insertBodySubject elements in variable and detach them
-			},
-			stop: function (event, ui) { //Function called on start of drag
-				var currentTimetableDay = that.getCurrentTimetableDay(); //Store currentTimetableDay in variable
-				var currentSubjectId = $(_element).data("Subject").id; //Get id of current subject
-				for (var i = 0; i < currentTimetableDay.subjects[currentSubjectId].bodies.length; i++) { //loop through all bodies of current subject
-					//Loop through bodies until current body id is equal to id of dragged body
-					if (currentTimetableDay.subjects[currentSubjectId].bodies[i].id == ui.item.data("SubjectBody").id) {
-
-						var draggedBodyObject = currentTimetableDay.subjects[currentSubjectId].bodies[i]; //Save currently dragged body to variable
-						currentTimetableDay.subjects[currentSubjectId].bodies.splice(i, 1); //Remove currently dragged body from array
-						currentTimetableDay.subjects[currentSubjectId].bodies.splice($(ui.item).parent().children().index($(ui.item)), 0, draggedBodyObject); //Add currently dragged object to new position in array
-						break; //Break loop
-					}
-				}
-				//After bodies are reorganised, add inserts
-				$(this).children(".ttSubjectBody").each(function (i, val) {
-					$(this).before(inserts[i]); //Put one insert before every body in subject
-				});
-				$(this).children(".ttSubjectBody").last().after(inserts[inserts.length - 1]); //Put last insert after last body in subject
-			}
-		});
-	}
-	setupTimetableDaySortable(_element) {
-
-		//Setup fixed height for _element(TimetableDay) so when last item is dragged it don't scroll wierdly
-		var height = 0;
-		$(_element).children().each(function () {
-			height += $(this).height();
-		});
-		$(_element).height(height == 0 ? "auto" : height);
-
-		var inserts; //Variable to store all of the InserSubjectBody elements
-		var that = this; //Reference for later
-
-		$(_element).sortable({
-			axis: "y", //Enable dragging only by y axis
-			items: '.ttSubject', //Selector for elements that can be dragged
-			distance: 15, //sorting will not start until after mouse is dragged beyond 15 pixels
-			start: function (event, ui) { //Function called on start of drag
-				inserts = $(this).children(".insertSubject").detach(); //store all .insertSubject elements in variable and detach them
-			},
-			stop: function (event, ui) { //Function called on end of drag
-
-				for (var i = 0; i < $(this).data("TimetableDay").subjects.length; i++) { //loop through all subjects of current TimetableDay
-					//Loop through subjects until current subject id is equal to id of dragged subject
-					if ($(this).data("TimetableDay").subjects[i].id == ui.item.attr("ttOptionSubjetId")) {
-
-						var draggedSubjectObject = $(this).data("TimetableDay").subjects[i]; //Save currently dragged subject to variable
-						$(this).data("TimetableDay").subjects.splice(i, 1); //Remove currently dragged subject from array
-						$(this).data("TimetableDay").subjects[i].splice($(ui.item).parent().children().index($(ui.item))); //Add currently dragged object to new position in array
-						break; //Break loop
-					}
-				}
-				//After bodies are reorganised, add inserts
-				$(this).children(".ttSubject").each(function (i, val) {
-					$(this).before(inserts[i]); //Put one insert before every body in subject
-				});
-				$(this).children(".ttSubject").last().after(inserts[inserts.length - 1]); //Put last insert after last body in subject
-			}
-		});
-	}
-
-	placeTimetableOn(_element) {
-
-			//Calculate nuberof rows
-			this.number = Math.floor($(_element).width() / 350);
-			this.timetableDayWidth = $(_element).width() / this.number - 16;
+    });
+  }
 
 
-			$(_element).replaceWith(this.toElement(this.number, this.timetableDayWidth));
-			$(this.element).find(".ttSubjectBody").each(function () {
-				$(this).data("SubjectBody").resize();
-			});
-		}
-		//Resize |TODO: rework
-		//	resize() {
-		//		console.log("resize");
-		//		this.element.each(function() {
-		//			var that = $(this);
-		//			$(this).find(".ttSubjectBody").each(function() {
-		//
-		//			});
-		//		});
-		//	}
-
-	//To funtions
-	toElement(_number, _width) {
-		_number = this.number;
-		_width = this.timetableDayWidth;
 
 
-		//Main element
-		var element = $('<div class="ttTimetableRow' + (this.isEditor ? " timetableEditor" : "") + '"></div>');
-		//Header
-		$(element).html('<div class="ttHeader"><div class="card-1 unselectable leftArrow"><i class="material-icons">keyboard_arrow_left</i></div></div>');
+  //Utility
+  getDayByIndex(_index){
+    var dayIndex = this.activeDay + _index;
+    if(dayIndex > 6){
+      dayIndex-=6;
+    }
+    return this.days[dayIndex];
+  }
 
-		if (_number <= 1) {
-			var currentHeaderDay = $('<div class="ttHeaderDay card-1">' + getDayById(this.date.getDay()) + '</div>');
-			$(element).children(".ttHeader").append($(currentHeaderDay));
-			$(currentHeaderDay).width(_width - 58);
+  getIndexByName(_name) {
+    switch (_name) {
+      case "monday":
+        return 1;
+      case "thursday":
+        return 2;
+      case "wednesday":
+        return 3;
+      case "tuesday":
+        return 4;
+      case "friday":
+        return 5;
+      case "saturday":
+        return 6;
+      case "sunday":
+        return 0;
+      default:
+        console.log("Unknow index: " + _index);
+        return;
+    }
+}
+  getNameByIndex(_index) {
+    if(_index > 6){
+      while(_index > 6){
+        _index -= 6;
+      }
+    } else if(_index < 0){
+      while(_index < 0){
+        _index += 6;
+      }
+    }
 
-		} else {
-			var loop = _number
-
-			//Fix me: If timetable is empty this create infinite loop
-
-			for (var i = 0; i < loop; i++) {
-				if (this.getCurrentTimetableDay(i).subjects.length == 0) {
-					loop++;
-				} else {
-					var currentHeaderDay = $('<div class="ttHeaderDay card-1">' + getDayById(this.date.getDay() + i) + '</div>');
-					$(element).children(".ttHeader").append($(currentHeaderDay));
-					if (i - (loop - _number) == 0 || i + 1 == loop) {
-						$(currentHeaderDay).width(_width - 29);
-					} else {
-						$(currentHeaderDay).width(_width);
-					}
-				}
-			}
-		}
-
-		$(element).children(".ttHeader").append('<div class="card-1 unselectable rightArrow"><i class="material-icons">keyboard_arrow_right</i></div>');
-
-
-		if (_number <= 1) {
-			if (this.getCurrentTimetableDay()) {
-				$(element).append(this.getCurrentTimetableDay().toElement(this.isEditor));
-			}
-		} else {
-			var loop = _number;
-
-			for (var i = 0; i < loop; i++) {
-
-				if (this.getCurrentTimetableDay(i).subjects.length == 0) {
-					loop++;
-				} else {
-					var insertedTimetableDay = this.getCurrentTimetableDay(i).toElement(this.isEditor)
-					$(element).append($(insertedTimetableDay));
-					$(insertedTimetableDay).width(_width);
-					if (i - (loop - _number) == 0) {
-						$(insertedTimetableDay).css("margin-left", "0");
-					} else if (i + 1 == loop) {
-						$(insertedTimetableDay).css("margin-right", "0");
-					}
-				}
-
-			}
-		}
-
-		$(element).width((_width + 4) * _number);
-
-		$(element).data("Timetable", this)
-
-		this.element = $(element);
-		this.addListeners();
-
-		if (this.isEditor) { //If this is timetableEditor call setup draggable functions
-			var that = this;
-			this.element.find(".ttSubject").each(function () {
-				that.setupSubjectSortable($(this));
-			});
-			this.element.find(".timetableDay").each(function () {
-				that.setupTimetableDaySortable($(this));
-			});
-		}
-
-		return $(element);
-	}
-	toJSON() {
-		return JSON.stringify(this.toArray());
-	}
-	toArray() {
-		var array = {};
-		//monday
-		if (this.monday) {
-			array["monday"] = this.monday.toArray();
-		} else {
-			array["monday"] = null;
-		}
-		//tuesday
-		if (this.tuesday) {
-			array["tuesday"] = this.tuesday.toArray();
-		} else {
-			array["tuesday"] = null;
-		}
-		//wednesday
-		if (this.wednesday) {
-			array["wednesday"] = this.wednesday.toArray();
-		} else {
-			array["wednesday"] = null;
-		}
-		//thursday
-		if (this.thursday) {
-			array["thursday"] = this.thursday.toArray();
-		} else {
-			array["thursday"] = null;
-		}
-		//friday
-		if (this.friday) {
-			array["friday"] = this.friday.toArray();
-		} else {
-			array["friday"] = null;
-		}
-		//saturday
-		if (this.saturday) {
-			array["saturday"] = this.saturday.toArray();
-		} else {
-			array["saturday"] = null;
-		}
-		//sunday
-		if (this.sunday) {
-			array["sunday"] = this.sunday.toArray();
-		} else {
-			array["sunday"] = null;
-		}
-		return array;
-	}
-
-	//Utility
-	getCurrentTimetableDay(_difference = 0) {
-		var index = this.date.getDay() + _difference;
-
-		if (index < 0) {
-			index += 7;
-		} else if (index > 6) {
-			index -= 7;
-		}
-
-		switch (index) {
-		case 0:
-			return this.sunday;
-		case 1:
-			return this.monday;
-		case 2:
-			return this.tuesday;
-		case 3:
-			return this.wednesday;
-		case 4:
-			return this.thursday;
-		case 5:
-			return this.friday;
-		case 6:
-			return this.saturday;
-		default:
-			console.error("Wrong index: " + index);
-			return this.none;
-		}
-	}
-
-	findInCurrentTimetableDay(_currentTimetableDay, _subjectId, _bodyId = null) {
-		for (var currentSubjectIndex = 0; currentSubjectIndex < _currentTimetableDay.subjects.length; currentSubjectIndex++) {
-
-			if (_currentTimetableDay.subjects[currentSubjectIndex].id == _subjectId) {
-				if (_bodyId) {
-					for (var currentBodyIndex = 0; currentBodyIndex < _currentTimetableDay.subjects[currentSubjectIndex].bodies.length; currentBodyIndex++) {
-						if (_currentTimetableDay.subjects[currentSubjectIndex].bodies[currentBodyIndex].id == _bodyId) {
-							return _currentTimetableDay.subjects[currentSubjectIndex].bodies[currentBodyIndex]
-						}
-					}
-
-				} else {
-					return _currentTimetableDay.subjects[currentSubjectIndex];
-				}
-			}
-
-		}
-	}
-
-
+    switch (_index) {
+      case 1:
+        return "monday";
+      case 2:
+        return "thursday";
+      case 3:
+        return "wednesday";
+      case 4:
+        return "tuesday";
+      case 5:
+        return "friday";
+      case 6:
+        return "saturday";
+      case 0:
+        return "sunday";
+      default:
+        console.log("Unknow index: " + _index);
+        return;
+    }
+  }
 }

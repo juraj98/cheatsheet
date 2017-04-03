@@ -26,7 +26,7 @@ if(isset($_POST["classId"])) {
 	//SQL Query
 	$sql = "
 	SELECT
-		subjects.id AS subjectId, subjects.dayIndex, subjects.number, subjects.startTime, subjects.endTime,
+		subjects.id AS subjectId, subjects.dayIndex, subjects.number, subjects.startTime, subjects.endTime, subjects.position,
 		bodies.id AS bodyId, bodies.name AS bodyName, bodies.acronym, bodies.icon, bodies.color,
 		teachers.id AS teacherId, teachers.name AS teacherName, teachers.surname AS teacherSurname, teachers.description AS teacherDescription,
 		locations.id AS locationId, locations.name AS locationName, locations.description AS locationDescription
@@ -37,36 +37,64 @@ if(isset($_POST["classId"])) {
 	LEFT JOIN bodies ON timetableRelations.bodyId=bodies.id
 	LEFT JOIN locations ON timetableRelations.locationId=locations.id
 	LEFT JOIN teachers ON timetableRelations.teacherId=teachers.id
-	WHERE newTimetables.classId=" . mysqli_real_escape_string($conn, $_POST["classId"]);
+	WHERE newTimetables.classId=" . mysqli_real_escape_string($conn, $_POST["classId"]) . "
+	ORDER BY subjects.position ASC";
 	//Execute query
 	$query = mysqli_query($conn, $sql);
 	if($query) {
-
 		$downloadedData = mysqli_fetch_all($query, MYSQLI_ASSOC);
 
 		// print_r($downloadedData[0]);
 		$downloadedDataLength = sizeOf($downloadedData);
 
+		$addedSubjectsIds = [];
+
 		for($i = 0; $i < $downloadedDataLength; $i++){
+
 			//Check subject
-					// print_r($downloadedData[$i]);
-					// die();
-			if(isset($response->data->timetable[getDayByIndex($downloadedData[$i]["dayIndex"])][$downloadedData[$i]["subjectId"]])){
-				//Subject is created - check body
+			if(in_array($downloadedData[$i]["subjectId"], $addedSubjectsIds)){
+
+				//Add bodyData
+				$body["locationId"] = $downloadedData[$i]["locationId"];
+				$body["teacherId"] = $downloadedData[$i]["teacherId"];
+				$body["bodyId"] = $downloadedData[$i]["bodyId"];
+
+				for($j = 0; $j < count($addedSubjectsIds); $j++){
+					if($response->data->timetable[getDayByIndex($downloadedData[$i]["dayIndex"])][$j]["id"] == $downloadedData[$i]["subjectId"]){
+						$response->data->timetable[getDayByIndex($downloadedData[$i]["dayIndex"])][$j]["bodies"][] = $body;
+					}
+				}
+
 			} else {
-				//Subject is not created
-				//Add subject
-				$response->data->timetable[getDayByIndex($downloadedData[$i]["dayIndex"])][$downloadedData[$i]["subjectId"]]["number"] = $downloadedData[$i]["number"];
-				$response->data->timetable[getDayByIndex($downloadedData[$i]["dayIndex"])][$downloadedData[$i]["subjectId"]]["startTime"] = $downloadedData[$i]["startTime"];
-				$response->data->timetable[getDayByIndex($downloadedData[$i]["dayIndex"])][$downloadedData[$i]["subjectId"]]["endTime"] = $downloadedData[$i]["endTime"];
+				$addedSubjectsIds[] = $downloadedData[$i]["subjectId"];
+
+				$newSubject["id"] =  $downloadedData[$i]["subjectId"];
+				$newSubject["position"] = $downloadedData[$i]["position"];
+				$newSubject["number"] = $downloadedData[$i]["number"];
+				$newSubject["startTime"] = $downloadedData[$i]["startTime"];
+				$newSubject["endTime"] = $downloadedData[$i]["endTime"];
+
+				//Add bodyData
+				$body["locationId"] = $downloadedData[$i]["locationId"];
+				$body["teacherId"] = $downloadedData[$i]["teacherId"];
+				$body["bodyId"] = $downloadedData[$i]["bodyId"];
+
+				$newSubject["bodies"] = [$body];
+
+				$response->data->timetable[getDayByIndex($downloadedData[$i]["dayIndex"])][] = $newSubject;
+
+
 			}
 
-			//Add bodyData
-			$body["locationId"] = $downloadedData[$i]["locationId"];
-			$body["teacherId"] = $downloadedData[$i]["teacherId"];
-			$body["bodyId"] = $downloadedData[$i]["bodyId"];
-
-			$response->data->timetable[getDayByIndex($downloadedData[$i]["dayIndex"])][$downloadedData[$i]["subjectId"]]["bodies"][] = $body;
+			// if(isset($response->data->timetable[getDayByIndex($downloadedData[$i]["dayIndex"])][$downloadedData[$i]["subjectId"]])){
+			// 	//Subject is created - check body
+			// } else {
+			// 	//Subject is not created
+			// 	//Add subject
+			// 	$response->data->timetable[getDayByIndex($downloadedData[$i]["dayIndex"])][$downloadedData[$i]["subjectId"]]["number"] = $downloadedData[$i]["number"];
+			// 	$response->data->timetable[getDayByIndex($downloadedData[$i]["dayIndex"])][$downloadedData[$i]["subjectId"]]["startTime"] = $downloadedData[$i]["startTime"];
+			// 	$response->data->timetable[getDayByIndex($downloadedData[$i]["dayIndex"])][$downloadedData[$i]["subjectId"]]["endTime"] = $downloadedData[$i]["endTime"];
+			// }
 
 			//Check bodies
 			if(isset($response->data->bodies[$downloadedData[$i]["bodyId"]])){
@@ -95,7 +123,7 @@ if(isset($_POST["classId"])) {
 			} else {
 				//location is not added
 				$response->data->locations[$downloadedData[$i]["locationId"]]["name"] = $downloadedData[$i]["locationName"];
-				$response->data->locations[$downloadedData[$i]["locationId"]]["surname"] = $downloadedData[$i]["locationDescription"];
+				$response->data->locations[$downloadedData[$i]["locationId"]]["description"] = $downloadedData[$i]["locationDescription"];
 			}
 		}
 
@@ -105,8 +133,8 @@ if(isset($_POST["classId"])) {
 		//Failed query response build;
 		$response->success = false;
 		$response->error->code = 3;
-		$response->error->message = "Query failed.";
-		$response->error->details = "Query fetching data failed. Error: " . mysqli_error($conn);
+		$response->error->message = ERR_MSG_QUERY_FAILED;
+		$response->error->details = "Query fetching timetable data failed. Error: " . mysqli_error($conn);
 	}
 	//Return response
 	die(json_encode($response));
@@ -125,11 +153,11 @@ function getDayByIndex($index){
 		case 1:
 			return "monday";
 		case 2:
-			return "tuesday";
+			return "thursday";
 		case 3:
 			return "wednesday";
 		case 4:
-			return "thursday";
+			return "tuesday";
 		case 5:
 			return "friday";
 		case 6:

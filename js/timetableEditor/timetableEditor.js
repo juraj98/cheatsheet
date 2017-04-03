@@ -6,36 +6,37 @@ function timetableEditorInit(_id) {
 	subjectOptionActivated = false;
 
 	//Create timetable
-
-	$.post(baseDir + "/php/get/getTimetableData.php", {
+	$.post(baseDir + "/php/get/getNewTimetableData.php", {
 		idToken: googleTokenId,
 		classId: _id
 	}, function(_ajaxData) {
 
 		if (_ajaxData.success) {
-			var timetable = new Timetable(JSON.stringify(_ajaxData.data.timetable), true, null);
-			timetable.placeTimetableOn(".timetableEditor");
-			resizeNumberInput();
+
+			var timetable = new Timetable(JSON.stringify(_ajaxData.data), true);
+			timetable.placeTimetableOn($(".timetableEditor"));
 
 			//Basic functions
 			materialFormInit();
 
-
 			//Listeners
 			$("#save").click(function() {
-				$.post(baseDir + "/php/set/setTimetable.php", {
-					idToken: googleTokenId,
-					classId: _id,
-					timetable: timetable.toJSON()
-				}, function(_ajaxData) {
+				// $.post(baseDir + "/php/set/setTimetable.php", {
+				// 	idToken: googleTokenId,
+				// 	classId: _id,
+				// 	timetable: timetable.toJSON()
+				// }, function(_ajaxData) {
+				//
+				// 	if (_ajaxData.success) {
+				// 		popout("Success");
+				// 	} else {
+				// 		popout(_ajaxData.error.message);
+				// 	}
+				// });
 
-					if (_ajaxData.success) {
-						popout("Success");
-					} else {
-						popout(_ajaxData.error.message);
-					}
+				console.log("SAVE");
+				console.log(JSON.stringify(timetable.toArray()));
 
-				});
 			});
 			$("#remove").click(function() {
 				if ($(this).parent().hasClass("disabled")) {
@@ -95,9 +96,7 @@ function timetableEditorInit(_id) {
 							var bodyFound = false;
 
 							for (var currentBodyId = 0; currentBodyId < currentTimetableDay.subjects[currentSubjectId].bodies.length; currentBodyId++) {
-
 								if (bodyId == currentTimetableDay.subjects[currentSubjectId].bodies[currentBodyId].id) {
-
 									bodyFound = true;
 									break;
 								}
@@ -133,22 +132,16 @@ function timetableEditorInit(_id) {
 
 			});
 
-			//.ttSubjectBody click listener in setUpDynamicListeners.js
-
 			//Number
 			$("#teSubjectNumber > input").on("change keyup keydown paste", function() {
 				var value = $(this).val();
-				if (/^\d+$/.test(value) && value.length <= 3) { ///^\d+$/.test(value - test if all characters are digits
+				if (/^\d+$/.test(value) && value.length <= 3) { // /^\d+$/.test(value - test if all characters are digits
 					var subject = $(editingBody).parent().parent();
 					$(subject).data("Subject").number = value;
 					$(subject).find(".number span").html(value);
 
-					for (var i = 0; i < $(subject).data("Subject").bodies.length; i++) { //TODO: 11 Adding changed notification even when there was no change
-						var subjectBody = $(subject).data("Subject").bodies[i];
-						$(subjectBody.notificationArea.changeElement).css("display", "block");
-						subjectBody.notificationArea.changed = true;
-						subjectBody.resize();
-					}
+					setChanged();
+
 				}
 			});
 			//Acr
@@ -156,19 +149,19 @@ function timetableEditorInit(_id) {
 				var value = $(this).val().toUpperCase();
 				if (value.length <= 3) {
 					var subjectBody = $(editingBody);
-					$(subjectBody).data("SubjectBody").acronym = value;
-					if (!$(subjectBody).data("SubjectBody").icon) {
+					timetable.bodies[subjectBody.data("SubjectBody").body.id].acronym = value;
+					$(subjectBody).data("SubjectBody").body.acronym = value;
+					if (!$(subjectBody).data("SubjectBody").body.icon) {
 						if (value.length > 0) {
 							$(subjectBody).children(".ttSubjectIcon").html(value.charAt(0));
+							$(".teSubjectImage").html(value.charAt(0));
 						} else {
 							$(subjectBody).children(".ttSubjectIcon").html('<i class="material-icons">school</i>');
+							$(".teSubjectImage").html('<i class="material-icons">school</i>');
 						}
 					}
 
-					subjectBody = $(editingBody).data("SubjectBody");
-					$(subjectBody.notificationArea.changeElement).css("display", "block");
-					subjectBody.notificationArea.changed = true;
-					subjectBody.resize();
+					setChanged(true);
 				}
 			});
 			//Name
@@ -176,43 +169,65 @@ function timetableEditorInit(_id) {
 				var value = $(this).val();
 				if (value.length <= 50) {
 					var subjectBody = $(editingBody);
-					$(subjectBody).data("SubjectBody").name = value;
+					console.log("SUBJECTBODY");
+					console.log(timetable.bodies[subjectBody.data("SubjectBody").body.id]);
+					timetable.bodies[subjectBody.data("SubjectBody").body.id].name = value;
 					$(subjectBody).children(".ttSubjectName").html(value);
 
-					subjectBody = $(editingBody).data("SubjectBody");
-					$(subjectBody.notificationArea.changeElement).css("display", "block");
-					subjectBody.notificationArea.changed = true;
-					subjectBody.resize();
+					setChanged(true);
 				}
 			});
-			//Teacher
-			$("#teTeacher > input").on("change keyup keydown paste", function() {
+			//Teacher's name
+			$("#teTeacherName > input").on("change keyup keydown paste", function() {
 				var value = $(this).val();
 				if (value.length <= 50) {
 					var subjectBody = $(editingBody);
-					$(subjectBody).data("SubjectBody").teacher = value;
-					$(subjectBody).children(".ttSubjectInfo").html(value + ($(subjectBody).data("SubjectBody").teacher && $(subjectBody).data("SubjectBody").location ? " - " : "") + $(subjectBody).data("SubjectBody").location);
+					timetable.teachers[subjectBody.data("SubjectBody").teacher.id].name = value;
+					$(subjectBody).children(".ttSubjectInfo").html(
+						timetable.teachers[subjectBody.data("SubjectBody").teacher.id].getFullName() + (timetable.teachers[subjectBody.data("SubjectBody").teacher.id].getFullName() && timetable.locations[subjectBody.data("SubjectBody").location.id].name ? " - " : "") + timetable.locations[subjectBody.data("SubjectBody").location.id].name);
 
-					subjectBody = $(editingBody).data("SubjectBody");
-					$(subjectBody.notificationArea.changeElement).css("display", "block");
-					subjectBody.notificationArea.changed = true;
-					subjectBody.resize();
+					setChanged(false, true);
 				}
 			});
-			//Location
+			//Teacher's surname
+			$("#teTeacherSurname > input").on("change keyup keydown paste", function() {
+				var value = $(this).val();
+				if (value.length <= 50) {
+					var subjectBody = $(editingBody);
+					timetable.teachers[subjectBody.data("SubjectBody").teacher.id].surname = value;
+					$(subjectBody).children(".ttSubjectInfo").html(
+						timetable.teachers[subjectBody.data("SubjectBody").teacher.id].getFullName() + (timetable.teachers[subjectBody.data("SubjectBody").teacher.id].getFullName() && timetable.locations[subjectBody.data("SubjectBody").location.id].name ? " - " : "") + timetable.locations[subjectBody.data("SubjectBody").location.id].name);
+
+					setChanged(false, true);
+				}
+			});
+			//Teacher's description
+
+			$("#teTeacherDescription > input").on("change keyup keydown paste", function() {
+				var value = $(this).val();
+				if (value.length <= 50) {
+					var subjectBody = $(editingBody);
+					timetable.teachers[$(editingBody).data("SubjectBody").teacher.id].description = value;
+
+					setChanged(false, true);
+				}
+			});
+
+			//Location's name
 			$("#teLocation > input").on("change keyup keydown paste", function() {
 				var value = $(this).val();
 				if (value.length <= 50) {
 					var subjectBody = $(editingBody);
-					$(subjectBody).data("SubjectBody").location = value;
-					$(subjectBody).children(".ttSubjectInfo").html($(subjectBody).data("SubjectBody").teacher + ($(subjectBody).data("SubjectBody").teacher && $(subjectBody).data("SubjectBody").location ? " - " : "") + value);
+					$(subjectBody).data("SubjectBody").location.name = value;
 
-					subjectBody = $(editingBody).data("SubjectBody");
-					$(subjectBody.notificationArea.changeElement).css("display", "block");
-					subjectBody.notificationArea.changed = true;
-					subjectBody.resize();
+					$(subjectBody).children(".ttSubjectInfo").html(
+						timetable.teachers[subjectBody.data("SubjectBody").teacher.id].getFullName() + (timetable.teachers[subjectBody.data("SubjectBody").teacher.id].getFullName() && timetable.locations[subjectBody.data("SubjectBody").location.id].name ? " - " : "") + timetable.locations[subjectBody.data("SubjectBody").location.id].name
+					);
+
+					setChanged(false, false, true);
 				}
 			});
+			//TODO: Location's description
 
 
 			//Start time
@@ -226,12 +241,7 @@ function timetableEditorInit(_id) {
 					$(subject).data("Subject").start = new Time(value);
 					$(subject).find(".time > .start").html(value);
 
-					for (var i = 0; i < $(subject).data("Subject").bodies.length; i++) { //TODO: 12 Adding changed notification even when there was no change
-						var subjectBody = $(subject).data("Subject").bodies[i];
-						$(subjectBody.notificationArea.changeElement).css("display", "block");
-						subjectBody.notificationArea.changed = true;
-						subjectBody.resize();
-					}
+					setChanged();
 				}
 			});
 			//End time
@@ -243,18 +253,13 @@ function timetableEditorInit(_id) {
 					$(subject).data("Subject").end = new Time(value);
 					$(subject).find(".time > .end").html(value);
 
-					for (var i = 0; i < $(subject).data("Subject").bodies.length; i++) { //TODO: 13 Adding changed notification even when there was no change
-						var subjectBody = $(subject).data("Subject").bodies[i];
-						$(subjectBody.notificationArea.changeElement).css("display", "block");
-						subjectBody.notificationArea.changed = true;
-						subjectBody.resize();
-					}
+
+					setChanged();
 				}
 			});
 			//Color picker
 			$("body").on("change", "#teColorPicker", function() {
 				result = $(activeColorPicker).attr("result");
-				resizeNumberInput();
 
 				var subjectBody = $(editingBody);
 				$(subjectBody).data("SubjectBody").color = result;
@@ -262,10 +267,7 @@ function timetableEditorInit(_id) {
 
 				$(".teSubjectImage").css("background-color", result);
 
-				subjectBody = $(editingBody).data("SubjectBody");
-				$(subjectBody.notificationArea.changeElement).css("display", "block");
-				subjectBody.notificationArea.changed = true;
-				subjectBody.resize();
+				setChanged(true);
 
 			});
 		} else {
@@ -274,6 +276,20 @@ function timetableEditorInit(_id) {
 	});
 }
 
-function resizeNumberInput() {
-	//	console.log("Size: " + $(".teSubjectOptions").outerWidth(true) + " - (" + $("#teColorPicker").outerWidth(true) + " + 82)" + " = " + ($(".teSubjectOptions").outerWidth(true) - ($("#teColorPicker").outerWidth(true) + 82)));
+function setChanged(_body = false, _teacher = false, _location = false){
+	var subject = $(editingBody).parent().parent().data("Subject");
+
+	subject.changed = true;
+
+	for (var i = 0; i < subject.bodies.length; i++){
+		// var subjectBody = subject.bodies[i];
+		subject.bodies[i].body.changed = _body;
+		subject.bodies[i].teacher.changed = _teacher;
+		subject.bodies[i].location.changed = _location;
+		$(subject.bodies[i].notificationArea.changeElement).css("display", "block");
+		subject.bodies[i].notificationArea.changed = true;
+		subject.bodies[i].resize();
+
+	}
+
 }

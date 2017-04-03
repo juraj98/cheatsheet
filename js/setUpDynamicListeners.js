@@ -101,18 +101,22 @@ function setupDynamicListeners() {
 
 	$("body").on("click", ".timetableEditor .ttSubjectBody", function() {
 		//TODO: 5 remove conditions for checking if the strings lengths are within the limits. Theoreticaly they all of them should be.
+		// TODO: change limits
 
 		if (editingBody) {
+			console.log("NOTIFICATION AREA");
+			console.log(editingBody.data("SubjectBody").notificationArea);
 			$(editingBody.data("SubjectBody").notificationArea.editingElement).css("display", "none");
 			editingBody.data("SubjectBody").notificationArea.editing = false;
 		}
 
 		editingBody = $(this);
 
-		//Enable subject options
+		//Enable options
 		if (!subjectOptionActivated) {
 			subjectOptionActivated = true;
-			$(".teSubjectOptions").children(".disabled").each(function() {
+			// TODO: Add iconpicker
+			$("#teSubjectOptions, #teTeacherOptions, #teLocationOptions").children(".disabled").not("#teIconPicker").each(function() {
 				$(this).removeClass("disabled");
 			});
 		}
@@ -123,29 +127,33 @@ function setupDynamicListeners() {
 		editingBody.data("SubjectBody").resize();
 
 		var subject = $(this).parent().parent().data("Subject");
-		var body = $(this).data("SubjectBody");
+		var subjectBody = $(this).data("SubjectBody");
 
-		//Number
+		//Number ✓
 		if (subject.number.toString().length <= 3) {
 			$("#teSubjectNumber").removeClass("invalid").addClass("valid").children(".label").addClass("active")
 		} else {
 			$("#teSubjectNumber").removeClass("valid").addClass("invalid").children(".label").addClass("active");
 		}
-		$(".teSubjectOptions > #teSubjectNumber > input").val(subject.number);
-		$(".teSubjectOptions > #teSubjectNumber > .maxLengthLabel").html(subject.number.toString().length + "/3");
+		$("#teSubjectNumber > input").val(subject.number);
+		$("#teSubjectNumber > .maxLengthLabel").html(subject.number.toString().length + "/3");
 
-		//Start time
-		$("#teStartTime .firstTime").val(subject.start.getHours().toString().length == 1 ? "0" + subject.start.getHours() : subject.start.getHours());
-		$("#teStartTime .secondTime").val(subject.start.getMinutes().toString().length == 1 ? "0" + subject.start.getMinutes() : subject.start.getMinutes());
-		//End time
-		$(".teSubjectOptions #teEndTime .firstTime").val(subject.end.getHours().toString().length == 1 ? "0" + subject.end.getHours() : subject.end.getHours());
-		$(".teSubjectOptions #teEndTime .secondTime").val(subject.end.getMinutes().toString().length == 1 ? "0" + subject.end.getMinutes() : subject.end.getMinutes());
-		//Color
-		if (body.color) {
-			$("#teColorPicker").addClass("active").attr("result", body.color);
-			$("#teColorPicker .cpColorCode").html(body.color);
-			$("#teColorPicker .cpPreviewColor").css("background-color", body.color);
-			$(".teSubjectImage").css("background-color", body.color);
+		//Day index
+		$("#teSubjectDay").addClass("ok").attr("result", subject.dayIndex).html(JSON.parse($("#teSubjectDay").attr("options"))[subject.dayIndex] + '<i class="material-icons">arrow_drop_down</i>');
+
+		//Start time ✓
+		$("#teStartTime .firstTime").val(subject.startTime.getHours().toString().length == 1 ? "0" + subject.startTime.getHours() : subject.startTime.getHours());
+		$("#teStartTime .secondTime").val(subject.startTime.getMinutes().toString().length == 1 ? "0" + subject.startTime.getMinutes() : subject.startTime.getMinutes());
+		//End time ✓
+		$("#teEndTime .firstTime").val(subject.endTime.getHours().toString().length == 1 ? "0" + subject.endTime.getHours() : subject.endTime.getHours());
+		$(" #teEndTime .secondTime").val(subject.endTime.getMinutes().toString().length == 1 ? "0" + subject.endTime.getMinutes() : subject.endTime.getMinutes());
+
+		//Color ✓
+		if (subjectBody.body.color) {
+			$("#teColorPicker").addClass("active").attr("result", subjectBody.body.color);
+			$("#teColorPicker .cpColorCode").html(subjectBody.body.color);
+			$("#teColorPicker .cpPreviewColor").css("background-color", subjectBody.body.color);
+			$(".teSubjectImage").css("background-color", subjectBody.body.color);
 		} else {
 			$("#teColorPicker").removeClass("active").attr("result", "");
 			$("#teColorPicker .cpColorCode").html("");
@@ -153,16 +161,15 @@ function setupDynamicListeners() {
 			$(".teSubjectImage").css("background-color", "");
 		}
 
-		resizeNumberInput();
 		//Icon
-		if (body.icon) {
+		if (subjectBody.body.icon) {
 			//TODO: 6 Add functionality after icon picker is finished
 		} else {
 			//NOTE: 6 If no icon, charAt(0) handled in //Name section
 		}
 		//Name
-		if (body.name) {
-			if (body.name.length <= 50) {
+		if (subjectBody.body.name) {
+			if (subjectBody.body.name.length <= 50) {
 				$("#teSubjectName").removeClass("invalid").addClass("valid").children(".label").addClass("active");
 			} else {
 				$("#teSubjectName").removeClass("valid").addClass("invalid").children(".label").addClass("active");
@@ -170,12 +177,12 @@ function setupDynamicListeners() {
 		} else {
 			$("#teSubjectName").removeClass("valid invalid").children(".label").removeClass("active");
 		}
-		$("#teSubjectName > input").val(body.name);
-		$("#teSubjectName > .maxLengthLabel").html(body.name.length + "/50");
+		$("#teSubjectName > input").val(subjectBody.body.name);
+		$("#teSubjectName > .maxLengthLabel").html(subjectBody.body.name.length + "/50");
 
 		//Acronym
-		if (body.acronym) {
-			if (body.acronym.length <= 3) {
+		if (subjectBody.body.acronym) {
+			if (subjectBody.body.acronym.length <= 3) {
 				$("#teSubjectAcronym").removeClass("invalid").addClass("valid").children(".label").addClass("active");
 			} else {
 				$("#teSubjectAcronym").removeClass("valid").addClass("invalid").children(".label").addClass("active");
@@ -183,35 +190,61 @@ function setupDynamicListeners() {
 		} else {
 			$("#teSubjectAcronym").removeClass("valid invalid").children(".label").removeClass("active");
 		}
-		$("#teSubjectAcronym > input").val(body.acronym);
-		$("#teSubjectAcronym > .maxLengthLabel").html(body.acronym.length + "/3");
+		$("#teSubjectAcronym > input").val(subjectBody.body.acronym);
+		$("#teSubjectAcronym > .maxLengthLabel").html(subjectBody.body.acronym.length + "/3");
 
-		if (body.icon) {
+		if (subjectBody.body.icon) {
 			console.log("te has icon");
 		} else {
-			if (body.acronym.length == 0) {
+			if (subjectBody.body.acronym.length == 0) {
 				$(".teSubjectImage").html('<i class="material-icons">school</i>');
 			} else {
-				$(".teSubjectImage").html(body.acronym.charAt(0).toUpperCase());
+				$(".teSubjectImage").html(subjectBody.body.acronym.charAt(0).toUpperCase());
 			}
 		}
 
-		//Teacher
-		if (body.teacher) {
-			if (body.teacher.length <= 50) {
-				$("#teTeacher").removeClass("invalid").addClass("valid").children(".label").addClass("active")
+		//Teacher's name
+		if (subjectBody.teacher.name) {
+			if (subjectBody.teacher.name.length <= 50) {
+				$("#teTeacherName").removeClass("invalid").addClass("valid").children(".label").addClass("active")
 			} else {
-				$("#teTeacher").removeClass("valid").addClass("invalid").children(".label").addClass("active");
+				$("#teTeacherName").removeClass("valid").addClass("invalid").children(".label").addClass("active");
 			}
 		} else {
-			$("#teTeacher").removeClass("valid invalid").children(".label").removeClass("active");
+			$("#teTeacherName").removeClass("valid invalid").children(".label").removeClass("active");
 		}
-		$("#teTeacher > input").val(body.teacher);
-		$("#teTeacher > .maxLengthLabel").html(body.teacher.length + "/50");
+		$("#teTeacherName > input").val(subjectBody.teacher.name);
+		$("#teTeacherName > .maxLengthLabel").html(subjectBody.teacher.name.length + "/50");
+
+		//Teacher's description
+		if (subjectBody.teacher.description) {
+			if (subjectBody.teacher.description.length <= 50) {
+				$("#teTeacherDescription").removeClass("invalid").addClass("valid").children(".label").addClass("active")
+			} else {
+				$("#teTeacherDescription").removeClass("valid").addClass("invalid").children(".label").addClass("active");
+			}
+			$("#teTeacherDescription > input").val(subjectBody.teacher.description);
+			$("#teTeacherDescription > .maxLengthLabel").html(subjectBody.teacher.description.length + "/50");
+		} else {
+			$("#teTeacherDescription").removeClass("valid invalid").children(".label").removeClass("active");
+		}
+
+		//Teacher's surname
+		if (subjectBody.teacher.surname) {
+			if (subjectBody.teacher.surname.length <= 50) {
+				$("#teTeacherSurname").removeClass("invalid").addClass("valid").children(".label").addClass("active")
+			} else {
+				$("#teTeacherSurname").removeClass("valid").addClass("invalid").children(".label").addClass("active");
+			}
+		} else {
+			$("#teTeacherSurname").removeClass("valid invalid").children(".label").removeClass("active");
+		}
+		$("#teTeacherSurname > input").val(subjectBody.teacher.surname);
+		$("#teTeacherSurname > .maxLengthLabel").html(subjectBody.teacher.surname.length + "/50");
 
 		//Location
-		if (body.location) {
-			if (body.location.length <= 50) {
+		if (subjectBody.location.name) {
+			if (subjectBody.location.name.length <= 50) {
 				$("#teLocation").removeClass("invalid").addClass("valid").children(".label").addClass("active")
 			} else {
 				$("#teLocation").removeClass("valid").addClass("invalid").children(".label").addClass("active");
@@ -219,8 +252,21 @@ function setupDynamicListeners() {
 		} else {
 			$("#teLocation").removeClass("valid invalid").children(".label").removeClass("active");
 		}
-		$("#teLocation > input").val(body.location);
-		$("#teLocation > .maxLengthLabel").html(body.location.length + "/50");
+		$("#teLocation > input").val(subjectBody.location.name);
+		$("#teLocation > .maxLengthLabel").html(subjectBody.location.name.length + "/50");
+
+		//Location
+		if (subjectBody.location.description) {
+			if (subjectBody.location.description.length <= 50) {
+				$("#teLocationDescription").removeClass("invalid").addClass("valid").children(".label").addClass("active")
+			} else {
+				$("#teLocationDescription").removeClass("valid").addClass("invalid").children(".label").addClass("active");
+			}
+			$("#teLocationDescription > input").val(subjectBody.location.description);
+			$("#teLocationDescription > .maxLengthLabel").html(subjectBody.location.description.length + "/50");
+		} else {
+			$("#teLocationDescription").removeClass("valid invalid").children(".label").removeClass("active");
+		}
 
 	});
 

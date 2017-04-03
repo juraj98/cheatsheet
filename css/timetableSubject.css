@@ -8,7 +8,7 @@
 	margin: 2px;
 	width: calc(100% - 4px);
 	float: left;
-	overflow: auto;
+	overflow: visible;
 }
 /*Timetable header*/
 
@@ -57,14 +57,11 @@
 
 .ttSubject {
 	width: 100%;
-	min-height: 96px;
 	margin: 2px 0;
 	float: left;
 	clear: left;
 	background-color: white;
 	border-radius: 4px;
-	padding-bottom: 2px;
-	/*Looks better | Can't be noticed*/
 }
 
 .ttSubject.selected {

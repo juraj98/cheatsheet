@@ -67,98 +67,228 @@ $dayIndex = getdate($date)['wday'];
 $date = getdate($date);
 $currentTime = strtotime($date['hours'] . ":" . $date['minutes'] . ":" . $date['seconds']);
 
-$response->debug->currentTime = $currentTime;
 
 //TODO: 14 Check what happens if database is empty
 
-$attempts = 0;
-$firstSubjectFound = null;
-$response->data->timetableData->isCurrent = true;
+// $attempts = 0;
+// $firstSubjectFound = null;
+// $response->data->timetableData->isCurrent = true;
+//
+// while(!$response->data->timetableData->subject && !$response->data->timetableData->nextSubject && $attempts < 7){
+// 	$sql = "SELECT " . getDayByIndex($dayIndex + $attempts) . " FROM timetables WHERE class='" . mysqli_real_escape_string( $conn, $_POST['classId'] ) . "'";
+// 	$query = mysqli_query($conn, $sql);
+//
+// 	if($query) {
+// 		$data = json_decode(mysqli_fetch_all($query, MYSQLI_ASSOC)[0][getDayByIndex($dayIndex + $attempts)]);
+//
+// 		if(count($data) == 0) {
+// 			$attempts++;
+// 			continue;
+// 		}
+// 		if($response->data->timetableData->subject) {
+// 			$response->data->timetableData->nextSubject = $data[0];
+// 			$response->data->timetableData->nextSubjectFromToday = $attempts;
+// 			break;
+// 		}
+// 		if($attempts != 0){
+// 			$response->data->timetableData->subject = $data[0];
+// 			$response->data->timetableData->subjectFromToday = $attempts;
+// 			$response->data->timetableData->isCurrent = false;
+// 			if($data[1]){
+// 				$response->data->timetableData->nextSubject = $data[1];
+// 				$response->data->timetableData->nextSubjectFromToday = $attempts;
+// 				break;
+// 			} else {
+// 				$attempts++;
+// 				continue;
+// 			}
+// 		}
+//
+// 		foreach($data as $subject){
+// 			if(!$firstSubjectFound){
+// 				$firstSubjectFound = $subject;
+// 			}
+//
+// 			if(!$response->data->timetableData->subject){
+// 				$start = strtotime($subject->start);
+// 				$end = strtotime($subject->end);
+// 				$response->debug->start = $start;
+// 				$response->debug->end = $end;
+//
+//
+// //		$response->debug->currentTime = date('G:i:s' , $currentTime);
+// //		$response->debug->start = date('G:i:s' , $start);
+// //		$response->debug->end = date('G:i:s' , $end);
+//
+// 				if($start <= $currentTime && $end > $currentTime) {
+// 					//Current subject
+// 					$response->data->timetableData->subject = $subject;
+// 					$response->data->timetableData->subjectFromToday = $attempts;
+//
+// 					$subjectNotFound = false;
+// 					continue;
+// 				} else if(!($end < $currentTime)){
+// 					//Next subject
+// 					$response->data->timetableData->isCurrent = false;
+// 					$response->data->timetableData->subject = $subject;
+// 					$response->data->timetableData->subjectFromToday = $attempts;
+// 					$subjectNotFound = false;
+// 					continue;
+// 				}
+// 			}
+//
+// 			if($response->data->timetableData->subject) {
+// 				$response->data->timetableData->nextSubject = $subject;
+// 				$response->data->timetableData->nextSubjectFromToday = $attempts;
+// 				break;
+// 			}
+// 		}
+//
+// 		$attempts++;
+//
+// 	} else {
+// 		$response->success = false;
+// 		$response->error->code = 3;
+// 		$response->error->message = "Query failed.";
+// 		$response->error->details = "Query fetching timetable failed. Error: " . mysqli_error($conn);
+// 		die(json_encode($response));
+// 	}
+// }
+//
+// if(!$response->data->timetableData->nextSubject) {
+// 	$response->data->timetableData->nextSubject  = $firstSubjectFound;
+// 	$response->data->timetableData->nextSubjectFromToday  = $attempts;
+// }
 
-while(!$response->data->timetableData->subject && !$response->data->timetableData->nextSubject && $attempts < 7){
-	$sql = "SELECT " . getDayByIndex($dayIndex + $attempts) . " FROM timetables WHERE class='" . mysqli_real_escape_string( $conn, $_POST['classId'] ) . "'";
-	$query = mysqli_query($conn, $sql);
+$sql = "SELECT
+	subjects.id AS subjectId, subjects.dayIndex, subjects.number, subjects.startTime, subjects.endTime, subjects.position
+FROM
+	newTimetables
+INNER JOIN timetableRelations	ON timetableRelations.timetableId=newTimetables.id
+LEFT JOIN subjects ON timetableRelations.subjectId=subjects.id
+WHERE newTimetables.classId=" . mysqli_real_escape_string($conn, $_POST["classId"]) . "
+ORDER BY subjects.position ASC";
 
-	if($query) {
-		$data = json_decode(mysqli_fetch_all($query, MYSQLI_ASSOC)[0][getDayByIndex($dayIndex + $attempts)]);
+$query = mysqli_query($conn, $sql);
 
-		if(count($data) == 0) {
-			$attempts++;
-			continue;
-		}
-		if($response->data->timetableData->subject) {
-			$response->data->timetableData->nextSubject = $data[0];
-			$response->data->timetableData->nextSubjectFromToday = $attempts;
+if($query){
+	$downloadedData = mysqli_fetch_all($query, MYSQLI_ASSOC);
+	// $response->debug->data = $downloadedData;
+	$downloadedDataLength = sizeOf($downloadedData);
+
+	for($i = 0; $i < $downloadedDataLength; $i++){
+
+		if($response->data->timetableData->firstSubject){
+			$response->data->timetableData->secondSubject = $downloadedData[$i];
 			break;
 		}
-		if($attempts != 0){
-			$response->data->timetableData->subject = $data[0];
-			$response->data->timetableData->subjectFromToday = $attempts;
+		$start = strtotime($downloadedData[$i]["startTime"]);
+		$end = strtotime($downloadedData[$i]["endTime"]);
+
+		// $response->debug->startTime = $start;
+		// $response->debug->endTime = $end;
+		// $response->debug->currentTime = $currentTime;
+
+		if($start <= $currentTime && $end > $currentTime) {
+			//Current subject
+			$response->data->timetableData->firstSubject = $subject;
+			continue;
+		} else if(!($end < $currentTime)){
+			//Next subject
 			$response->data->timetableData->isCurrent = false;
-			if($data[1]){
-				$response->data->timetableData->nextSubject = $data[1];
-				$response->data->timetableData->nextSubjectFromToday = $attempts;
-				break;
-			} else {
-				$attempts++;
-				continue;
-			}
+			$response->data->timetableData->firstSubject = $subject;
+			$subjectNotFound = false;
+			continue;
+		} else {
+
 		}
-
-		foreach($data as $subject){
-			if(!$firstSubjectFound){
-				$firstSubjectFound = $subject;
-			}
-
-			if(!$response->data->timetableData->subject){
-				$start = strtotime($subject->start);
-				$end = strtotime($subject->end);
-				$response->debug->start = $start;
-				$response->debug->end = $end;
-
-
-//		$response->debug->currentTime = date('G:i:s' , $currentTime);
-//		$response->debug->start = date('G:i:s' , $start);
-//		$response->debug->end = date('G:i:s' , $end);
-
-				if($start <= $currentTime && $end > $currentTime) {
-					//Current subject
-					$response->data->timetableData->subject = $subject;
-					$response->data->timetableData->subjectFromToday = $attempts;
-
-					$subjectNotFound = false;
-					continue;
-				} else if(!($end < $currentTime)){
-					//Next subject
-					$response->data->timetableData->isCurrent = false;
-					$response->data->timetableData->subject = $subject;
-					$response->data->timetableData->subjectFromToday = $attempts;
-					$subjectNotFound = false;
-					continue;
-				}
-			}
-
-			if($response->data->timetableData->subject) {
-				$response->data->timetableData->nextSubject = $subject;
-				$response->data->timetableData->nextSubjectFromToday = $attempts;
-				break;
-			}
-		}
-
-		$attempts++;
-
-	} else {
-		$response->success = false;
-		$response->error->code = 3;
-		$response->error->message = "Query failed.";
-		$response->error->details = "Query fetching timetable failed. Error: " . mysqli_error($conn);
-		die(json_encode($response));
 	}
-}
 
-if(!$response->data->timetableData->nextSubject) {
-	$response->data->timetableData->nextSubject  = $firstSubjectFound;
-	$response->data->timetableData->nextSubjectFromToday  = $attempts;
+	//If no subject found, today are no more classes - get fisrt from tomorrow
+
+	if(!$response->data->timetableData->firstSubject){
+		$attempts = 1;
+
+		$response->data->timetableData->isCurrent = false;
+
+		while(!$response->data->timetableData->firstSubject && !$response->data->timetableData->seconSubject && $attempts != 7){
+
+			for($i = 0; $i < $downloadedDataLength; $i++){
+
+				if($response->data->timetableData->firstSubject){
+					$response->data->timetableData->secondSubject = $downloadedData[$i];
+					break;
+				}
+
+				if($downloadedData[$i]["dayIndex"] == getCorrentIndex($dayIndex + $attempts)){
+					$response->data->timetableData->firstSubject = $downloadedData[$i];
+				}
+
+			}
+			$attempts++;
+		}
+	}
+
+	//Parse subjects
+
+		//Pase first subject
+		$sql = "SELECT
+			bodies.id AS bodyId, bodies.name AS bodyName, bodies.acronym, bodies.icon, bodies.color,
+			teachers.id AS teacherId, teachers.name AS teacherName, teachers.surname AS teacherSurname, teachers.description AS teacherDescription,
+			locations.id AS locationId, locations.name AS locationName, locations.description AS locationDescription
+		FROM timetableRelations
+		LEFT JOIN bodies ON timetableRelations.bodyId=bodies.id
+		LEFT JOIN locations ON timetableRelations.locationId=locations.id
+		LEFT JOIN teachers ON timetableRelations.teacherId=teachers.id
+		WHERE timetableRelations.subjectId = " . $response->data->timetableData->firstSubject["subjectId"];
+
+		$query = mysqli_query($conn, $sql);
+		if($query) {
+			$downloadedData = mysqli_fetch_all($query, MYSQLI_ASSOC);
+			$response->data->timetableData->firstSubject["bodies"] = $downloadedData;
+
+
+		}else {
+			//Failed query response build;
+			$response->success = false;
+			$response->error->code = 3;
+			$response->error->message = "Query failed.";
+			$response->error->details = "Query fetching timetable data for firstSubject failed. Error: " . mysqli_error($conn);
+		}
+		//Pase second subject
+		$sql = "SELECT
+			bodies.id AS bodyId, bodies.name AS bodyName, bodies.acronym, bodies.icon, bodies.color,
+			teachers.id AS teacherId, teachers.name AS teacherName, teachers.surname AS teacherSurname, teachers.description AS teacherDescription,
+			locations.id AS locationId, locations.name AS locationName, locations.description AS locationDescription
+		FROM timetableRelations
+		LEFT JOIN bodies ON timetableRelations.bodyId=bodies.id
+		LEFT JOIN locations ON timetableRelations.locationId=locations.id
+		LEFT JOIN teachers ON timetableRelations.teacherId=teachers.id
+		WHERE timetableRelations.subjectId = " . $response->data->timetableData->secondSubject["subjectId"];
+
+		$query = mysqli_query($conn, $sql);
+		if($query) {
+			$downloadedData = mysqli_fetch_all($query, MYSQLI_ASSOC);
+			$response->data->timetableData->secondSubject["bodies"] = $downloadedData;
+
+
+		}else {
+			//Failed query response build;
+			$response->success = false;
+			$response->error->code = 3;
+			$response->error->message = "Query failed.";
+			$response->error->details = "Query fetching timetable data for firstSubject failed. Error: " . mysqli_error($conn);
+		}
+
+
+
+
+} else {
+	//Failed query response build;
+	$response->success = false;
+	$response->error->code = 3;
+	$response->error->message = "Query failed.";
+	$response->error->details = "Query fetching timetable data failed. Error: " . mysqli_error($conn);
 }
 
 //Get reminders
@@ -207,6 +337,20 @@ function getDayByIndex($index){
 		case 6:
 			return "saturday";
 	}
+}
+
+function getCorrentIndex($index){
+	if($index < 0){
+		while($index < 0){
+			$index += 6;
+		}
+	} else if($index > 6){
+		while($index > 6) {
+			$index -= 6;
+		}
+	}
+
+	return $index;
 }
 
 

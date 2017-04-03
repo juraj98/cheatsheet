@@ -29,8 +29,8 @@ function:
 class Time {
     constructor(_time = "00:00") {
         this.days = ~_time.indexOf("-") ? _time.substr(_time.indexOf("-") + 1) : 0;
-        this.hours = parseInt((_time.charAt(0) + _time.charAt(1)));
-        this.minutes = parseInt((_time.charAt(3) + _time.charAt(4)));
+        this.hours = _time.substring(0, _time.indexOf(":"));
+        this.minutes = _time.substring(_time.indexOf(":")+1, (_time.indexOf("-") == -1 ? _time.length : _time.indexOf("-")));
     }
     getMinutes(hours = false, days = false) {
         return this.minutes + (hours ? this.hours * 60 : 0) + (days ? this.day * 24 : 0);

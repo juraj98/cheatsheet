@@ -7,7 +7,7 @@
 
 
 #teContent {
-	overflow: auto;
+	overflow: visible;
 	width: calc(100% - 15px);
 	margin: auto;
 }
@@ -135,6 +135,7 @@
 }
 #teEndTime {
 	margin-top: 29px;
+	clear: left;
 }
 
 .teSubjectOptions > .materialTimePicker {
@@ -252,12 +253,20 @@
 	position: relative;
 	top: -2.5px;
 }
-#teTeacher {
+#teTeacherName {
 	float: left;
 	margin: 6.5px 0 !important;
 	margin-left: 8px !important;
-	width: calc(100% - 68px);
+	width: calc((100% - 76px) / 2);
 	position: relative;
+}
+#teTeacherSurname {
+	float: left;
+	margin: 6.5px 0 !important;
+	margin-left: 8px !important;
+	width: calc((100% - 76px) / 2);
+	position: relative;
+
 }
 #teTeacherDescription {
 	position: relative;
