@@ -53,11 +53,9 @@ if(isset($_POST["classId"])) {
 					//Id is negative => insert new body
 					$sql = "INSERT INTO bodies
 									(name, acronym, icon, color, classId)
-					VALUES 	(" .
-					($value->name ? mysqli_real_escape_string($conn, $value->name) : '""') . ", " .
-					($value->acronym ? mysqli_real_escape_string($conn, $value->acronym) : '""') . ", " .
-					($value->icon ? mysqli_real_escape_string($conn, $value->icon) : '""') . ", " .
-					($value->color ? mysqli_real_escape_string($conn, $value->color) : '""') . ", " .
+					VALUES 	('" . mysqli_real_escape_string($conn, $value->name) . "', '" .
+					mysqli_real_escape_string($conn, $value->acronym) . "', '" .
+					mysqli_real_escape_string($conn, $value->icon) . "', '" . mysqli_real_escape_string($conn, $value->color). "', " .
 					mysqli_real_escape_string($conn, $_POST['classId']) . ")";
 
 					$query = mysqli_query($conn, $sql);
@@ -71,6 +69,7 @@ if(isset($_POST["classId"])) {
 						$response->error->code = 3;
 						$response->error->message = ERR_MSG_QUERY_FAILED;
 						$response->error->details = "Query inserting body with id=" . $value->id . "  failed. Error: " . mysqli_error($conn);
+						$response->debug->sql = $sql;
 						die(json_encode($response));
 					}
 				} else {
@@ -91,6 +90,7 @@ if(isset($_POST["classId"])) {
 						$response->error->code = 3;
 						$response->error->message = ERR_MSG_QUERY_FAILED;
 						$response->error->details = "Query updating body with id=" . $value->id . "  failed. Error: " . mysqli_error($conn);
+						$response->debug->sql = $sql;
 						die(json_encode($response));
 					}
 				}
@@ -140,6 +140,7 @@ if(isset($_POST["classId"])) {
 						$response->error->code = 3;
 						$response->error->message = ERR_MSG_QUERY_FAILED;
 						$response->error->details = "Query updating location with id=" . $value->id . "  failed. Error: " . mysqli_error($conn);
+						$response->debug->sql = $sql;
 						die(json_encode($response));
 					}
 				}
@@ -189,6 +190,7 @@ if(isset($_POST["classId"])) {
 							$response->error->code = 3;
 							$response->error->message = ERR_MSG_QUERY_FAILED;
 							$response->error->details = "Query updating teacher with id=" . $value->id . "  failed. Error: " . mysqli_error($conn);
+							$response->debug->sql = $sql;
 							die(json_encode($response));
 						}
 					}

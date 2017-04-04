@@ -150,7 +150,7 @@ class Timetable{
 					var currentHeaderDay = $('<div class="ttHeaderDay card-1">' + getDayById(this.activeDay + i + loop - _number) + '</div>');
 					$(this.element).children(".ttHeader").append($(currentHeaderDay));
 					if (i - (loop - _number) == 0 || i + 1 == loop) {
-						$(currentHeaderDay).width(_timetableDayWidth - 29);
+						$(currentHeaderDay).width(_timetableDayWidth - 32);
 					} else {
 						$(currentHeaderDay).width(_timetableDayWidth);
 					}
@@ -181,7 +181,7 @@ class Timetable{
 
 					$(this.element).append($(timetableDay));
 
-					$(timetableDay).width(_timetableDayWidth);
+					$(timetableDay).width(_timetableDayWidth - 2);
 
 
 				}

@@ -8,6 +8,7 @@
 #teContent {
 	overflow: visible;
 	width: calc(100% - 15px);
+    max-width: 1300px;
 	margin: auto;
 }
 

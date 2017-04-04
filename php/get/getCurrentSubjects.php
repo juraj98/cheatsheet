@@ -54,9 +54,7 @@ if($query){
 
 	for($i = 0; $i < $downloadedDataLength; $i++){
 
-		$response->debug->if = $dayIndex . "<" .  intval($downloadedData[$i]["dayIndex"]) . "=" . ($dayIndex < intval($downloadedData[$i]["dayIndex"]));
 		if($dayIndex > intval($downloadedData[$i]["dayIndex"])){
-
 			$response->debug->set = $response->debug->data . $i;
 			continue;
 		}
