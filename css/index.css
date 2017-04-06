@@ -1,0 +1,92 @@
+body{
+  overflow-x: hidden;
+}
+
+.iTile {
+  height: 100vh;
+  width: calc(100% + 6px);  /* +Xpx for scrollbar*/
+  position: absolute;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+}
+#iFirstTile {
+  background-color: #8BC34A;
+  top: 0;
+  z-index: 10;
+}
+#iSecondTile {
+  background-color: #F5F5F5;
+  top: 100vh;
+  z-index: 8;
+}
+#iThirdTile {
+  background-color: #FFC107;
+  top: 200vh;
+  z-index: 9;
+}
+#iLogo {
+  height: 50vh;
+  position: absolute;
+  left: calc(50% - 50vh / 2);
+  top: 10vh;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  border-radius: 50%;
+  position: relative;
+}
+
+h1 {
+  text-align: center;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  position: absolute;
+  top: 65vh;
+  width: 100%;
+  margin: 0;
+  color: white;
+  font-size: 3.5em;
+}
+#iLoginButton {
+  margin: 0 auto;
+  width: 120px;
+  position: relative;
+  top: 25vh;
+}
+
+#iLearnMoreButton {
+  width: 120px;
+  height: 40px;
+  border-radius: 3px;
+  line-height: 40px;
+  text-align: center;
+  position: absolute;;
+  bottom: 2vh;
+  left: calc(50% - 60px);
+  color: white;
+  transition: 0.2s;
+  cursor: pointer;
+}
+#iLearnMoreButton:hover {
+  background-color: #7CB342;
+}
+#iLearnMoreButton:active {
+  background-color: #689F38;
+}
+
+
+/*Delete*/
+body {
+  margin: 0;
+  font-family: 'Roboto';
+}
+.eq {
+  display: none !important;
+}
+.unselectable {
+	-webkit-user-select: none;
+	/* Chrome/Safari */
+	-moz-user-select: none;
+	/* Firefox */
+	-ms-user-select: none;
+	/* IE10+ */
+	/* Rules below not implemented in browsers yet */
+	-o-user-select: none;
+	user-select: none;
+}

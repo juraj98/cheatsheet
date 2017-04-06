@@ -48,6 +48,7 @@ ORDER BY subjects.position ASC";
 $query = mysqli_query($conn, $sql);
 
 if($query){
+	$response->data->isCurrent = true;
 	$downloadedData = mysqli_fetch_all($query, MYSQLI_ASSOC);
 
 	$downloadedDataLength = sizeOf($downloadedData);

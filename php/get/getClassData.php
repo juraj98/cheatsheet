@@ -80,6 +80,7 @@ ORDER BY subjects.position ASC";
 $query = mysqli_query($conn, $sql);
 
 if($query){
+	$response->data->timetableData->isCurrent = true;
 	$downloadedData = mysqli_fetch_all($query, MYSQLI_ASSOC);
 	// $response->debug->data = $downloadedData;
 	$downloadedDataLength = sizeOf($downloadedData);

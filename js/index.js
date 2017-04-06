@@ -1,6 +1,5 @@
-//New stuff
 
-function googleLogin() {
+$(document).ready(function (){
 
 	var auth2; // The Sign-In object.
 	var googleUser; // The current user.
@@ -54,13 +53,10 @@ function googleLogin() {
 
 		googleProfile = auth2.currentUser.get().getBasicProfile();
 		googleTokenId = auth2.currentUser.get().getAuthResponse().id_token;
-		console.log(googleTokenId);
 
-		if (googleProfile && firstTimeLaod) {
-			firstTimeLaod = false;
-			$(".g-signin2").hide();
-			$(".topMenuUserImage").show();
-			onLogin();
+		if (googleProfile) {
+      console.log("Redirect");
+			window.location.replace("/cheatsheet.html");
 		}
 	};
 	/**
@@ -73,13 +69,13 @@ function googleLogin() {
 
 		}
 	};
+
 	/**
 	 * Retrieves the current user and signed in states from the GoogleAuth
 	 * object.
 	 */
 	var refreshValues = function() {
 		if (auth2) {
-//			console.log('Refreshing values...');
 			googleUser = auth2.currentUser.get();
 			updateGoogleUser();
 		}
@@ -87,5 +83,4 @@ function googleLogin() {
 
 	appStart();
 
-
-}
+});
