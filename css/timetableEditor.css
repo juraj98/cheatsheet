@@ -315,11 +315,41 @@
 	float: left;
 	clear: left;
 }
-#teLocationOptions > div {
+#teLocationOptions > .materialLineInput  {
 	position: relative;
 	margin-left: 0 !important;
 	margin-right: 0 !important;
 	width: 100%;
 	float: left;
 	clear: left;
+}
+
+.teSubjectFlatButton {
+	cursor: pointer;
+	float: right;
+	text-align: center;
+	color: white;
+	border-radius: 3px;
+	padding: 8px 12px;
+	clear: both;
+	text-transform: uppercase;
+	margin-top: 8px;
+	color: #9E9E9E;
+	transition: 0.2s;
+}
+
+.teSubjectFlatButton.disabled {
+	border-bottom: none !important;
+}
+
+.teSubjectFlatButton:active {
+    background-color: #CCCCCC;
+}
+.teSubjectFlatButton:hover {
+    background-color: #DDDDDD;
+}
+
+.teSubjectFlatButton.disabled:hover,
+.teSubjectFlatButton.disabled:active {
+	background-color: transparent;
 }

@@ -2,11 +2,14 @@
 <html>
 
 <head>
-    <link rel="stylesheet" type="text/css" href="formStyle.css">
+  <link rel="stylesheet" type="text/css" href="/css/form.css">
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
     <link href='https://fonts.googleapis.com/css?family=Roboto:400,300,700' rel='stylesheet' type='text/css'>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
     <script src="/js/flexibleArea.js"></script>
-    <script src="form.js"></script>
+    <script src="/js/form.js"></script>
+    <script src="formPrototype.js"></script>
+    <script src="/js/utility.js"></script>
     <script src="/js/setUpDynamicListeners.js"></script>
     <script src="/js/sharedVariables.js"></script>
 
@@ -17,7 +20,7 @@
     <div name="testtextarea" class="materialLineInput materialTextarea" maxLength="10" label="Textarea">
         <textarea rows='1'></textarea>
     </div>
-    <div style="left: 200px;" name="testinput" class="materialLineInput materialInput" maxLength="10" label="InputField">
+    <div style="left: 200px;" autocomplete='["One", "Two", "Three"]' name="testinput" class="materialLineInput materialInput" maxLength="10" label="InputField">
         <input type="text">
     </div>
     <div name="testpassword" style="left: 400px;" class="materialLineInput materialInput unselectable" unselectable="on" label="Password">
@@ -36,10 +39,11 @@
 
     <div name="" unselectable="on" class="unselectable materialCheckmark" result="false" style="top: 200px; left: 200px">Checkmark</div>
 
-    <div class="materialColorpicker" style="top: 400px; left: 16px">
-        <div style="background-color: #8BC34A;"></div>
-        <span>#8BC34A</span>
-    </div>
+
+      <div class="materialColorPicker" label="Subject color" style="top: 400px; left: 16px">
+    			<div class="cpPreviewColor" style="background-color: #8bc34a;"></div>
+    			<span class="cpColorCode"></span>
+      </div>
 
 </body>
 

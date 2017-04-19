@@ -57,6 +57,7 @@ var displayedDate = new Date(activeDate);
 var activeDatePicker;
 //teEditor
 var editingBody;
+var editingSubject;
 var subjectOptionActivated;
 //reminders
 var workingWithRemindersOfClass = 1; //TO-DO: change this

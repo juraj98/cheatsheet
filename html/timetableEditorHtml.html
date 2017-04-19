@@ -23,7 +23,7 @@
 			<div class="teSubjectImage card-1"><i class="material-icons">school</i></div>
 
 			<!-- Acronym -->
-			<div class="materialLineInput materialInput disabled" id="teSubjectAcronym" maxLength="3" label="Acr">
+			<div class="materialLineInput materialInput disabled" autocomplete='[]' id="teSubjectAcronym" maxLength="3" label="Acr">
 				<input type="text" style="text-transform:uppercase">
 			</div>
 			<!-- Number input -->
@@ -59,15 +59,13 @@
 					<input class="secondTime" maxlength="2">
 				</center>
 			</div>
-			<!-- Subject -->
-			<div class="materialLineInput teLongInput materialInput disabled" maxLength="50" label="Name of subject" id="teSubjectName">
+			<!-- Subject Name -->
+			<div class="materialLineInput teLongInput materialInput disabled" autocomplete='[]' maxLength="50" label="Name of subject" id="teSubjectName">
 				<input type="text">
 			</div>
 
-			<!--
-			<div class="materialLineInput teLongInput materialInput disabled" maxLength="50" label="Location" id="teLocation">
-				<input type="text">
-			</div> -->
+			<!-- Detach button -->
+			<div class="teSubjectFlatButton unselectable disabled" id="teDetachBodyButton">Detach body</div>
 		</div>
 		<div class="cHeader" id="cSubjectHeader">Teacher:</div>
 		<div class="cardDiv" id="teTeacherOptions">
@@ -79,27 +77,31 @@
 				</div>
 			</div>
 			<!-- Teacher's name-->
-			<div class="materialLineInput teLongInput materialInput disabled" maxLength="255" label="Teacher's name" id="teTeacherName">
+			<div class="materialLineInput teLongInput materialInput disabled" autocomplete='[]' maxLength="255" label="Teacher's name" id="teTeacherName">
 				<input type="text">
 			</div>
-			<div class="materialLineInput teLongInput materialInput disabled" maxLength="255" label="Teacher's surname" id="teTeacherSurname">
+			<div class="materialLineInput teLongInput materialInput disabled" autocomplete='[]' maxLength="255" label="Teacher's surname" id="teTeacherSurname">
 				<input type="text">
 			</div>
 			<!-- Teacher's description -->
 			<div class="materialLineInput materialTextarea disabled" id="teTeacherDescription" maxLength="255" label="Teacher's description">
 				<textarea rows="1"></textarea>
 			</div>
+			<!-- Detach button -->
+			<div class="teSubjectFlatButton unselectable disabled" id="teDetachTeacherButton">Detach teacher</div>
 		</div>
 		<div class="cHeader" id="cSubjectHeader">Location:</div>
 		<div class="cardDiv" id="teLocationOptions">
 			<!-- Location name-->
-			<div class="materialLineInput teLongInput materialInput disabled" maxLength="255" label="Location" id="teLocation">
+			<div class="materialLineInput teLongInput materialInput disabled" autocomplete='[]' maxLength="255" label="Location" id="teLocation">
 				<input type="text">
 			</div>
 			<!-- Location's description -->
 			<div class="materialLineInput materialTextarea disabled" id="teLocationDescription" maxLength="255" label="Location's description">
 				<textarea rows="1"></textarea>
 			</div>
+			<!-- Detach button -->
+			<div class="teSubjectFlatButton unselectable disabled" id="teDetachLocationButton">Detach location</div>
 		</div>
 		<div id="teButtonsConatiner">
 			<div class="teButton card-1 unselectable" id="teSave">SAVE</div>

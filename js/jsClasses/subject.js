@@ -1,4 +1,19 @@
 class Subject {
+
+  /*
+  Variables:
+  this.id
+  this.dayIndex
+  this.number
+
+  this.startTime = new Time()
+  this.endTime = new Time()
+
+  this.bodies = []
+
+  this.element
+  */
+
   constructor(_id, _dayIndex, _number, _startTime, _endTime, _bodies) {
     this.id = _id;
     this.dayIndex = _dayIndex;
@@ -13,11 +28,11 @@ class Subject {
     this.element = $('<div class="ttSubject card-1"></div>');
 
     //Create start of innerHTML for element
-    var elementHTML = '<div class="ttSubjectHeader"><div class="number"><span>' + this.number + '</span>. Lesson</div><div class="time"><span class="start">' + this.startTime.getTime() + '</span> - <span class="end">' + this.endTime.getTime() + '</span></div></div><div class="bodysSortable"></div>';
+    var elementHTML = '<div class="ttSubjectHeader"><div class="number"><span>' + this.number + '</span>. Lesson</div><div class="time"><span class="start">' + this.startTime.getTime() + '</span> - <span class="end">' + this.endTime.getTime() + '</span></div></div><div class="bodiesSortable"></div>';
 
     //Insert innerHTML to element
     $(this.element).html(elementHTML);
-    var elementBodiesDiv = $(this.element).children(".bodysSortable");
+    var elementBodiesDiv = $(this.element).children(".bodiesSortable");
 
     //Insert first .insert element into element
     if (_isEditor) {

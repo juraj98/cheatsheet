@@ -3,10 +3,6 @@
 </div>
 <div id="rSide">
 	<div id="rAddReminder" class="card-1">
-		<div id="rAddButton">
-			<div id="rAddButtonBtn" class="unselectable" unselectable="on"><i class="material-icons">add</i> <span>Add Reminder</span></div>
-		</div>
-		<div id="rExpand">
 			<div unselectable="on" id="rClasses" class="unselectable materialDropDown" placeholder="Class" options=''></div>
 			<div class="materialLineInput materialInput" id="rName" maxLegth="50" label="Reminder">
 				<input type="text">
@@ -15,8 +11,12 @@
 			<div class="materialLineInput materialInput" id="rSubject" label="Subject">
 				<input type="text">
 			</div>
-			<div unselectable="on" class="unselectable materialDatePicker" result="today" id="rDate" past="false"> <i class=" material-icons ">event</i><span>Select date</span> </div>
-		</div>
+			<div unselectable="on" class="unselectable materialDatePicker" result="today" id="rDate" past="false">
+				<i class=" material-icons ">event</i><span>Select date</span>
+			</div>
+
+
+			<div id="rAddBtn" class="unselectable" unselectable="on">ADD REMINDER</div>
 	</div>
 	<div id="rCalendar" class="card-1">Calendar</div>
 	<div id="rFilters" class="card-1"><span>Filters:</span>
