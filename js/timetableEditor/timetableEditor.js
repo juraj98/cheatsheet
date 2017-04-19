@@ -19,10 +19,57 @@ function timetableEditorInit(_id) {
 		});
 	});
 
+	teMenuInit(_id);
 
 	teAddListeners(_id);
 	teAddAutocmplete();
 }
+
+function teMenuInit(_id){
+	$("#teMenuTimetableBtn").click(function(){
+		$(".teMenuItem.active").removeClass("active");
+		$(this).addClass("active");
+		$("#teOthersEditor").hide();
+		$(".timetableEditor").show();
+
+		//Header
+		$("#teEditorHeader").html("Timetable editor:");
+
+		//Load Timetable
+		timetable.placeTimetableOn($(".timetableEditor"));
+	});
+	$("#teMenuBodiesBtn").click(function(){
+		$(".teMenuItem.active").removeClass("active");
+		$(this).addClass("active");
+		$(".timetableEditor").hide();
+		$("#teOthersEditor").show();
+
+		//Header
+		$("#teEditorHeader").html("Bodies editor:");
+
+	});
+	$("#teMenuTeachersBtn").click(function(){
+		$(".teMenuItem.active").removeClass("active");
+		$(this).addClass("active");
+		$(".timetableEditor").hide();
+		$("#teOthersEditor").show();
+
+		//Header
+		$("#teEditorHeader").html("Teachers editor:");
+
+	});
+	$("#teMenuLocationsBtn").click(function(){
+		$(".teMenuItem.active").removeClass("active");
+		$(this).addClass("active");
+		$(".timetableEditor").hide();
+		$("#teOthersEditor").show();
+
+		//Header
+		$("#teEditorHeader").html("Locations editor:");
+
+	});
+}
+
 
 function loadTimetable(_id, _callback) {
 	console.log("Load timetable");

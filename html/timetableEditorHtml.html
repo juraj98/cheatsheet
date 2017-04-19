@@ -109,7 +109,37 @@
 		</div>
 	</div>
 	<div class="teRow">
-		<div class="cHeader" id="cSubjectHeader" style="width: calc(100% - 24px); margin: 8px 0; margin-left: 12px;">Timetable Editor:</div>
-		<div class="timetableEditor"></div>
+		<div class="cHeader" id="" style="width: calc(100% - 24px); margin: 8px 0; margin-left: 12px;">Menu:</div>
+		<div id="teMenu">
+			<div class="teMenuItem card-1 active" id="teMenuTimetableBtn">Timetable</div>
+			<div class="teMenuItem card-1" id="teMenuBodiesBtn">Bodies</div>
+			<div class="teMenuItem card-1" id="teMenuTeachersBtn">Teachers</div>
+			<div class="teMenuItem card-1" id="teMenuLocationsBtn">Locations</div>
+
+		</div>
+		<div class="cHeader" id="teEditorHeader" style="width: calc(100% - 24px); margin: 8px 0; margin-left: 12px;">Timetable Editor:</div>
+		<div class="timetableEditor" hidden></div>
+		<div id="teOthersEditor">
+			<div class="teBodyEditorItem card-1">
+				<div class="teBodyEditorItemIcon unselectable card-1" style="background-color: rgb(244, 81, 30);">K</div>
+				<div class="teBodyEditorItemName">Konverzácie z Anglického Jazyka</div>
+				<div class="teBodyEditorItemAcronym">KAJ</div>
+			</div>
+
+			<div class="teTeacherEditorItem card-1">
+				<div class="teTeacherEditorItemImage unselectable card-1">
+					<i class="material-icons">person</i>
+				</div>
+				<div class="teTeacherEditorItemName">Ildikó</div>
+				<div class="teTeacherEditorItemSurname">Dallosová</div>
+				<div class="teTeacherEditorItemDescription">No description</div>
+			</div>
+
+			<div class="teLocationEditorItem card-1">
+				<div class="teLocationEditorItemName">IV.IT</div>
+				<div class="teLocationEditorItemDescription">No description</div>
+			</div>
+
+		</div>
 	</div>
 </div>

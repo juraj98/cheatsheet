@@ -444,3 +444,129 @@
 	font-size: 20px;
 	margin-top: 2px;
 }
+
+#teMenu {
+	width: calc(100% - 8px);
+	margin: 0 4px;
+}
+.teMenuItem {
+	height: 35px;
+	color: #757575;
+	cursor: pointer;
+	background-color: white;
+	width: calc(25% - 16px);
+	margin: 0 4px;
+	padding: 2px 4px;
+	float: left;
+	border-radius: 5px;
+	line-height: 35px;
+	text-transform: uppercase;
+	text-align: center;
+	cursor: pointer;
+	transition: .1s;
+}
+
+.teMenuItem.active {
+	font-weight: 700;
+}
+
+.teMenuItem:active {
+    background-color: #F0F0F0;
+}
+.teMenuItem:hover {
+    background-color: #E0E0E0;
+}
+.teBodyEditorItem, .teTeacherEditorItem, .teLocationEditorItem {
+	width: calc(100% - 16px);
+	float: left;
+	overflow: auto;
+	margin: 4px 8px;
+	background-color: white;
+	border-radius: 5px;
+}
+
+.teBodyEditorItem {
+	min-height: 60px;
+}
+.teBodyEditorItemIcon {
+	float: left;
+	height: 44px;
+	width: 44px;
+	text-align: center;
+	margin: 8px;
+  color: white;
+  line-height: 44px;
+  font-size: 28px;
+	border-radius: 50%;
+}
+.teBodyEditorItemName, .teBodyEditorItemAcronym {
+	height: 26px;
+	float: left;
+	width: calc(100% - 68px);
+	margin-right: 8px;
+}
+.teBodyEditorItemName{
+	font-weight: 700;
+  line-height: 33px;
+	margin-top: 4px;
+}
+.teBodyEditorItemAcronym {
+	color: #757575;
+	margin-bottom: 4px;
+  line-height: 24px;
+  font-size: 13px;
+}
+
+.teTeacherEditorItem {
+	min-height: 60px;
+}
+.teLocationEditorItem {
+	min-height: 30px;
+}
+
+.teTeacherEditorItemImage {
+	float: left;
+	width: 44px;
+	height: 44px;
+	margin: 8px;
+  background-color: #E7E7E7;
+}
+.teTeacherEditorItemImage > i {
+	font-size: 30px;
+	color: #8bc34a;
+	text-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+	margin: 6px;
+}
+.teTeacherEditorItemDescription, .teLocationEditorItemDescription {
+	width: calc(100% - 16px);
+	margin: 0 8px;
+	padding: 4px 0px;
+	border-top: 1px solid #9E9E9E;
+	float: left;
+	text-align: justify;
+	    color: #757575;
+}
+
+
+.teTeacherEditorItemName,
+.teTeacherEditorItemSurname {
+	height: 26px;
+	float: left;
+	width: calc(100% - 68px);
+	margin-right: 8px;
+}
+.teTeacherEditorItemName{
+  line-height: 33px;
+	margin-top: 4px;
+}
+.teTeacherEditorItemSurname {
+	margin-bottom: 4px;
+  line-height: 24px;
+}
+
+
+.teLocationEditorItemName {
+	width: calc(100% - 16px);
+	margin: 8px;
+  font-weight: 700;
+}
