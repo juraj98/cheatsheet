@@ -79,19 +79,39 @@ ORDER BY subjects.position ASC";
 
 $query = mysqli_query($conn, $sql);
 
+$response->data->timetableData->isCurrent = true;
+
 if($query){
+
 	$downloadedData = mysqli_fetch_all($query, MYSQLI_ASSOC);
 	// $response->debug->data = $downloadedData;
 	$downloadedDataLength = sizeOf($downloadedData);
 
 	for($i = 0; $i < $downloadedDataLength; $i++){
 
+		// $response->debug->downloadedData = $downloadedData;
+
+		//Skip subjects from previous days
 		if($dayIndex > intval($downloadedData[$i]["dayIndex"])){
-			$response->debug->set = $response->debug->data . $i;
+			$response->debug->skippedSubjects = $response->debug->skippedSubjects . $i . ",";
 			continue;
 		}
 
-		if($response->data->timetableData->firstSubject){
+		//If is next day, return first two subjects
+		if(intval($downloadedData[$i]["dayIndex"]) > $dayIndex ){
+			$response->data->timetableData->isCurrent = false;
+			if($response->data->timetableData->firstSubject && $response->data->timetableData->firstSubject["subjectId"] != $downloadedData[$i]["subjectId"]){
+				$response->data->timetableData->secondSubject = $downloadedData[$i];
+				break;
+			}
+			if(!$response->data->timetableData->firstSubject) {
+				$response->data->timetableData->firstSubject = $downloadedData[$i];
+			}
+
+		}
+
+		//If firstSubject is set, set second subject
+		if($response->data->timetableData->firstSubject && $response->data->timetableData->firstSubject["subjectId"] != $downloadedData[$i]["subjectId"]){
 			$response->data->timetableData->secondSubject = $downloadedData[$i];
 			break;
 		}
@@ -124,11 +144,11 @@ if($query){
 
 		$response->data->timetableData->isCurrent = false;
 
-		while(!$response->data->timetableData->firstSubject && !$response->data->timetableData->seconSubject && $attempts != 7){
+		while(!$response->data->timetableData->firstSubject && !$response->data->timetableData->secondSubject && $attempts != 7){
 
 			for($i = 0; $i < $downloadedDataLength; $i++){
 
-				if($response->data->timetableData->firstSubject){
+				if($response->data->timetableData->firstSubject && $response->data->timetableData->firstSubject["subjectId"] != $downloadedData[$i]["subjectId"]){
 					$response->data->timetableData->secondSubject = $downloadedData[$i];
 					break;
 				}

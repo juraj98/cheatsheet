@@ -83,7 +83,8 @@ class Timetable {
 		var that = this;
 
 		//Click listener for left arrow in header
-		this.element.find(".ttHeader > .leftArrow").click(function () {var notChanged = true;
+		this.element.find(".ttHeader > .leftArrow").click(function () {
+			var notChanged = true;
 			while (notChanged) {
 				that.date.setTime(that.date.getTime() - (24 * 60 * 60 * 1000));
 				if (that.getCurrentTimetableDay().subjects.length != 0) {
@@ -98,9 +99,9 @@ class Timetable {
 			});
 
 			if (editingBody) {
-				$(editingBody.data("SubjectBody").notificationArea.editingElement).css("display", "none");
-				editingBody.data("SubjectBody").notificationArea.editing = false;
-				editingBody.data("SubjectBody").resize();
+				$(editingBody.notificationArea.editingElement).css("display", "none");
+				editingBody.notificationArea.editing = false;
+				editingBody.resize();
 			}
 			editingBody = null;
 			$(that.element).replaceWith(that.toElement());
@@ -124,9 +125,9 @@ class Timetable {
 				});
 			}
 			if (editingBody) {
-				$(editingBody.data("SubjectBody").notificationArea.editingElement).css("display", "none");
-				editingBody.data("SubjectBody").notificationArea.editing = false;
-				editingBody.data("SubjectBody").resize();
+				$(editingBody.notificationArea.editingElement).css("display", "none");
+				editingBody.notificationArea.editing = false;
+				editingBody.resize();
 			}
 			editingBody = null;
 			$(that.element).replaceWith(that.toElement());
@@ -313,7 +314,7 @@ class Timetable {
 
 		var inserts; //Variable to store all of the InserSubjectBody elements
 		var that = this; //Reference for later
-		$(_element).children(".bodysSortable").sortable({
+		$(_element).children(".bodiesSortable").sortable({
 			axis: "y", //Enable dragging only by y axis
 			items: '.ttSubjectBody', //Selector for elements that can be dragged
 			helper: 'clone', //While dragging use clone of element for helper, not original element. This'll remove bug that while dragging helper si moved to left edge of container
@@ -384,26 +385,26 @@ class Timetable {
 
 	placeTimetableOn(_element) {
 
-			//Calculate nuberof rows
-			this.number = Math.floor($(_element).width() / 350);
-			this.timetableDayWidth = $(_element).width() / this.number - 16;
+		//Calculate nuberof rows
+		this.number = Math.floor($(_element).width() / 350);
+		this.timetableDayWidth = $(_element).width() / this.number - 16;
 
 
-			$(_element).replaceWith(this.toElement(this.number, this.timetableDayWidth));
-			$(this.element).find(".ttSubjectBody").each(function () {
-				$(this).data("SubjectBody").resize();
-			});
-		}
-		//Resize |TODO: rework
-		//	resize() {
-		//		console.log("resize");
-		//		this.element.each(function() {
-		//			var that = $(this);
-		//			$(this).find(".ttSubjectBody").each(function() {
-		//
-		//			});
-		//		});
-		//	}
+		$(_element).replaceWith(this.toElement(this.number, this.timetableDayWidth));
+		$(this.element).find(".ttSubjectBody").each(function () {
+			$(this).data("SubjectBody").resize();
+		});
+	}
+	//Resize |TODO: rework
+	//	resize() {
+	//		console.log("resize");
+	//		this.element.each(function() {
+	//			var that = $(this);
+	//			$(this).find(".ttSubjectBody").each(function() {
+	//
+	//			});
+	//		});
+	//	}
 
 	//To funtions
 	toElement(_number, _width) {
@@ -550,23 +551,23 @@ class Timetable {
 		}
 
 		switch (index) {
-		case 0:
-			return this.sunday;
-		case 1:
-			return this.monday;
-		case 2:
-			return this.tuesday;
-		case 3:
-			return this.wednesday;
-		case 4:
-			return this.thursday;
-		case 5:
-			return this.friday;
-		case 6:
-			return this.saturday;
-		default:
-			console.error("Wrong index: " + index);
-			return this.none;
+			case 0:
+				return this.sunday;
+			case 1:
+				return this.monday;
+			case 2:
+				return this.tuesday;
+			case 3:
+				return this.wednesday;
+			case 4:
+				return this.thursday;
+			case 5:
+				return this.friday;
+			case 6:
+				return this.saturday;
+			default:
+				console.error("Wrong index: " + index);
+				return this.none;
 		}
 	}
 

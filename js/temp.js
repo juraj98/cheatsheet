@@ -23,7 +23,7 @@ $(window).ready(function () {
 });
 
 function afterOnLoginTemp() {
-	// setTimeout(function () {
-	// 	timetableEditorClick(1);
-	// }, 500);
+	setTimeout(function () {
+		timetableEditorClick(1);
+	}, 500);
 }

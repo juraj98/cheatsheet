@@ -1,7 +1,7 @@
 function setupDynamicListeners() {
 	console.info("%cFunction run:\t" + "%csetupDynamicListeners()", "color: #303F9F; font-weight:700", "color: #303F9F");
 	//Main
-	$(document).on('click', function(e) {
+	$(document).on('click', function (e) {
 		//topMenu
 		$(".topMenuUserImageActive").removeClass("topMenuUserImageActive");
 		//Form
@@ -10,13 +10,13 @@ function setupDynamicListeners() {
 
 	});
 	//Form
-	$("body").on("mousedown", ".materialLineInput > i", function() {
+	$("body").on("mousedown", ".materialLineInput > i", function () {
 		$(this).parent().children("input").attr("type", "text");
 	});
-	$("body").on("mouseup", ".materialLineInput > i", function() {
+	$("body").on("mouseup", ".materialLineInput > i", function () {
 		$(this).parent().children("input").attr("type", "password");
 	});
-	$("body").on("click", ".dropDownOptions > .dropDownOption", function(e) {
+	$("body").on("click", ".dropDownOptions > .dropDownOption", function (e) {
 		e.stopPropagation();
 		if ($(this).hasClass("dropDownDesc")) {
 			return;
@@ -41,8 +41,8 @@ function setupDynamicListeners() {
 	});
 
 	//Class -> Upload -> Filter and Upload button click
-	$("body").on("click", "#classOptionsPanel > #filter", function() {
-		$("#classUploads").slideUp(400, function() {
+	$("body").on("click", "#classOptionsPanel > #filter", function () {
+		$("#classUploads").slideUp(400, function () {
 			$("#classFilterPanel").stop().slideToggle(200);
 		});
 		tagInputInit();
@@ -50,8 +50,8 @@ function setupDynamicListeners() {
 		$(this).addClass("weight-700");
 		$("#upload").removeClass("weight-700");
 	});
-	$("body").on("click", "#classOptionsPanel > #upload", function() {
-		$("#classFilterPanel").slideUp(400, function() {
+	$("body").on("click", "#classOptionsPanel > #upload", function () {
+		$("#classFilterPanel").slideUp(400, function () {
 			$("#classUploads").stop().slideToggle(200);
 		});
 		tagInputInit();
@@ -61,21 +61,21 @@ function setupDynamicListeners() {
 	});
 	//Class -> Timetable -> Edit and Personalize button click
 	//Class -> Timetable menu arrows
-	$("body").on("click", "#classTimetableMenu > #leftArrow", function() {
+	$("body").on("click", "#classTimetableMenu > #leftArrow", function () {
 		activeDay = setDay(false, activeDay);
 		setupTimetable();
 	});
-	$("body").on("click", "#classTimetableMenu > #rightArrow", function() {
+	$("body").on("click", "#classTimetableMenu > #rightArrow", function () {
 		activeDay = setDay(true, activeDay);
 		setupTimetable();
 	});
 	//Class -> Messages
 	//Class -> Groups -> My groups and Create group button click
-	$("body").on("click", "#classOptionsPanel > #group", function() {
+	$("body").on("click", "#classOptionsPanel > #group", function () {
 
 	});
-	$("body").on("click", "#classOptionsPanel > #create", function() {
-		$("#classMyGroups").slideUp(400, function() {
+	$("body").on("click", "#classOptionsPanel > #create", function () {
+		$("#classMyGroups").slideUp(400, function () {
 			$("#classCreateGroup").stop().slideToggle(200);
 		});
 		materialInputInit();
@@ -94,35 +94,36 @@ function setupDynamicListeners() {
 
 	//
 	//Class -> Groups
-	$("body").on("click", ".classGroupMembers", function() {
+	$("body").on("click", ".classGroupMembers", function () {
 		$(this).parent().parent().children(".classGroupMembersPanel").stop().slideToggle(300);
 	});
 
 
-	$("body").on("click", ".timetableEditor .ttSubjectBody", function() {
+	$("body").on("click", ".timetableEditor .ttSubjectBody", function () {
 		//TODO: 5 remove conditions for checking if the strings lengths are within the limits. Theoreticaly they all of them should be.
 		// TODO: change limits
 
 		if (editingBody) {
-			$(editingBody.data("SubjectBody").notificationArea.editingElement).css("display", "none");
-			editingBody.data("SubjectBody").notificationArea.editing = false;
+			$(editingBody.notificationArea.editingElement).css("display", "none");
+			editingBody.notificationArea.editing = false;
 		}
 
-		editingBody = $(this);
+		editingBody = $(this).data("SubjectBody");
+		editingSubject = $(this).parent().parent().data("Subject");
 
 		//Enable options
 		if (!subjectOptionActivated) {
 			subjectOptionActivated = true;
 			// TODO: Add iconpicker
-			$("#teSubjectOptions, #teTeacherOptions, #teLocationOptions").children(".disabled").not("#teIconPicker").each(function() {
+			$("#teSubjectOptions, #teTeacherOptions, #teLocationOptions").children(".disabled").not("#teIconPicker").each(function () {
 				$(this).removeClass("disabled");
 			});
 		}
 
-		$(editingBody.data("SubjectBody").notificationArea.editingElement).css("display", "block");
-		editingBody.data("SubjectBody").notificationArea.editing = true;
+		$(editingBody.notificationArea.editingElement).css("display", "block");
+		editingBody.notificationArea.editing = true;
 
-		editingBody.data("SubjectBody").resize();
+		editingBody.resize();
 
 		var subject = $(this).parent().parent().data("Subject");
 		var subjectBody = $(this).data("SubjectBody");

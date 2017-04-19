@@ -90,11 +90,11 @@ class Subject {
 		var element = $('<div class="ttSubject card-1"></div>');
 
 		//Create start of innerHTML for element
-		var elementHTML = '<div class="ttSubjectHeader"><div class="number"><span>' + this.number + '</span>. Lesson</div><div class="time"><span class="start">' + this.start.getTime() + '</span> - <span class="end">' + this.end.getTime() + '</span></div></div><div class="bodysSortable"></div>';
+		var elementHTML = '<div class="ttSubjectHeader"><div class="number"><span>' + this.number + '</span>. Lesson</div><div class="time"><span class="start">' + this.start.getTime() + '</span> - <span class="end">' + this.end.getTime() + '</span></div></div><div class="bodiesSortable"></div>';
 
 		//Insert innerHTML to element
 		$(element).html(elementHTML);
-		var elementBodiesDiv = $(element).children(".bodysSortable");
+		var elementBodiesDiv = $(element).children(".bodiesSortable");
 
 
 		//Insert first .insert element into element

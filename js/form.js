@@ -17,7 +17,7 @@ function materialFormInit() {
 	materialDatePickerInit();
 	materialSubmitInit();
 	$.fn.extend({ //TODO: 3 Use this for EVERYTHING
-		materialInputInsert: function(value) {
+		materialInputInsert: function (value) {
 			if ($(this).hasClass("materialInput")) {
 				$(this).children("input").val(value);
 				$(this).children("span").addClass("active");
@@ -27,18 +27,25 @@ function materialFormInit() {
 }
 
 function materialInputInit() {
-	$(".materialInput").each(function(index, value) {
+	$(".materialInput").each(function (index, value) {
 		var displayLabel = ($(this).attr("label") != undefined);
 		var displayMaxLength = ($(this).attr("maxLength") != undefined);
 		var maxLength = $(this).attr("maxLength");
 		var that = $(this);
+
+		//Init autocomplete
+		if ($(this).attr("autocomplete")) {
+			$(this).data("autocomplete", JSON.parse($(this).attr("autocomplete")));
+			console.log("Autcomplete init = " + $(this).attr("autocomplete"));
+		}
+
 		if ($(this).children("input").attr("type") == "password") {
 			$(this).html($(this).html() + '<i class="material-icons">remove_red_eye</i>');
 		}
 		if (displayLabel) {
 			$(this).html($(this).html() + "<span unselectable='on' class='unselectable label'>" + $(this).attr("label") + "</span>");
 			$(this).css("margin-top", "21px");
-			setTimeout(function() { //For browser's autofill
+			setTimeout(function () { //For browser's autofill
 				if (that.children("input").css("background-color") == "rgb(250, 255, 189)") {
 					that.children(".label").addClass("active");
 					if (!(that.hasClass("valid") || that.hasClass("invalid"))) {
@@ -51,19 +58,19 @@ function materialInputInit() {
 			$(this).html($(this).html() + "<span unselectable='on' class='unselectable maxLengthLabel'>0/" + $(this).attr("maxLength") + "</span>");
 			$(this).css("margin-bottom", "21px");
 		}
-		$(this).find("input").off("change keyup keydown paste").on("change keyup keydown paste", function() {
+		$(this).find("input").off("change keyup keydown paste").on("change keyup keydown paste", function () {
 			if (displayMaxLength) {
 				var valLength = $(this).val().length;
 				if (valLength <= maxLength) {
 					$(this).parent().removeClass("invalid").addClass("valid");
-					$(this).parent().children(".maxLengthLabel").html(valLength + "/" + maxLength);
 				} else {
 					$(this).parent().removeClass("valid").addClass("invalid");
-					$(this).parent().children(".maxLengthLabel").html(valLength + "/" + maxLength);
 				}
+				$(this).parent().children(".maxLengthLabel").html(valLength + "/" + maxLength);
 			}
+
 		});
-		$(this).find("input").off("focusin").on("focusin", function() {
+		$(this).find("input").off("focusin").on("focusin", function () {
 			if ($(this).parent().hasClass("disabled")) {
 				$(this).blur();
 				return;
@@ -84,7 +91,7 @@ function materialInputInit() {
 				$(this).parent().addClass("active");
 			}
 		});
-		$(this).find("input").off("focusout").on("focusout", function() {
+		$(this).find("input").off("focusout").on("focusout", function () {
 			if (displayLabel) {
 				if ($(this).val().length == 0) {
 					$(this).parent().children(".label").removeClass("active");
@@ -104,7 +111,7 @@ function materialInputInit() {
 }
 
 function materialTextareaInit() {
-	$(".materialTextarea").each(function(index, value) {
+	$(".materialTextarea").each(function (index, value) {
 		var displayLabel = ($(this).attr("label") != undefined);
 		var displayMaxLength = ($(this).attr("maxLength") != undefined);
 		var maxLength = $(this).attr("maxLength");
@@ -116,7 +123,7 @@ function materialTextareaInit() {
 			$(this).html($(this).html() + "<span unselectable='on' class='unselectable maxLengthLabel'>0/" + $(this).attr("maxLength") + "</span>");
 			$(this).css("margin-bottom", "21px");
 		}
-		$(this).find("textarea").off("change keyup keydown paste").on("change keyup keydown paste", function() {
+		$(this).find("textarea").off("change keyup keydown paste").on("change keyup keydown paste", function () {
 			if (displayMaxLength) {
 				var valLength = $(this).val().length;
 				if (valLength <= maxLength) {
@@ -128,7 +135,7 @@ function materialTextareaInit() {
 				}
 			}
 		});
-		$(this).find("textarea").off("focusin").on("focusin", function() {
+		$(this).find("textarea").off("focusin").on("focusin", function () {
 			if ($(this).parent().hasClass("disabled")) {
 				$(this).blur();
 				return;
@@ -149,7 +156,7 @@ function materialTextareaInit() {
 				$(this).parent().addClass("active");
 			}
 		});
-		$(this).find("textarea").off("focusout").on("focusout", function() {
+		$(this).find("textarea").off("focusout").on("focusout", function () {
 			if (displayLabel) {
 				if ($(this).val().length == 0) {
 					$(this).parent().children(".label").removeClass("active");
@@ -172,17 +179,17 @@ function materialTextareaInit() {
 function materialTagInputInit() {
 	var tags = new Array();
 	loadTagInput();
-	$(".materialTagInput").click(function() {
+	$(".materialTagInput").click(function () {
 		$(this).children("input").focus();
 	});
-	$(".materialTagInput").children("input").focusin(function() {
+	$(".materialTagInput").children("input").focusin(function () {
 		if ($(this).parent().hasClass("disabled")) {
 			$(this).blur();
 			return;
 		}
 		$(this).parent().addClass("active");
 	});
-	$(".materialTagInput").children("input").focusout(function() {
+	$(".materialTagInput").children("input").focusout(function () {
 		if (!$(this).val() && !$(this).parent().attr("result")) {
 			$(this).parent().removeClass("active");
 		}
@@ -195,7 +202,7 @@ function materialTagInputInit() {
 			$(this).before('<span unselectable="on" class="unselectable tagInputTag ' + tagText + '" id=' + (tags.length - 1) + '>' + tagText + '</span>');
 			//Width set
 			var remainingspace = $(this).parent().width();
-			$(".materialTagInput").children(".tagInputTag").each(function() {
+			$(".materialTagInput").children(".tagInputTag").each(function () {
 				if (remainingspace < $(this).outerWidth(true)) {
 					remainingspace = $(this).parent().width();
 				}
@@ -203,7 +210,7 @@ function materialTagInputInit() {
 			});
 			if (remainingspace < 100) $(this).width($(this).parent().width());
 			else $(this).width(remainingspace);
-			$(".tagInputTag").click(function() {
+			$(".tagInputTag").click(function () {
 				if ($(this).parent().attr("array") != undefined) tags = $(this).parent().attr("array").split(',');
 				else tags = Array();
 				tags[$(this).attr("id")] = "";
@@ -213,7 +220,7 @@ function materialTagInputInit() {
 				$(this).remove();
 				//Width set
 				var remainingspace = parent.width();
-				$(".materialTagInput").children(".tagInputTag").each(function() {
+				$(".materialTagInput").children(".tagInputTag").each(function () {
 					if (remainingspace < $(this).outerWidth(true)) {
 						remainingspace = $(this).parent().width();
 					}
@@ -227,7 +234,7 @@ function materialTagInputInit() {
 		$(this).parent().attr("result", cleanArray(tags));
 		$(this).val("");
 	});
-	$(".materialTagInput > input").keypress(function(e) {
+	$(".materialTagInput > input").keypress(function (e) {
 		if (e.which == 32) {
 			var tagText = $(this).val().replace(/\s/g, '');
 			var tags;
@@ -238,7 +245,7 @@ function materialTagInputInit() {
 				$(this).before('<span unselectable="on" class="unselectable tagInputTag ' + tagText + '" id=' + (tags.length - 1) + '>' + tagText + '</span>');
 				//Width set
 				var remainingspace = $(this).parent().width();
-				$(".materialTagInput").children(".tagInputTag").each(function() {
+				$(".materialTagInput").children(".tagInputTag").each(function () {
 					if (remainingspace < $(this).outerWidth(true)) {
 						remainingspace = $(this).parent().width();
 					}
@@ -246,7 +253,7 @@ function materialTagInputInit() {
 				});
 				if (remainingspace < 100) $(this).width($(this).parent().width());
 				else $(this).width(remainingspace);
-				$(".tagInputTag").click(function() {
+				$(".tagInputTag").click(function () {
 					if ($(this).parent().attr("array") != undefined) tags = $(this).parent().attr("array").split(',');
 					else tags = Array();
 					tags[$(this).attr("id")] = "";
@@ -256,7 +263,7 @@ function materialTagInputInit() {
 					$(this).remove();
 					//Width set
 					var remainingspace = parent.width();
-					$(".materialTagInput").children(".tagInputTag").each(function() {
+					$(".materialTagInput").children(".tagInputTag").each(function () {
 						if (remainingspace < $(this).outerWidth(true)) {
 							remainingspace = $(this).parent().width();
 						}
@@ -285,10 +292,10 @@ function cleanArray(actual) {
 }
 
 function loadTagInput() {
-	$(".materialTagInput > input").each(function() {
+	$(".materialTagInput > input").each(function () {
 		//Width set
 		var remainingspace = $(this).parent().width();
-		$(".materialTagInput").children(".tagInputTag").each(function() {
+		$(".materialTagInput").children(".tagInputTag").each(function () {
 			if (remainingspace < $(this).outerWidth(true)) {
 				remainingspace = $(this).parent().width();
 			}
@@ -305,7 +312,7 @@ function loadTagInput() {
 
 function materialDropdownInit() {
 	dropDownOptions = $(".dropDownOptions");
-	$(".materialDropDown").each(function(index, value) {
+	$(".materialDropDown").each(function (index, value) {
 		var placeholder = $(this).attr("placeholder");
 		var options = JSON.parse($(this).attr("options"));
 		var none = $(this).attr("none");
@@ -314,15 +321,15 @@ function materialDropdownInit() {
 		if (none != undefined) {
 			optionsHTML += '<div unselectable="on" class="unselectable dropDownOption dropDownNone" >' + none + '</div>'
 		}
-		$.each(options, function(index, value) {
+		$.each(options, function (index, value) {
 			optionsHTML += '<div unselectable="on" id=' + index + ' class="unselectable dropDownOption">' + value + '</div>'
 		});
-		$(this).off("click").on("click", function(e) {
+		$(this).off("click").on("click", function (e) {
 			e.stopPropagation();
 			if ($(this).hasClass("disabled")) {
 				return;
 			}
-			dropDownOptions.slideUp(300, function() {
+			dropDownOptions.slideUp(300, function () {
 				activeDropDown = that;
 				dropDownOptions.width(that.width());
 				dropDownOptions.css("top", that.offset().top + $(".content").scrollTop() - 120);
@@ -339,7 +346,7 @@ function materialDropdownInit() {
 	});
 } //Fix me: dropdown options are adding 2 times
 function materialSwitchInit() {
-	$(".materialSwitch").click(function() {
+	$(".materialSwitch").click(function () {
 		if ($(this).hasClass("disabled")) {
 			return;
 		}
@@ -349,14 +356,14 @@ function materialSwitchInit() {
 }
 
 function materialRadioButtonsInit() {
-	$(".materialRadioButtons").each(function(index, value) {
+	$(".materialRadioButtons").each(function (index, value) {
 		var that = $(this);
 		var options = JSON.parse(that.attr("options"));
 		var active = that.attr("active");
-		$.each(options, function(index, value) {
+		$.each(options, function (index, value) {
 			that.append('<div class="radioButton ' + (value == active ? "active" : "") + '" index="' + index + '">' + value + '</div>');
 		});
-		that.children(".radioButton").click(function() {
+		that.children(".radioButton").click(function () {
 			if ($(this).hasClass("disabled")) {
 				return;
 			}
@@ -369,7 +376,7 @@ function materialRadioButtonsInit() {
 }
 
 function materialCheckmarkInit() {
-	$(".materialCheckmark").click(function() {
+	$(".materialCheckmark").click(function () {
 		if ($(this).hasClass("disabled")) {
 			return;
 		}
@@ -383,11 +390,11 @@ function materialColorPickerInit() {
 	if (cpFirstTime) {
 		cpFirstTime == false;
 		var html = '<div class="cpColor card-1" id="none">?</div>';
-		cpColors.forEach(function(value, index) {
+		cpColors.forEach(function (value, index) {
 			html += '<div class="cpColor card-1" id="' + index + '" style="background-color: ' + value[6] + ';"></div>'
 		});
 		$("#cpColors").html(html);
-		$(".cpColor").click(function() {
+		$(".cpColor").click(function () {
 			cpColor = $(this).attr("id");
 			if (cpColor == "none") {
 				cpResult = undefined;
@@ -398,11 +405,11 @@ function materialColorPickerInit() {
 			} else {
 				$("#cpColorPicker").css("height", "328px");
 				html = "";
-				cpColors[cpColor].forEach(function(value, index) {
+				cpColors[cpColor].forEach(function (value, index) {
 					html += '<div class="cpAccent card-1" id="' + index + '" style="background-color: ' + value + ';"></div>'
 				});
 				$("#cpAccents").html(html);
-				$(".cpAccent").click(function() {
+				$(".cpAccent").click(function () {
 					cpAccent = $(this).attr("id");
 					$("#cpHeader").css("background-color", cpColors[cpColor][cpAccent]).css("color", ((((0.299 * ("0x" + cpColors[cpColor][cpAccent].substring(1, 7)[0] + cpColors[cpColor][cpAccent].substring(1, 7)[1])) + ((0.587 * ("0x" + cpColors[cpColor][cpAccent].substring(1, 7)[2] + cpColors[cpColor][cpAccent].substring(1, 7)[3])) + (0.114 * ("0x" + cpColors[cpColor][cpAccent].substring(1, 7)[4] + cpColors[cpColor][cpAccent].substring(1, 7)[5])))) / 255) > 0.5 ? "#212121" : "#FAFAFA"));
 					$("#cpHeader > input").val(cpColorsNames[cpColor] + " (" + cpAccentsNames[cpAccent] + ")");
@@ -410,13 +417,13 @@ function materialColorPickerInit() {
 				});
 			}
 		});
-		$("#cpHeader > input").click(function() {
+		$("#cpHeader > input").click(function () {
 			if ($(this).val() == "None") {
 				$(this).val("");
 				$("#cpColorPicker").height("258px");
 			}
 		});
-		$("#cpHeader > input").on("change paste keyup", function(e) {
+		$("#cpHeader > input").on("change paste keyup", function (e) {
 			$("#cpColorPicker").height("258px");
 			value = $.trim($(this).val());
 			var index = 0;
@@ -473,7 +480,7 @@ function materialColorPickerInit() {
 				}
 			}
 		});
-		$("#cpMain").click(function(e) {
+		$("#cpMain").click(function (e) {
 			if (e.target !== this) {
 				return;
 			}
@@ -490,17 +497,17 @@ function materialColorPickerInit() {
 			$("#cpMain").hide();
 			$(activeColorPicker).trigger("change");
 		});
-		$("#cpColorPicker").click(function(e) {
+		$("#cpColorPicker").click(function (e) {
 			e.preventDefault();
 		});
 	}
-	$(".materialColorPicker").each(function(index, value) {
+	$(".materialColorPicker").each(function (index, value) {
 
 		var cpLabel;
 		if ((cpLabel = $(this).attr("label")) != undefined) {
 			$(this).append('<span unselectable="on" class="unselectable label">' + cpLabel + '</span>');
 		}
-		$(this).css("min-width", 32 + $(this).children(".label").width()).click(function() {
+		$(this).css("min-width", 32 + $(this).children(".label").width()).click(function () {
 			if ($(this).hasClass("disabled")) {
 				return;
 			}
@@ -545,9 +552,9 @@ function materialColorPickerInit() {
 function materialSubmitInit() {
 	//TODO: URGENT add colorpicker input;
 	$.fn.extend({
-		materialSubmit: function() {
+		materialSubmit: function () {
 			var result = {};
-			$(this).children(".materialLineInput").each(function(index, value) {
+			$(this).children(".materialLineInput").each(function (index, value) {
 				var name;
 				if (name = $(this).attr("name")) {
 					result[name] = $(this).children("input, textarea").val();
@@ -556,7 +563,7 @@ function materialSubmitInit() {
 					console.error($(this));
 				}
 			});
-			$(this).children(".materialDropDown, .materialTagInput, .materialRadioButtons, .materialCheckmark").each(function(index, value) {
+			$(this).children(".materialDropDown, .materialTagInput, .materialRadioButtons, .materialCheckmark").each(function (index, value) {
 				var name;
 				if (name = $(this).attr("name")) {
 					result[name] = $(this).attr("result");
@@ -570,7 +577,7 @@ function materialSubmitInit() {
 }
 
 function materialTimePickerInit() {
-	$(".materialTimePicker").each(function(index, value) {
+	$(".materialTimePicker").each(function (index, value) {
 		var temp;
 		if ((temp = $(this).children("center").children(".firstTime")).val().length == 0) {
 			temp.val("00");
@@ -579,13 +586,13 @@ function materialTimePickerInit() {
 			temp.val("00");
 		}
 
-		$(this).children("center").children("input").on("focusin", function() {
+		$(this).children("center").children("input").on("focusin", function () {
 			if ($(this).parent().parent().hasClass("disabled")) {
 				$(this).blur();
 				return;
 			}
 		});
-		$(this).children("center").children("input").on("focusout", function() {
+		$(this).children("center").children("input").on("focusout", function () {
 			if ($(this).parent().parent().hasClass("disabled")) {
 				return;
 			}
@@ -622,7 +629,7 @@ function materialTimePickerInit() {
 }
 //TODO: 4 Animate this
 function materialDatePickerInit() {
-	$(".materialDatePicker").each(function(index, value) {
+	$(".materialDatePicker").each(function (index, value) {
 		var result;
 		if ((result = $(this).attr("result")) != undefined && $(this).attr("result") != "") {
 			if (result == "today") { //NOTE: If needed add yesterday, tomorrow, etc..
@@ -647,7 +654,7 @@ function materialDatePickerInit() {
 	});
 	setupDatePicker(activeDate);
 	updateSide();
-	$('.materialDatePicker').click(function() {
+	$('.materialDatePicker').click(function () {
 		if ($(this).hasClass("disabled")) {
 			return;
 		}
@@ -708,13 +715,13 @@ function setupDatePicker(day) {
 	$("#dpCalendar > #dpContent").html(html + '</tr></tbody></table><div id="dpFooter"><span id=dpCancel>Cancel</span><span id="dpOk">Ok</span></div>');
 	$("#dpHeader > .month").html(getMonthById(day.getMonth()));
 	$("#dpHeader > .year").html(day.getFullYear());
-	$("#dpHeader > .year").off().on("click", function() {
+	$("#dpHeader > .year").off().on("click", function () {
 		setupYearPicker(displayedDate);
 	});
-	$("#dpHeader > .month").off().on("click", function() {
+	$("#dpHeader > .month").off().on("click", function () {
 		setupMonthPicker(displayedDate);
 	});
-	$("#dpCalendar .dpDay").click(function() {
+	$("#dpCalendar .dpDay").click(function () {
 		activeDate.setDate($(this).html());
 		activeDate.setFullYear(displayedDate.getFullYear());
 		activeDate.setMonth(displayedDate.getMonth());
@@ -722,15 +729,15 @@ function setupDatePicker(day) {
 		$("#dpCalendar td.active").removeClass("active");
 		$(this).addClass("active");
 	});
-	$("#dpHeader > .leftArrow").off().on("click", function() {
+	$("#dpHeader > .leftArrow").off().on("click", function () {
 		displayedDate.setMonth(displayedDate.getMonth() - 1);
 		setupDatePicker(displayedDate);
 	});
-	$("#dpHeader > .rightArrow").off().on("click", function() {
+	$("#dpHeader > .rightArrow").off().on("click", function () {
 		displayedDate.setMonth(displayedDate.getMonth() + 1);
 		setupDatePicker(displayedDate);
 	});
-	$("#dpMain").click(function(e) {
+	$("#dpMain").click(function (e) {
 		if (e.target !== this) {
 			return;
 		}
@@ -738,13 +745,13 @@ function setupDatePicker(day) {
 		$(activeDatePicker).trigger("change");
 		activeDatePicker = null;
 	});
-	$("#dpCancel").click(function(e) {
+	$("#dpCancel").click(function (e) {
 		$(activeDatePicker).removeClass("invalid").removeClass("valid").attr("result", "").children("span").html("Select date");
 		$(activeDatePicker).trigger("change");
 		activeDatePicker = null;
 		$("#dpMain").hide();
 	});
-	$("#dpOk").click(function() {
+	$("#dpOk").click(function () {
 		$(activeDatePicker).attr("result", activeDate);
 		$(activeDatePicker).children("span").html(activeDate.getDate() + ". " + (activeDate.getMonth() + 1) + ". " + activeDate.getFullYear());
 		if ($(activeDatePicker).attr("past") == "true") {
@@ -773,15 +780,15 @@ function setupYearPicker(date) {
 		html += '<div class="yearOption">' + (date.getFullYear() + j) + '</div>';
 	}
 	$("#dpContent").html(html);
-	$("#dpHeader > .leftArrow").off().on("click", function() {
+	$("#dpHeader > .leftArrow").off().on("click", function () {
 		displayedDate.setFullYear(displayedDate.getFullYear() - 25);
 		setupYearPicker(displayedDate);
 	});
-	$("#dpHeader > .rightArrow").off().on("click", function() {
+	$("#dpHeader > .rightArrow").off().on("click", function () {
 		displayedDate.setFullYear(displayedDate.getFullYear() + 25);
 		setupYearPicker(displayedDate);
 	});
-	$("#dpContent > .yearOption").click(function() {
+	$("#dpContent > .yearOption").click(function () {
 		displayedDate.setFullYear($(this).html());
 		setupMonthPicker(displayedDate);
 	});
@@ -795,24 +802,71 @@ function setupMonthPicker(date) {
 		html += '<div id="' + j + '"  class="month ' + (j == today.getMonth() ? 'active' : '') + '">' + getMonthById(j) + '</div>';
 	}
 	$("#dpContent").html(html);
-	$("#dpHeader > .leftArrow").off().on("click", function() {
+	$("#dpHeader > .leftArrow").off().on("click", function () {
 		displayedDate.setMonth(displayedDate.getMonth() - 12);
 		setupMonthPicker(displayedDate);
 	});
-	$("#dpHeader > .rightArrow").off().on("click", function() {
+	$("#dpHeader > .rightArrow").off().on("click", function () {
 		displayedDate.setMonth(displayedDate.getMonth() + 12);
 		setupMonthPicker(displayedDate);
 	});
-	$("#dpContent > .month").click(function() {
+	$("#dpContent > .month").click(function () {
 		displayedDate.setMonth($(this).attr("id"));
 		setupDatePicker(displayedDate);
 		$("#dpHeader div").remove();
 		$("#dpHeader .leftArrow").after('<div class="month">January</div><div class="year">1990</div>');
-		$("#dpHeader > .year").off().on("click", function() {
+		$("#dpHeader > .year").off().on("click", function () {
 			setupYearPicker(displayedDate);
 		});
-		$("#dpHeader > .month").off().on("click", function() {
+		$("#dpHeader > .month").off().on("click", function () {
 			setupMonthPicker(displayedDate);
 		});
 	});
+}
+
+//Create autocompleteItem class for handling autocomplete - autocomplete for timetableeditor's teacher input field can has bug for teachers with white character in name 
+function setAutocomplete(element, autocomplete = null) {
+	if (autocomplete == null) {
+		autocomplete = $(element).data("autocomplete");
+	}
+	if (autocomplete) {
+		if (element.children(".materialAutocompleteArea").length == 0) {
+			element.append($('<div class="materialAutocompleteArea card-2"></div>').hide());
+		}
+
+		var autocompleteArea = element.children(".materialAutocompleteArea");
+		autocompleteArea.show();
+		autocompleteArea.children().remove();
+		for (var i = 0; i < autocomplete.length; i++) {
+			var item = $("<div>" + autocomplete[i] + "</div>");
+
+			if ($(element).hasClass("materialInput")) {
+				//Add click listener for input
+				item.click(function () {
+					var value = $(this).html();
+					element.children("input").val(value);
+					element.trigger("autocompleteClick", value);
+
+					var maxLength = element.attr("maxLength");
+
+					if (maxLength) {
+						if (value.length <= maxLength) {
+							$(element).removeClass("invalid").addClass("valid");
+						} else {
+							$(element).removeClass("valid").addClass("invalid");
+						}
+						$(element).children(".maxLengthLabel").html(value.length + "/" + maxLength);
+					}
+
+					autocompleteArea.hide();
+				});
+			} else {
+				//Add click listener for tags
+				//TODO: Add click listener for tags
+			}
+
+			autocompleteArea.append(item);
+			console.log("Append");
+		}
+	}
 }

@@ -198,44 +198,64 @@ if(isset($_POST["classId"])) {
 			}
 
 		//Handle subjects
-		$position = 0;
-		foreach ($timetableData->subjects as $key => $value) {
-			//Update or insert subject
-			if($value->changed){
-				//Subject was changed
-				if($value->id < 0){
-					//Id is negative => insert new subject
-					$sql = "INSERT INTO subjects (position, dayIndex, number, startTime, endTime, classId)
-					VALUES 	(" . $position++ . ", '" .
-					mysqli_real_escape_string($conn, $value->dayIndex) . "', '" .
-					mysqli_real_escape_string($conn, $value->number) . "', '" .
-					mysqli_real_escape_string($conn, $value->startTime) . "', '" .
-					mysqli_real_escape_string($conn, $value->endTime) . "', " .
-					mysqli_real_escape_string($conn, $_POST['classId']) . ")";
 
-					// $position = $position + 1;
-					$query = mysqli_query($conn, $sql);
-					if($query) {
-						//Update id of subject
-						$updatedSubjectsIds[$value->id] = mysqli_insert_id($conn);
-						$value->id = mysqli_insert_id($conn);
-					}  else {
-						//Failed query response build;
-						$response->success = false;
-						$response->error->code = 3;
-						$response->error->message = ERR_MSG_QUERY_FAILED;
-						$response->error->details = "Query inserting subject with id=" . $value->id . "  failed. Error: " . mysqli_error($conn);
-						$response->error->details = $sql;
-						die(json_encode($response));
+		//Only handle subjects and relations if there are any changes to subjects
+		if($timetableData->subjects && sizeOf($timetableData->subjects) > 0){
+			$position = 0;
+			foreach ($timetableData->subjects as $key => $value) {
+				//Update or insert subject
+				if($value->changed){
+					//Subject was changed
+					if($value->id < 0){
+						//Id is negative => insert new subject
+						$sql = "INSERT INTO subjects (position, dayIndex, number, startTime, endTime, classId)
+						VALUES 	(" . $position++ . ", '" .
+						mysqli_real_escape_string($conn, $value->dayIndex) . "', '" .
+						mysqli_real_escape_string($conn, $value->number) . "', '" .
+						mysqli_real_escape_string($conn, $value->startTime) . "', '" .
+						mysqli_real_escape_string($conn, $value->endTime) . "', " .
+						mysqli_real_escape_string($conn, $_POST['classId']) . ")";
+
+						// $position = $position + 1;
+						$query = mysqli_query($conn, $sql);
+						if($query) {
+							//Update id of subject
+							$updatedSubjectsIds[$value->id] = mysqli_insert_id($conn);
+							$value->id = mysqli_insert_id($conn);
+						}  else {
+							//Failed query response build;
+							$response->success = false;
+							$response->error->code = 3;
+							$response->error->message = ERR_MSG_QUERY_FAILED;
+							$response->error->details = "Query inserting subject with id=" . $value->id . "  failed. Error: " . mysqli_error($conn);
+							$response->error->details = $sql;
+							die(json_encode($response));
+						}
+					} else {
+						//Id is positive => update subject
+						$sql = "UPDATE subjects	SET position='" . $position++ . "', dayIndex='" .
+						mysqli_real_escape_string($conn, $value->dayIndex) . "', number='" .
+						mysqli_real_escape_string($conn, $value->number) . "', startTime='" .
+						mysqli_real_escape_string($conn, $value->startTime) . "', endTime='" .
+						mysqli_real_escape_string($conn, $value->endTime) . "'
+						WHERE id=". mysqli_real_escape_string($conn, $value->id);
+
+						// $position += 1;
+						$query = mysqli_query($conn, $sql);
+
+						if(!$query) {
+							//Failed query response build;
+							$response->success = false;
+							$response->error->code = 3;
+							$response->error->message = ERR_MSG_QUERY_FAILED;
+							$response->error->details = "Query updating subject with id=" . $value->id . "  failed. Error: " . mysqli_error($conn);
+							die(json_encode($response));
+						}
 					}
 				} else {
-					//Id is positive => update subject
-					$sql = "UPDATE subjects	SET position='" . $position++ . "', dayIndex='" .
-					mysqli_real_escape_string($conn, $value->dayIndex) . "', number='" .
-					mysqli_real_escape_string($conn, $value->number) . "', startTime='" .
-					mysqli_real_escape_string($conn, $value->startTime) . "', endTime='" .
-					mysqli_real_escape_string($conn, $value->endTime) . "'
-					WHERE id=". mysqli_real_escape_string($conn, $value->id);
+					//Update position
+					$sql = "UPDATE subjects	SET position='" . $position++ . "'
+									WHERE id=" . mysqli_real_escape_string($conn, $value->id);
 
 					// $position += 1;
 					$query = mysqli_query($conn, $sql);
@@ -249,90 +269,75 @@ if(isset($_POST["classId"])) {
 						die(json_encode($response));
 					}
 				}
-			} else {
-				//Update position
-				$sql = "UPDATE subjects	SET position='" . $position++ . "'
-								WHERE id=" . mysqli_real_escape_string($conn, $value->id);
 
-				// $position += 1;
-				$query = mysqli_query($conn, $sql);
-
-				if(!$query) {
-					//Failed query response build;
-					$response->success = false;
-					$response->error->code = 3;
-					$response->error->message = ERR_MSG_QUERY_FAILED;
-					$response->error->details = "Query updating subject with id=" . $value->id . "  failed. Error: " . mysqli_error($conn);
-					die(json_encode($response));
+				// Insert relations
+				foreach ($value->bodies as $bodyKey => $subjectBody) {
+					$relations[$i]['subjectId'] = $value->id < 0 ? $updatedSubjectsIds[$value->id] : $value->id;
+					$relations[$i]['bodyId'] = $subjectBody->bodyId < 0 ? $updatedBodiesIds[$subjectBody->bodyId] : $subjectBody->bodyId;
+					$relations[$i]['locationId'] = $subjectBody->locationId < 0 ? $updatedLocationsIds[$subjectBody->locationId] : $subjectBody->locationId;
+					$relations[$i]['teacherId'] = $subjectBody->teacherId < 0 ?  $updatedTeachersIds[$subjectBody->teacherId] : $subjectBody->teacherId;
+					$i++;
 				}
 			}
 
-			// Insert relations
-			foreach ($value->bodies as $bodyKey => $subjectBody) {
-				$relations[$i]['subjectId'] = $value->id < 0 ? $updatedSubjectsIds[$value->id] : $value->id;
-				$relations[$i]['bodyId'] = $subjectBody->bodyId < 0 ? $updatedBodiesIds[$subjectBody->bodyId] : $subjectBody->bodyId;
-				$relations[$i]['locationId'] = $subjectBody->locationId < 0 ? $updatedLocationsIds[$subjectBody->locationId] : $subjectBody->locationId;
-				$relations[$i]['teacherId'] = $subjectBody->teacherId < 0 ?  $updatedTeachersIds[$subjectBody->teacherId] : $subjectBody->teacherId;
-				$i++;
+
+			//Delete all realtions of this class
+			$sql = "DELETE FROM timetableRelations WHERE timetableRelations.timetableId=(SELECT id FROM newTimetables WHERE classId=".mysqli_real_escape_string($conn, $_POST["classId"]).")";
+
+			$query = mysqli_query($conn, $sql);
+
+			if(!$query) {
+				//Failed query response build;
+				$response->success = false;
+				$response->error->code = 3;
+				$response->error->message = ERR_MSG_QUERY_FAILED;
+				$response->error->details = "Query deleting timetableRelations failed. Error: " . mysqli_error($conn);
+				die(json_encode($response));
+			}
+
+			//Select timetableId
+
+			$sql = "SELECT id FROM newTimetables WHERE classId=" . mysqli_real_escape_string($conn, $_POST["classId"]);
+			$query = mysqli_query($conn, $sql);
+
+			if(!$query) {
+				//Failed query response build;
+				$response->success = false;
+				$response->error->code = 3;
+				$response->error->message = ERR_MSG_QUERY_FAILED;
+				$response->error->details = "Query selecting timetable id failed. Error: " . mysqli_error($conn);
+			}
+
+			$timetableId = mysqli_fetch_all($query, MYSQLI_ASSOC)[0]["id"];
+
+			$sql = "INSERT INTO timetableRelations (timetableId, subjectId, bodyId, locationId, teacherId) VALUES";
+			$relationsLength = sizeOf($relations);
+			for($i = 0; $i < $relationsLength; $i++){
+				$sql .= " ($timetableId,
+					'". mysqli_real_escape_string($conn, $relations[$i]["subjectId"]) ."',
+					'". mysqli_real_escape_string($conn, $relations[$i]["bodyId"]) ."',
+					'". mysqli_real_escape_string($conn, $relations[$i]["locationId"]) ."',
+					'". mysqli_real_escape_string($conn, $relations[$i]["teacherId"]) ."'
+				)" . ($i+1 == $relationsLength ? "" : ",");
+			}
+
+			// $sql .= "SELECT newTimetables.id FROM newTimetables WHERE newTimetables.classId='". mysqli_real_escape_string($conn, $_POST["classId"])."'";
+			// $sql .= " LEFT JOIN newTimetables ON newTimetables.classId='". mysqli_real_escape_string($conn, $_POST["classId"])."'";
+
+			// die($sql);
+			$query = mysqli_query($conn, $sql);
+
+			if(!$query) {
+				//Failed query response build;
+				$response->success = false;
+				$response->error->code = 3;
+				$response->error->message = ERR_MSG_QUERY_FAILED;
+				$response->error->details = "Query inserting timetableRelations failed. Error: " . mysqli_error($conn);
+			} else {
+				$response->success = true;
 			}
 		}
 
-
-		//Delete all realtions of this class
-		$sql = "DELETE FROM timetableRelations WHERE timetableRelations.timetableId=(SELECT id FROM newTimetables WHERE classId=".mysqli_real_escape_string($conn, $_POST["classId"]).")";
-
-		$query = mysqli_query($conn, $sql);
-
-		if(!$query) {
-			//Failed query response build;
-			$response->success = false;
-			$response->error->code = 3;
-			$response->error->message = ERR_MSG_QUERY_FAILED;
-			$response->error->details = "Query deleting timetableRelations failed. Error: " . mysqli_error($conn);
-			die(json_encode($response));
-		}
-
-		//Select timetableId
-
-		$sql = "SELECT id FROM newTimetables WHERE classId=" . mysqli_real_escape_string($conn, $_POST["classId"]);
-		$query = mysqli_query($conn, $sql);
-
-		if(!$query) {
-			//Failed query response build;
-			$response->success = false;
-			$response->error->code = 3;
-			$response->error->message = ERR_MSG_QUERY_FAILED;
-			$response->error->details = "Query selecting timetable id failed. Error: " . mysqli_error($conn);
-		}
-
-		$timetableId = mysqli_fetch_all($query, MYSQLI_ASSOC)[0]["id"];
-
-		$sql = "INSERT INTO timetableRelations (timetableId, subjectId, bodyId, locationId, teacherId) VALUES";
-		$relationsLength = sizeOf($relations);
-		for($i = 0; $i < $relationsLength; $i++){
-			$sql .= " ($timetableId,
-				'". mysqli_real_escape_string($conn, $relations[$i]["subjectId"]) ."',
-				'". mysqli_real_escape_string($conn, $relations[$i]["bodyId"]) ."',
-				'". mysqli_real_escape_string($conn, $relations[$i]["locationId"]) ."',
-				'". mysqli_real_escape_string($conn, $relations[$i]["teacherId"]) ."'
-			)" . ($i+1 == $relationsLength ? "" : ",");
-		}
-
-		// $sql .= "SELECT newTimetables.id FROM newTimetables WHERE newTimetables.classId='". mysqli_real_escape_string($conn, $_POST["classId"])."'";
-		// $sql .= " LEFT JOIN newTimetables ON newTimetables.classId='". mysqli_real_escape_string($conn, $_POST["classId"])."'";
-
-		// die($sql);
-		$query = mysqli_query($conn, $sql);
-
-		if(!$query) {
-			//Failed query response build;
-			$response->success = false;
-			$response->error->code = 3;
-			$response->error->message = ERR_MSG_QUERY_FAILED;
-			$response->error->details = "Query inserting timetableRelations failed. Error: " . mysqli_error($conn);
-		} else {
-			$response->success = true;
-		}
 		die(json_encode($response));
 
 } else if(isset($_POST["groupId"])) {

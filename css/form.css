@@ -116,6 +116,31 @@
 	transition: .3s;
 }
 
+/*Input Autocomplete*/
+.materialAutocompleteArea {
+	position: absolute;
+	background-color: white;
+	min-height: 27px;
+	width: 100%;
+	z-index: 2;
+}
+.materialAutocompleteArea > div {
+	width: calc(100% - 8px);
+	min-height: 27px;
+	line-height: 27px;
+	padding:3px 4px;
+	border-bottom: 1px solid #ddd;
+	cursor: pointer;
+}
+.materialAutocompleteArea > div:last-child {
+	border-bottom: none;
+}
+.materialAutocompleteArea > div:hover {
+	background-color: #EEEEEE;
+}
+.materialAutocompleteArea > div:active {
+	background-color: #E0E0E0;
+}
 
 /*Dropdown*/
 
