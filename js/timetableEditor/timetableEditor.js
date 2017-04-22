@@ -4,7 +4,7 @@ function timetableEditorInit(_id) {
 	console.info("%cFunction run:\t" + "%ctimetableEditorInit()", "color: #303F9F; font-weight:700", "color: #303F9F");
 	console.log("Timetable init with id: " + _id);
 
-	editingBody = undefined;
+	editingSubjectBody = undefined;
 	subjectOptionActivated = false;
 
 	//Basic functions
@@ -15,7 +15,9 @@ function timetableEditorInit(_id) {
 		// Resize listener
 		teSetupAutocompleteLists();
 		$(window).off().resize(function () {
-			timetable.placeTimetableOn($(".timetableEditor"));
+			if (isTimetableDisplayed == 0) {
+				timetable.placeTimetableOn($(".timetableEditor"));
+			}
 		});
 	});
 
@@ -25,51 +27,157 @@ function timetableEditorInit(_id) {
 	teAddAutocmplete();
 }
 
-function teMenuInit(_id){
-	$("#teMenuTimetableBtn").click(function(){
+/*
+	0 - timetable
+	1 - body
+	2 - Location
+	3 - teacher
+*/
+var isTimetableDisplayed = 0;
+
+function teMenuInit(_id) {
+	$("#teMenuTimetableBtn").click(function () {
+		//Handle menu actions
 		$(".teMenuItem.active").removeClass("active");
 		$(this).addClass("active");
+		//Handle areas
 		$("#teOthersEditor").hide();
 		$(".timetableEditor").show();
+		//Toggle options
+		toggleOptionsPanels(true, true, true);
+		//Clear inputs
+		clearEditing();
+		clearInputs();
+
+		$("#teSubjectOptions").find("disabled").removeClass("disabled");
 
 		//Header
 		$("#teEditorHeader").html("Timetable editor:");
 
 		//Load Timetable
+		isTimetableDisplayed = 0;
 		timetable.placeTimetableOn($(".timetableEditor"));
 	});
-	$("#teMenuBodiesBtn").click(function(){
+	$("#teMenuBodiesBtn").click(function () {
+		//Handle menu actions
 		$(".teMenuItem.active").removeClass("active");
 		$(this).addClass("active");
+		//Handle areas
 		$(".timetableEditor").hide();
-		$("#teOthersEditor").show();
+		$("#teOthersEditor").show().html("");
+		//Toggle options
+		toggleOptionsPanels(true, false, false);
+		//Clear inputs
+		clearEditing();
+		clearInputs();
+
+		$("#teSubjectNumber").addClass("disabled");
+		$("#teSubjectDay").addClass("disabled");
+		$("#teStartTime").addClass("disabled");
+		$("#teEndTime").addClass("disabled");
 
 		//Header
 		$("#teEditorHeader").html("Bodies editor:");
 
+		isTimetableDisplayed = 1;
+		//Load bodies TODO: Sort
+		for (var index in timetable.bodies) {
+			$("#teOthersEditor").append(timetable.bodies[index].toElement());
+		}
+
 	});
-	$("#teMenuTeachersBtn").click(function(){
+	$("#teMenuTeachersBtn").click(function () {
+		//Handle menu actions
 		$(".teMenuItem.active").removeClass("active");
 		$(this).addClass("active");
+		//Handle areas
 		$(".timetableEditor").hide();
-		$("#teOthersEditor").show();
+		$("#teOthersEditor").show().html("");
+		//Toggle options
+		toggleOptionsPanels(false, false, true);
+		//Clear inputs
+		clearEditing();
+		clearInputs();
 
 		//Header
 		$("#teEditorHeader").html("Teachers editor:");
 
+		isTimetableDisplayed = 3;
+		//Load Teachers TODO: Sort
+		for (var index in timetable.teachers) {
+			$("#teOthersEditor").append(timetable.teachers[index].toElement());
+		}
 	});
-	$("#teMenuLocationsBtn").click(function(){
+	$("#teMenuLocationsBtn").click(function () {
+		//Handle menu actions
 		$(".teMenuItem.active").removeClass("active");
 		$(this).addClass("active");
+		//Handle areas
 		$(".timetableEditor").hide();
-		$("#teOthersEditor").show();
+		$("#teOthersEditor").show().html("");
+		//Toggle options
+		toggleOptionsPanels(false, true, false);
+		//Clear inputs
+		clearEditing();
+		clearInputs();
 
 		//Header
 		$("#teEditorHeader").html("Locations editor:");
 
+		isTimetableDisplayed = 2;
+		//Load Teachers TODO: Sort
+		for (var index in timetable.locations) {
+			$("#teOthersEditor").append(timetable.locations[index].toElement());
+		}
 	});
 }
 
+function clearEditing() {
+	if (editingSubjectBody) {
+		$(editingSubjectBody.notificationArea.editingElement).css("display", "none");
+		editingSubjectBody.notificationArea.editing = false;
+		editingSubjectBody = null;
+	}
+	if (editingSubject) {
+		editingSubject = null;
+	}
+	if (editingBody) {
+		editingBody.notificationArea.toggleEditing();
+		editingBody = null;
+	}
+	if (editingTeacher) {
+		editingTeacher.notificationArea.toggleEditing();
+		editingTeacher = null;
+	}
+	if (editingLocation) {
+		editingLocation.notificationArea.toggleEditing();
+		editingLocation = null;
+	}
+}
+
+function toggleOptionsPanels(_subject, _location, _teacher) {
+	if (_subject) {
+		$("#teSubjectOptionsHeader").show();
+		$("#teSubjectOptions").show();
+	} else {
+		$("#teSubjectOptionsHeader").hide();
+		$("#teSubjectOptions").hide();
+	}
+	if (_location) {
+		$("#teLocationOptionsHeader").show();
+		$("#teLocationOptions").show();
+	} else {
+		$("#teLocationOptionsHeader").hide();
+		$("#teLocationOptions").hide();
+	}
+	if (_teacher) {
+		$("#teTeacherOptionsHeader").show();
+		$("#teTeacherOptions").show();
+	} else {
+		$("#teTeacherOptionsHeader").hide();
+		$("#teTeacherOptions").hide();
+	}
+}
 
 function loadTimetable(_id, _callback) {
 	console.log("Load timetable");
@@ -89,28 +197,21 @@ function loadTimetable(_id, _callback) {
 }
 
 function teSetBody(_body) {
-	// body.id;
-
-
-	editingBody.body = _body;
-	editingBody.updateElement();
-	editingBody.element.trigger("click");
+	editingSubjectBody.body = _body;
+	editingSubjectBody.updateElement();
+	editingSubjectBody.element.trigger("click");
 }
 
 function teSetTeacher(_teacher) {
-	console.log(editingBody);
-
-	editingBody.teacher = _teacher;
-	editingBody.updateElement();
-	editingBody.element.trigger("click");
-
+	editingSubjectBody.teacher = _teacher;
+	editingSubjectBody.updateElement();
+	editingSubjectBody.element.trigger("click");
 }
 
 function teSetLocation(_location) {
-
-	editingBody.location = _location;
-	editingBody.updateElement();
-	editingBody.element.trigger("click");
+	editingSubjectBody.location = _location;
+	editingSubjectBody.updateElement();
+	editingSubjectBody.element.trigger("click");
 }
 
 function teSetupAutocompleteBodiesLists() {
@@ -297,41 +398,40 @@ function teAddAutocmplete() {
 
 function teDetachBody() {
 	var newBody = new Body(-1 * timetable.newBodyIdMultiplier,
-		editingBody.body.name,
-		editingBody.body.acronym,
-		editingBody.body.icon,
-		editingBody.body.color
+		editingSubjectBody.body.name,
+		editingSubjectBody.body.acronym,
+		editingSubjectBody.body.icon,
+		editingSubjectBody.body.color
 	);
 	timetable.bodies[newBody.id] = newBody;
-	editingBody.body = newBody;
-	editingBody.updateElement();
+	editingSubjectBody.body = newBody;
+	editingSubjectBody.updateElement();
 }
 
 function teDetachTeacher() {
 	var newTeacher = new Teacher(-1 * timetable.newTeacherIdMultiplier,
-		editingBody.teacher.name,
-		editingBody.teacher.surname,
-		editingBody.teacher.descrip,
-		editingBody.teacher.image
+		editingSubjectBody.teacher.name,
+		editingSubjectBody.teacher.surname,
+		editingSubjectBody.teacher.descrip,
+		editingSubjectBody.teacher.image
 	);
 	timetable.teachers[newTeacher.id] = newTeacher;
-	editingBody.teacher = newTeacher;
-	editingBody.updateElement();
+	editingSubjectBody.teacher = newTeacher;
+	editingSubjectBody.updateElement();
 }
 
 function teDetachLocation() {
 	var newLocation = new Location(-1 * timetable.newLocationIdMultiplier,
-		editingBody.location.name,
-		editingBody.location.description
+		editingSubjectBody.location.name,
+		editingSubjectBody.location.description
 	);
 	timetable.locations[newLocation.id] = newLocation;
-	editingBody.location = newLocation;
-	editingBody.updateElement();
+	editingSubjectBody.location = newLocation;
+	editingSubjectBody.updateElement();
 }
 
 
 function teAddListeners(_id) {
-	console.log("Add listeners te");
 
 	//Listeners
 	$("#teSave").off().click(function () {
@@ -368,8 +468,8 @@ function teAddListeners(_id) {
 			return;
 		}
 
-		if (editingBody) {
-			var displayedDay = editingBody.element.parent().parent().parent().data("dayName");
+		if (editingSubjectBody) {
+			var displayedDay = editingSubjectBody.element.parent().parent().parent().data("dayName");
 
 			if (editingSubject.bodies.length == 1) {
 				// subject.removed = true;
@@ -381,18 +481,18 @@ function teAddListeners(_id) {
 				editingSubject = undefined;
 			} else {
 				// subjectBody.removed = true;
-				editingSubject.bodies.splice($.inArray(editingBody, editingSubject.bodies), 1);
+				editingSubject.bodies.splice($.inArray(editingSubjectBody, editingSubject.bodies), 1);
 
-				if (editingBody.element.next(".insertSubjectBody").hasClass("bottom")) {
-					editingBody.element.prev(".insertSubjectBody").remove();
+				if (editingSubjectBody.element.next(".insertSubjectBody").hasClass("bottom")) {
+					editingSubjectBody.element.prev(".insertSubjectBody").remove();
 				} else {
-					editingBody.element.next(".insertSubjectBody").remove();
+					editingSubjectBody.element.next(".insertSubjectBody").remove();
 				}
 
-				editingBody.element.remove();
+				editingSubjectBody.element.remove();
 			}
 
-			editingBody = undefined;
+			editingSubjectBody = undefined;
 		}
 
 	});
@@ -413,14 +513,17 @@ function teAddListeners(_id) {
 
 	//Number
 	$("#teSubjectNumber > input").off().on("change keyup keydown paste", function () {
-		console.log("Test");
+		if (!editingSubject) {
+			return;
+		}
 		var value = $(this).val();
-		if (/^\d+$/.test(value) && value.length <= 3) { // /^\d+$/.test(value - test if all characters are digits
+		if (/^\d+$/.test(value) && value.length <= 3 && editingSubject) { // /^\d+$/.test(value - test if all characters are digits
 
 			editingSubject.number = value;
+			editingSubject.changed = true;
 			editingSubject.element.find(".number span").html(parseInt(value));
 
-			setChanged(false);
+			setChangedSubject(editingSubject);
 		}
 	});
 
@@ -429,11 +532,16 @@ function teAddListeners(_id) {
 		var that = this;
 		setTimeout(function () {
 			var value = $(that).val().toUpperCase();
-			if (value.length <= 3 && editingBody) {
-				editingBody.body.acronym = value;
-
-				updateEverySubjectBody();
-				setChanged(true, true);
+			if (value.length <= 3) {
+				if (editingSubjectBody) {
+					editingSubjectBody.body.acronym = value;
+					editingSubjectBody.body.changed = true;
+					updateEverySubjectBody();
+				} else if (editingBody) {
+					editingBody.acronym = value;
+					editingBody.setChanged();
+					editingBody.updateElement();
+				}
 			}
 		}, 150);
 	});
@@ -442,11 +550,18 @@ function teAddListeners(_id) {
 		var that = this;
 		setTimeout(function () {
 			var value = $(that).val();
-			if (value.length <= 50 && editingBody) {
-				editingBody.body.name = value;
+			if (value.length <= 50) {
+				if (editingSubjectBody) {
+					editingSubjectBody.body.name = value;
 
-				updateEverySubjectBody();
-				setChanged(true, true);
+					editingSubjectBody.body.changed = true;
+
+					updateEverySubjectBody();
+				} else if (editingBody) {
+					editingBody.name = value;
+					editingBody.setChanged();
+					editingBody.updateElement();
+				}
 			}
 		}, 150);
 	});
@@ -455,38 +570,61 @@ function teAddListeners(_id) {
 		var that = this;
 		setTimeout(function () {
 			var value = $(that).val();
-			if (value.length <= 50 && editingBody) {
-				editingBody.teacher.name = value;
 
-				updateEverySubjectBody();
-				setChanged(true, false, true);
+			if (value.length <= 50) {
+				if (editingSubjectBody) {
+					editingSubjectBody.teacher.name = value;
+					editingSubjectBody.teacher.changed = true;
+					updateEverySubjectBody();
+				} else if (editingTeacher) {
+					editingTeacher.name = value;
+					editingTeacher.setChanged(true);
+					editingTeacher.updateElement();
+				}
 			}
 		}, 150);
 	});
 	//Teacher's surname
 	$("#teTeacherSurname > input").on("focusout", function () {
+		if (!editingSubjectBody) {
+			return;
+		}
 		var that = this;
 		setTimeout(function () {
 			var value = $(that).val();
-			if (value.length <= 50 && editingBody) {
-				editingBody.teacher.surname = value;
-
-				updateEverySubjectBody();
-				setChanged(true, false, true);
+			if (value.length <= 50) {
+				if (editingSubjectBody) {
+					editingSubjectBody.teacher.surname = value;
+					editingSubjectBody.teacher.changed = true;
+					updateEverySubjectBody();
+				} else if (editingTeacher) {
+					editingTeacher.surname = value;
+					editingTeacher.setChanged(true);
+					editingTeacher.updateElement();
+				}
 			}
 		}, 150);
 	});
 	//Teacher's description
 
 	$("#teTeacherDescription > input").on("focusout", function () {
+		if (!editingSubjectBody) {
+			return;
+		}
 		var that = this;
 		setTimeout(function () {
 			var value = $(that).val();
-			if (value.length <= 50 && editingBody) {
-				editingBody.teacher.description = value;
+			if (value.length <= 50) {
 
-				updateEverySubjectBody();
-				setChanged(true, false, true);
+				if (editingSubjectBody) {
+					editingSubjectBody.teacher.description = value;
+					editingSubjectBody.teacher.changed = true;
+					updateEverySubjectBody();
+				} else if (editingTeacher) {
+					editingTeacher.description = value;
+					editingTeacher.setChanged(true);
+					editingTeacher.updateElement();
+				}
 			}
 		}, 150);
 	});
@@ -496,11 +634,16 @@ function teAddListeners(_id) {
 		var that = this;
 		setTimeout(function () {
 			var value = $(that).val();
-			if (value.length <= 50 && editingBody) {
-				editingBody.location.name = value;
-
-				updateEverySubjectBody();
-				setChanged(true, false, false, true);
+			if (value.length <= 50) {
+				if (editingSubjectBody) {
+					editingSubjectBody.location.name = value;
+					editingSubjectBody.location.changed = true;
+					updateEverySubjectBody();
+				} else if (editingLocation) {
+					editingLocation.name = value;
+					editingLocation.setChanged();
+					editingLocation.updateElement();
+				}
 			}
 		}, 150);
 	});
@@ -509,42 +652,53 @@ function teAddListeners(_id) {
 
 	//Start time
 	$("body").on("change keyup keydown paste focusout", "#teStartTime input", function () {
-		if (subjectOptionActivated) {
-			var value = $(this).parent().children(".firstTime").val() + ":" + ($(this).parent().children(".secondTime").val().length == 1 ? "0" + $(this).parent().children(".secondTime").val() : $(this).parent().children(".secondTime").val());
-
-			editingSubject.start = new Time(value);
-			editingSubject.element.find(".time > .start").html(value);
-
-			setChanged(false);
+		if (!editingSubjectBody) {
+			return;
 		}
+		var value = $(this).parent().children(".firstTime").val() + ":" + ($(this).parent().children(".secondTime").val().length == 1 ? "0" + $(this).parent().children(".secondTime").val() : $(this).parent().children(".secondTime").val());
+
+		editingSubject.start = new Time(value);
+		editingSubject.element.find(".time > .start").html(value);
+
+		setChangedSubject(editingSubject);
 	});
 	//End time
 	$("body").on("change keyup keydown paste focusout", "#teEndTime input", function () {
-		if (subjectOptionActivated) {
-			var value = $(this).parent().children(".firstTime").val() + ":" + ($(this).parent().children(".secondTime").val().length == 1 ? "0" + $(this).parent().children(".secondTime").val() : $(this).parent().children(".secondTime").val());
-
-			editingSubject.end = new Time(value);
-			editingSubject.element.find(".time > .end").html(value);
-
-
-			setChanged(false);
+		if (!editingSubjectBody) {
+			return;
 		}
+
+		var value = $(this).parent().children(".firstTime").val() + ":" + ($(this).parent().children(".secondTime").val().length == 1 ? "0" + $(this).parent().children(".secondTime").val() : $(this).parent().children(".secondTime").val());
+
+		editingSubject.end = new Time(value);
+		editingSubject.element.find(".time > .end").html(value);
+
+
+		setChangedSubject(editingSubject);
+
 	});
 	//Color picker
 	$("#teColorPicker").on("change", function () {
 		console.log("Color change");
 		result = $(this).attr("result");
-
-		editingBody.body.color = result;
-		// $(subjectBody).children(".ttSubjectIcon").css("background-color", result);
-
 		$(".teSubjectImage").css("background-color", result);
 
-		updateEverySubjectBody();
-		setChanged(true, true);
-
+		if (editingSubjectBody) {
+			editingSubjectBody.body.color = result;
+			editingSubjectBody.body.changed = true;
+			updateEverySubjectBody();
+		} else if (editingBody) {
+			editingBody.color = result;
+			editingBody.updateElement();
+		}
 	});
+}
 
+function setChangedSubject(_subject) {
+	for (var index in _subject.bodies) {
+		_subject.bodies[index].notificationArea.changed = true;
+		_subject.bodies[index].notificationArea.changedElement.show();
+	}
 }
 
 function updateEverySubjectBody() {
@@ -553,73 +707,44 @@ function updateEverySubjectBody() {
 	});
 }
 
-function setChanged(_onlySubjectBody, _body = false, _teacher = false, _location = false) {
+function clearInputs() {
+	//Subject
+	$("#teSubjectAcronym>input").val("");
+	$("#teSubjectAcronym").removeClass("invalid valid");
+	$("#teSubjectAcronym>.active").removeClass("active");
+	$("#teSubjectNumber>input").val("");
+	$("#teSubjectNumber").removeClass("invalid valid");
+	$("#teSubjectNumber>.active").removeClass("active");
+	$("#teSubjectDay").removeClass("ok").html('Day <i class="material-icons">arrow_drop_down</i>');
+	$("#teStartTime").find("input").val("00");
+	$("#teEndTime").find("input").val("00");
+	$("#teColorPicker").removeClass("active");
+	$("#teColorPicker .cpPreviewColor").css("background-color", "");
+	$("#teColorPicker .cpColorCode").html("");
+	//TODO: icon picker
+	$("#teSubjectName>input").val("");
+	$("#teSubjectName").removeClass("invalid valid");
+	$("#teSubjectName>.active").removeClass("active");
+	$("#teSubjectOptions > .teSubjectImage").css("background-color", "").html('<i class="material-icons">school</i>');
 
-	console.log("setChanged");
+	//Teacher
+	$("#teTeacherName>input").val("");
+	$("#teTeacherName").removeClass("invalid valid");
+	$("#teTeacherName>.active").removeClass("active");
+	$("#teTeacherSurname>input").val("");
+	$("#teTeacherSurname").removeClass("invalid valid");
+	$("#teTeacherSurname>.active").removeClass("active");
+	//TODO: image
+	$("#teTeacherDescription>input").val("");
+	$("#teTeacherDescription").removeClass("invalid valid");
+	$("#teTeacherDescription>.active").removeClass("active");
+	//Location
+	$("#teLocation>input").val("");
+	$("#teLocation").removeClass("invalid valid");
+	$("#teLocation>.active").removeClass("active");
+	$("#teLocationDescription>input").val("");
+	$("#teLocationDescription").removeClass("invalid valid");
+	$("#teLocationDescription>.active").removeClass("active");
 
-	//SubjectBodies
-	var subjects = timetable.getTimetableSubjects();
-	for (var i = 0; i < subjects; i++) {
-		//Loop through subjects
-		var isSubjectChanged = false;
-		for (var j = 0; j < subjects[i].bodies.length; j++) {
-			//Loop through subjectBodies
-
-			//Check body
-			if (subjects[i].bodies[j].body.id == editingBody.body.id ||
-				subjects[i].bodies[j].teacher.id == editingBody.teacher.id ||
-				subjects[i].bodies[j].location.id == editingBody.location.id) {
-				subjects[i].bodies[j].changed = true;
-				subjects[i].changed = true;
-				continue;
-			}
-		}
-
-	}
-
-	if (_onlySubjectBody) {
-		editingBody.changed = true;
-		$(editingBody.notificationArea.changeElement).css("display", "block");
-		editingBody.notificationArea.changed = true;
-		editingBody.resize();
-	} else {
-		editingBody.changed = true;
-		for (var i = 0; i < editingSubject.bodies.length; i++) {
-			editingSubject.bodies[i].changed = true;
-			$(editingSubject.bodies[i].notificationArea.changeElement).css("display", "block");
-			editingSubject.bodies[i].notificationArea.changed = true;
-			editingSubject.bodies[i].resize();
-		}
-	}
-
-	//Bodies
-	if (_body) {
-		var bodies = $.grep(timetable.bodies, function (e) {
-			return e.id == editingBody.body.id;
-		});
-		for (var i = 0; i < bodies.length; i++) {
-			bodies[i].changed = true;
-		}
-	}
-
-	//Teachers
-	if (_teacher) {
-		var teachers = $.grep(timetable.teachers, function (e) {
-			return e.id == editingBody.teacher.id;
-		});
-		for (var i = 0; i < teachers.length; i++) {
-			teachers[i].changed = true;
-		}
-	}
-
-	//Locations
-	if (_location) {
-		var locations = $.grep(timetable.locations, function (e) {
-			return e.id == editingBody.location.id;
-		});
-		for (var i = 0; i < locations.length; i++) {
-			locations[i].changed = true;
-		}
-	}
 
 }

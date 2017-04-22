@@ -103,12 +103,12 @@ function setupDynamicListeners() {
 		//TODO: 5 remove conditions for checking if the strings lengths are within the limits. Theoreticaly they all of them should be.
 		// TODO: change limits
 
-		if (editingBody) {
-			$(editingBody.notificationArea.editingElement).css("display", "none");
-			editingBody.notificationArea.editing = false;
+		if (editingSubjectBody) {
+			$(editingSubjectBody.notificationArea.editingElement).css("display", "none");
+			editingSubjectBody.notificationArea.editing = false;
 		}
 
-		editingBody = $(this).data("SubjectBody");
+		editingSubjectBody = $(this).data("SubjectBody");
 		editingSubject = $(this).parent().parent().data("Subject");
 
 		//Enable options
@@ -120,10 +120,10 @@ function setupDynamicListeners() {
 			});
 		}
 
-		$(editingBody.notificationArea.editingElement).css("display", "block");
-		editingBody.notificationArea.editing = true;
+		$(editingSubjectBody.notificationArea.editingElement).css("display", "block");
+		editingSubjectBody.notificationArea.editing = true;
 
-		editingBody.resize();
+		editingSubjectBody.resize();
 
 		var subject = $(this).parent().parent().data("Subject");
 		var subjectBody = $(this).data("SubjectBody");

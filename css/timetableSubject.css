@@ -479,6 +479,7 @@
 .teBodyEditorItem, .teTeacherEditorItem, .teLocationEditorItem {
 	width: calc(100% - 16px);
 	float: left;
+	position: relative;
 	overflow: auto;
 	margin: 4px 8px;
 	background-color: white;

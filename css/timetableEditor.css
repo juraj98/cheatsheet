@@ -353,3 +353,18 @@
 .teSubjectFlatButton.disabled:active {
 	background-color: transparent;
 }
+
+.ttSubjectNotifications {
+	width: 22px;
+	position: absolute;
+	right: 8px;
+	top: 8px;
+}
+.teLocationEditorItem  .ttSubjectNotifications {
+	width: 44px;
+}
+.ttSubjectNotifications > i {
+    font-size: 18px;
+    float: right;
+    color: #BDBDBD;
+}

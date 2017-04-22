@@ -56,8 +56,11 @@ var previousDate = new Date(activeDate);
 var displayedDate = new Date(activeDate);
 var activeDatePicker;
 //teEditor
-var editingBody;
 var editingSubject;
+var editingSubjectBody;
+var editingBody;
+var editingLocation;
+var editingTeacher;
 var subjectOptionActivated;
 //reminders
 var workingWithRemindersOfClass = 1; //TO-DO: change this

@@ -98,12 +98,12 @@ class Timetable {
 				$(this).addClass("disabled");
 			});
 
-			if (editingBody) {
-				$(editingBody.notificationArea.editingElement).css("display", "none");
-				editingBody.notificationArea.editing = false;
-				editingBody.resize();
+			if (editingSubjectBody) {
+				$(editingSubjectBody.notificationArea.editingElement).css("display", "none");
+				editingSubjectBody.notificationArea.editing = false;
+				editingSubjectBody.resize();
 			}
-			editingBody = null;
+			editingSubjectBody = null;
 			$(that.element).replaceWith(that.toElement());
 		});
 
@@ -124,12 +124,12 @@ class Timetable {
 					$(this).addClass("disabled");
 				});
 			}
-			if (editingBody) {
-				$(editingBody.notificationArea.editingElement).css("display", "none");
-				editingBody.notificationArea.editing = false;
-				editingBody.resize();
+			if (editingSubjectBody) {
+				$(editingSubjectBody.notificationArea.editingElement).css("display", "none");
+				editingSubjectBody.notificationArea.editing = false;
+				editingSubjectBody.resize();
 			}
-			editingBody = null;
+			editingSubjectBody = null;
 			$(that.element).replaceWith(that.toElement());
 		});
 
