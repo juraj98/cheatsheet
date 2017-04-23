@@ -7,7 +7,7 @@ class SubjectNotificationArea {
 
 
 	constructor(_changed, _editing = false, _reminders = false) {
-		console.log("Notofication area created");
+
 		this.element = $('<div class="ttSubjectNotifications unselectable"></div>');
 
 		this.editingElement = $('<i class="material-icons" style="color:#F44336; display:' + ((this.editing = _editing) ? "block" : "none") +

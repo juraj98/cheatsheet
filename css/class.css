@@ -28,6 +28,7 @@
 	background-color: #E7E7E7;
 	float: left;
 	position: relative;
+	background-size: contain;
 }
 
 #cClassImageDiv > i {

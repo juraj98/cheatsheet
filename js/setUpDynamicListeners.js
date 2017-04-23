@@ -254,7 +254,7 @@ function setupDynamicListeners() {
 		$("#teLocation > input").val(subjectBody.location.name);
 		$("#teLocation > .maxLengthLabel").html(subjectBody.location.name.length + "/50");
 
-		//Location
+		//Location description
 		if (subjectBody.location.description) {
 			if (subjectBody.location.description.length <= 50) {
 				$("#teLocationDescription").removeClass("invalid").addClass("valid").children(".label").addClass("active")

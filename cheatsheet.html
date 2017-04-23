@@ -25,6 +25,8 @@
 	<meta name="google-signin-client_id" content="67374956220-8icaiq0lhb7p0cbnc2qfhhrmomc0drcr.apps.googleusercontent.com">
 	<!--TinyMCE-->
 	<script src="/tinymce/tinymce.min.js"></script>
+	<!--DropZone-->
+	<script src="/js/dropzone.js"></script>
 	<!--	<script src="//cloud.tinymce.com/stable/tinymce.min.js"></script>-->
 	<!--TinyMCE-Code Color-->
 	<link rel="stylesheet" type="text/css" href="css/prism.css">
@@ -44,6 +46,7 @@
 	<script type="text/javascript" src="js/urlManager.js"></script>
 	<script type="text/javascript" src="js/searchInit.js"></script>
 	<script type="text/javascript" src="js/easterEggs.js"></script>
+	<script type="text/javascript" src="js/tooltip.js"></script>
 	<script type="text/javascript" src="js/tooltip.js"></script>
 	<!--Classes-->
 	<script type="text/javascript" src="js/jsClasses/time.js"></script>
@@ -79,6 +82,10 @@
 	<script type="text/javascript" src="js/flexibleArea.js"></script>
 	<script type="text/javascript" src="js/form.js"></script>
 	<link rel="stylesheet" type="text/css" href="css/form.css">
+	<!--Upload Photo-->
+	<script type="text/javascript" src="js/uploadPhoto.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/uploadPhoto.css">
+
 	<!--Timetable Subject-->
 	<link rel="stylesheet" type="text/css" href="css/timetableSubject.css">
 	<script type="text/javascript" src="js/timetableSubject.js"></script>
@@ -271,6 +278,19 @@
 	</div>
 	<!--Content end-->
 	<div id="popoutContainer"></div>
+	<div id="uArea" hidden>
+		<div id="uPanel" class="card-1">
+
+			<input id="uInput" type="file">
+			<div id="uFileText">Upload image:</div>
+			<div id="uDropArea" class="dropzoneCss">
+				<div class="dz-message needsclick">
+					Drop files here or click to upload.
+				</div>
+			</div>
+			<div id="uCancelButton">CANCEL</div>
+		</div>
+	</div>
 </body>
 
 </html>

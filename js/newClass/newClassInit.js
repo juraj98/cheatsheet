@@ -15,6 +15,7 @@ function newClassInit(_id, _tab = 0) {
 	}, function (_ajaxData) {
 		if (_ajaxData.success) {
 			setupClassInfo(_ajaxData.data.classInfo, _ajaxData.data.members.length);
+			setupClassUploadImage(_id);
 			setupReminders(_ajaxData.data.reminders);
 			setupSubject(_ajaxData.data.timetableData);
 			setupMembers(_ajaxData.data.members);
@@ -25,13 +26,13 @@ function newClassInit(_id, _tab = 0) {
 	});
 
 	//Members listener
-	$("#cClassMembers").click(function(){
+	$("#cClassMembers").click(function () {
 		$("#membersBackground, #cMembersPanel").show();
 	});
-	$("#membersBackground").off().on("click", function(){
+	$("#membersBackground").off().on("click", function () {
 		$("#membersBackground, #cMembersPanel").hide();
 	});
-	$("#cMembersGenerateTokenButton").off().on("click", function(){
+	$("#cMembersGenerateTokenButton").off().on("click", function () {
 		$.post(baseDir + "/php/get/getInviteToken.php", {
 			idToken: googleTokenId,
 			classId: _id
@@ -76,8 +77,40 @@ function newClassInit(_id, _tab = 0) {
 		$(this).addClass("active");
 		newClassGroupsClick(_id);
 	});
+}
 
+function setupClassUploadImage(_id) {
+	$("#cClassImageUploadButton").click(function () {
+		$("#uDropArea").replaceWith('<div id="uDropArea" class="dropzoneCss"><div class="dz-message needsclick">Drop files here or click to upload.</div></div>');
+		uploadDropzone = new Dropzone("#uDropArea", {
+			url: "/php/set/setImage.php",
+			maxFiles: 1,
+			dictDefaultMessage: "Drop files here to upload",
+			dictFallbackMessage: "Your browser does not support drag'n'drop file uploads.",
+			acceptedFiles: "image/*"
+		});
+		uploadDropzone.off();
+		uploadDropzone.on("sending", function (file, xhr, formData) {
+			formData.append("idToken", googleTokenId);
+			formData.append("classId", _id);
+		});
+		uploadDropzone.on("success", function (params) {
 
+			var response = JSON.parse(params.xhr.response);
+			if (response.success) {
+				setClassImage('/uploadImages/class/' + response.data.fileName);
+				$("#uArea").hide();
+			} else {
+				popout(reponse.details);
+			}
+		});
+		$("#uArea").show();
+	});
+}
+
+function setClassImage(_url) {
+	$("#cClassImageDiv > i").remove();
+	$("#cClassImageDiv").css("background-image", "url(" + _url + ")");
 }
 
 function setupClassInfo(_classInfo, _membersCount) {
@@ -94,32 +127,36 @@ function setupClassInfo(_classInfo, _membersCount) {
 	$("#cClassFullName").html(_classInfo.name);
 	$("#cClassSchool").html(_classInfo.school);
 	$("#cClassMembers").html(_membersCount + (_membersCount == 1 ? " member" : " members"));
+	if (_classInfo.imageName) {
+		setClassImage('/uploadImages/class/' + _classInfo.imageName);
+
+	}
 }
 
-function setupReminders(_reminders){
+function setupReminders(_reminders) {
 	var reminders = new Array();
 	var countOfReminders = _reminders.length > 5 ? 5 : _reminders.length;
 	var bottomMargin = (($("#cColumnLeft").height() - 8) - 25 - 8 - 76 * countOfReminders) / (countOfReminders - 1);
 	for (var i = 0; i < countOfReminders; i++) {
 		reminders[i] = new Reminder(JSON.stringify(_reminders[i]));
-//		reminders[i] = new Reminder(null, _reminders[i].id, _reminders[i].name, _reminders[i].type, _reminders[i].subject, _reminders[i].dateOfReminder);
+		//		reminders[i] = new Reminder(null, _reminders[i].id, _reminders[i].name, _reminders[i].type, _reminders[i].subject, _reminders[i].dateOfReminder);
 		$("#cReminders").append(reminders[i].toElement());
 	}
 }
 
-function setupSubject(_timetableData){
-	if(_timetableData.isCurrent){
+function setupSubject(_timetableData) {
+	if (_timetableData.isCurrent) {
 		$("#cSubjectHeader").html("Current subject:");
 	} else {
 		$("#cSubjectHeader").html("Next subject:");
 	}
 
 	var firstSubject,
-			firstSubjectBodies = [],
-			secondSubject,
-			secondSubjectBodies = [];
+		firstSubjectBodies = [],
+		secondSubject,
+		secondSubjectBodies = [];
 
-	for(var i = 0; i < _timetableData.firstSubject.bodies.length; i++){
+	for (var i = 0; i < _timetableData.firstSubject.bodies.length; i++) {
 		var currentSubjectBody = _timetableData.firstSubject.bodies[i];
 		firstSubjectBodies.push(new SubjectBody(
 			new Body(currentSubjectBody.bodyId, currentSubjectBody.bodyName, currentSubjectBody.acronym, currentSubjectBody.icon, currentSubjectBody.color),
@@ -127,7 +164,7 @@ function setupSubject(_timetableData){
 			new Location(currentSubjectBody.locationId, currentSubjectBody.locationName, currentSubjectBody.locationDescription)
 		));
 	}
-	for(var i = 0; i < _timetableData.secondSubject.bodies.length; i++){
+	for (var i = 0; i < _timetableData.secondSubject.bodies.length; i++) {
 		var currentSubjectBody = _timetableData.firstSubject.bodies[i];
 		secondSubjectBodies.push(new SubjectBody(
 			new Body(currentSubjectBody.bodyId, currentSubjectBody.bodyName, currentSubjectBody.acronym, currentSubjectBody.icon, currentSubjectBody.color),
@@ -154,13 +191,13 @@ function setupSubject(_timetableData){
 
 	//Note: Second subject is not used here
 
-  $("#cCurrentSubject").replaceWith(firstSubject.toElement().attr("id", "cCurrentSubject"));
+	$("#cCurrentSubject").replaceWith(firstSubject.toElement().attr("id", "cCurrentSubject"));
 
 }
 
-function setupMembers(_members){
+function setupMembers(_members) {
 	$("#cMembersConatainer, #cMembersTokenSpan").html("");
-	for(var i = 0; i < _members.length; i++){
+	for (var i = 0; i < _members.length; i++) {
 		$("#cMembersConatainer").append('<div class="cmMemberConatiner"><img src="' + (_members[i].image ? _members[i].image : 'images/placeholders/profilePicturePlaceholder.png') + '" class="cmUserImage"><span class="cmUserName">' + _members[i].name + " " + _members[i].surname + '</span>' + (_members[i].username ? '<span class="cmUserMail">' + _members[i].username + '</span>' : "") + '</div>');
 	}
 }

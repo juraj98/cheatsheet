@@ -64,7 +64,9 @@ var editingTeacher;
 var subjectOptionActivated;
 //reminders
 var workingWithRemindersOfClass = 1; //TO-DO: change this
-var remindersDays = new Array();
+var remindersDays = [];
 var rFilters = [true, true, true, true, true, true];
 //account
 var chatingWith;
+//uploadDropzone
+var uploadDropzone;

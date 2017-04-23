@@ -4,16 +4,16 @@ function onLogin() {
 	$.post(baseDir + "/php/user/onLogin.php", {
 			idToken: googleTokenId
 		},
-		function(_ajaxData) {
+		function (_ajaxData) {
 			if (_ajaxData['success']) {
 
 				user = new User();
-				user.downloadUser(function() {
+				user.downloadUser(function () {
 
 					popoutInit();
 					searchInit();
 
-					if(user.classes.length == 0){
+					if (user.classes.length == 0) {
 						//User have no classes
 						addClassClick();
 					} else {
@@ -22,7 +22,9 @@ function onLogin() {
 						topMenuProfileInit();
 						collapsedMenuInit();
 						sideMenusListeners();
+						uploadPhotoInit();
 					}
+
 
 					//Temp
 					afterOnLoginTemp();
@@ -34,4 +36,4 @@ function onLogin() {
 		}
 	);
 }
-	//
+//

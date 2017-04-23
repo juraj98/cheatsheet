@@ -22,7 +22,7 @@ $userId = getUserIdFromSub($idTokenData->{"sub"});
 ckeckIfMemberOfClass($userId, $_POST['classId']);
 
 //Get class info
-$sql = "SELECT name, nameShort, school, created FROM classes WHERE classId='" . mysqli_real_escape_string( $conn, $_POST['classId'] )  . "'";
+$sql = "SELECT name, nameShort, school, created, imageName FROM classes WHERE classId='" . mysqli_real_escape_string( $conn, $_POST['classId'] )  . "'";
 $query = mysqli_query($conn, $sql);
 
 if($query) {
@@ -82,11 +82,7 @@ $query = mysqli_query($conn, $sql);
 $response->data->timetableData->isCurrent = true;
 
 if($query){
-<<<<<<< HEAD
-	$response->data->timetableData->isCurrent = true;
-=======
 
->>>>>>> e84aaa5d6b7827681d8cde34d7bf85754f005931
 	$downloadedData = mysqli_fetch_all($query, MYSQLI_ASSOC);
 	// $response->debug->data = $downloadedData;
 	$downloadedDataLength = sizeOf($downloadedData);
