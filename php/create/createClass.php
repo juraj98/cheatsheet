@@ -80,6 +80,16 @@ if($stmt->execute()){
 	$response->error->details = "Query adding user to class failed. Error: " . mysqli_error($conn);
 }
 
+$sql = "INSERT INTO newTimetables (classId, created) VALUES ($classId, NOW())";
+$query = mysqli_query($conn, $sql);
+
+if(!$query){
+	$response->success = false;
+	$response->error->code = 3;
+	$response->error->message = ERR_MSG_QUERY_FAILED;
+	$response->error->details = "Query creating class timetable failed. Error: " . mysqli_error($conn);		
+}
+
 die(json_encode($response));
 
 ?>

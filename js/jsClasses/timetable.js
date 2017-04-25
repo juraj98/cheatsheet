@@ -119,12 +119,12 @@ class Timetable {
 		var day = this.days[this.getNameByIndex(_dayIndex)];
 		var dayElement = $('<div class="timetableDay"></div>');
 
+
 		//If day is empty, return
 		if (day.length == 0) {
+			$(dayElement).append('<div class="insertSubject insertFirstSubject"><span class="blockText  unselectable" unselectable="on">Add new subject</span></div>');
 			return $(dayElement);
 		}
-
-
 		//If isEditor - add insertSubject on top
 		if (this.isEditor) {
 			$(dayElement).append('<div class="insertSubject' + (i == 0 ? " top" : "") + '"><span class="blockText  unselectable" unselectable="on">Add new subject</span></div>');
@@ -153,7 +153,7 @@ class Timetable {
 	}
 
 	toElement(_number, _timetableDayWidth) {
-
+		var loop;
 		//Create basic header
 		this.element = $('<div class="ttTimetableRow' + (this.isEditor ? " timetableEditor" : "") + '"></div>');
 
@@ -165,9 +165,10 @@ class Timetable {
 			$(this.element).children(".ttHeader").append($(currentHeaderDay).addClass("both"));
 
 		} else {
-			var loop = _number
+			loop = _number;
 
-			for (var i = 0; i < loop; i++) {
+			for (var i = 0; i < loop && loop < 7; i++) {
+				console.log("Loop with i: " + i);
 				if (loop - _number > 7) {
 					console.log("Break loop");
 					for (var j = 0; j < _number; j++) {
@@ -201,8 +202,8 @@ class Timetable {
 			var timetableDay = this.generateDay(this.activeDay);
 			$(this.element).append($(timetableDay));
 		} else {
-			var loop = _number;
-			for (var i = 0; i < loop; i++) {
+			loop = _number;
+			for (var i = 0; i < loop && loop < 7; i++) {
 				if (loop - _number > 7) {
 					for (var j = 0; j < _number; j++) {
 						$(this.element).append($("<div class='timetableDay'></div>"));
@@ -223,6 +224,20 @@ class Timetable {
 
 				}
 			}
+		}
+
+
+		if (this.element.find(".ttSubject").length < _number) {
+			console.log("loop < _number: " + this.element.find(".ttSubject").length + "<" + _number);
+			this.element.find(".ttHeaderDay").width(_timetableDayWidth - 2);
+
+			this.element.find(".ttHeaderDay").first().css("margin-left", 0);
+			this.element.find(".ttHeaderDay").last().css("margin-right", 0);
+
+			this.element.find(".leftArrow").remove();
+			this.element.find(".rightArrow").remove();
+		} else {
+			console.log("loop < _number: " + this.element.find(".ttSubject").length + "<" + _number);
 		}
 		this.addListeners();
 		return $(this.element).data("Timetable", this);
@@ -251,6 +266,7 @@ class Timetable {
 					number: this.days[index][i].number,
 					startTime: this.days[index][i].startTime.getTime(),
 					endTime: this.days[index][i].endTime.getTime(),
+					changed: this.days[index][i].changed,
 					bodies: []
 				};
 
@@ -309,10 +325,17 @@ class Timetable {
 			console.log("Left Arrow");
 			// that.saveDay();
 			var notChanged = true;
-			while (notChanged) {
+			var attempts = 0;
+			while (notChanged && attempts++ < 7) {
 				that.activeDay--;
 				if (that.activeDay < 0) {
 					that.activeDay += 6;
+				}
+				if (that.isEditor) {
+					console.log("Is editor");
+					break;
+				} else {
+					console.log("Not editor");
 				}
 				if (Object.keys(that.days[that.getNameByIndex(that.activeDay)]).length != 0) {
 					notChanged = false;
@@ -321,6 +344,7 @@ class Timetable {
 
 			// TODO: Add call for disable timetable options function
 
+			console.log("Active day: " + this.activeDay);
 			$(that.element).replaceWith(that.toElement(that.number, that.timetableDayWidth));
 
 		});
@@ -331,11 +355,18 @@ class Timetable {
 
 			// that.saveDay();
 			var notChanged = true;
-			while (notChanged) {
+			var attempts = 0;
+			while (notChanged && attempts++ < 7) {
 				console.log("Active day: " + that.activeDay);
 				that.activeDay++;
 				if (that.activeDay > 6) {
 					that.activeDay -= 6;
+				}
+				if (that.isEditor) {
+					console.log("Is editor");
+					break;
+				} else {
+					console.log("Not editor");
 				}
 				console.log("Active day after: " + that.activeDay);
 				if (Object.keys(that.days[that.getNameByIndex(that.activeDay)]).length != 0) {
@@ -345,6 +376,7 @@ class Timetable {
 
 			// TODO: Add call for disable timetable options function
 
+			console.log("Active day: " + this.activeDay);
 			$(that.element).replaceWith(that.toElement(that.number, that.timetableDayWidth));
 		});
 
@@ -435,6 +467,7 @@ class Timetable {
 			var lastInsertSubjectElement; //Variable for first button that will be bottom of inserted SubjectBody
 			var newSubject = new Subject(-1, that.activeDay, 0, new Time("00:00"), new Time("00:00"), [new SubjectBody(new Body(-1 * that.newBodyIdMultiplier, "", "", null, null), new Teacher(-1 * that.newTeacherIdMultiplier, "", "", null, null), new Location(-1 * that.newLocationIdMultiplier, "", null))]);
 			var day = that.days[that.getNameByIndex(that.activeDay)];
+			newSubject.changed = true;
 			var referenceSubjectId;
 
 			if ($(this).hasClass("insertFirstSubject")) {

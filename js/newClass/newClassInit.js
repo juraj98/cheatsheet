@@ -134,6 +134,10 @@ function setupClassInfo(_classInfo, _membersCount) {
 }
 
 function setupReminders(_reminders) {
+	if (_reminders.length == 0) {
+		$("#cReminders").append('<div class="noItemsMessage">No reminders</div>');
+		return;
+	}
 	var reminders = new Array();
 	var countOfReminders = _reminders.length > 5 ? 5 : _reminders.length;
 	var bottomMargin = (($("#cColumnLeft").height() - 8) - 25 - 8 - 76 * countOfReminders) / (countOfReminders - 1);
@@ -145,6 +149,11 @@ function setupReminders(_reminders) {
 }
 
 function setupSubject(_timetableData) {
+	if (!_timetableData.firstSubject) {
+		$("#cSubjectHeader").hide();
+		return;
+	}
+
 	if (_timetableData.isCurrent) {
 		$("#cSubjectHeader").html("Current subject:");
 	} else {
@@ -164,14 +173,6 @@ function setupSubject(_timetableData) {
 			new Location(currentSubjectBody.locationId, currentSubjectBody.locationName, currentSubjectBody.locationDescription)
 		));
 	}
-	for (var i = 0; i < _timetableData.secondSubject.bodies.length; i++) {
-		var currentSubjectBody = _timetableData.firstSubject.bodies[i];
-		secondSubjectBodies.push(new SubjectBody(
-			new Body(currentSubjectBody.bodyId, currentSubjectBody.bodyName, currentSubjectBody.acronym, currentSubjectBody.icon, currentSubjectBody.color),
-			new Teacher(currentSubjectBody.teacherId, currentSubjectBody.teacherName, currentSubjectBody.teacherSurname, currentSubjectBody.teacherDescription, null),
-			new Location(currentSubjectBody.locationId, currentSubjectBody.locationName, currentSubjectBody.locationDescription)
-		));
-	}
 
 
 	var firstSubject = new Subject(
@@ -181,13 +182,6 @@ function setupSubject(_timetableData) {
 		new Time(_timetableData.firstSubject.startTime),
 		new Time(_timetableData.firstSubject.endTime),
 		firstSubjectBodies);
-	var secondSubject = new Subject(
-		_timetableData.secondSubject.subjectId,
-		_timetableData.secondSubject.dayIndex,
-		_timetableData.secondSubject.number,
-		new Time(_timetableData.secondSubject.startTime),
-		new Time(_timetableData.secondSubject.endTime),
-		secondSubjectBodies);
 
 	//Note: Second subject is not used here
 

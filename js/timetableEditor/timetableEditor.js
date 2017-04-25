@@ -187,7 +187,19 @@ function loadTimetable(_id, _callback) {
 	}, function (_ajaxData) {
 
 		if (_ajaxData.success) {
-			timetable = new Timetable(JSON.stringify(_ajaxData.data), true);
+			if (_ajaxData.data) {
+				timetable = new Timetable(JSON.stringify(_ajaxData.data), true);
+			} else {
+				timetable = new Timetable(
+					JSON.stringify({
+						"timetable": {},
+						"bodies": {},
+						"teachers": {},
+						"locations": {}
+					}), true
+				);
+			}
+
 			timetable.placeTimetableOn($(".timetableEditor"));
 			_callback();
 		} else {
@@ -439,8 +451,8 @@ function teAddListeners(_id) {
 			return;
 
 		console.log(JSON.stringify(timetable.toArray()));
-		popout("Debug mode enabled");
-		return;
+		// popout("Debug mode enabled");
+		// return;
 
 		$(this).addClass("disabled");
 		$.post(baseDir + "/php/set/setTimetable.php", {
@@ -458,7 +470,7 @@ function teAddListeners(_id) {
 					$("#teSave").removeClass("disabled");
 				});
 			} else {
-				popout(_ajaxData.error.message);
+				popout(_ajaxData.error.message + " | " + _ajaxData.error.details + "<br>" + _ajaxData.debug.sql + '<br><br>' + _ajaxData.debug.subjectIds);
 			}
 		});
 	});

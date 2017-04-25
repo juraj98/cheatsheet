@@ -423,11 +423,13 @@
 	background-color: #9E9E9E;
 }
 
-.insertSubject.insertFirstSubject {
+.insertSubject:only-child {
 	background-color: #BDBDBD;
 	margin: auto;
 	margin-top: 25px;
-	width: 80%;
+	display: table;
+	width: auto;
+	padding: 8px 16px;
 	border-radius: 5px;
 	height: auto;
 	overflow: auto;
@@ -435,12 +437,17 @@
 	color: white;
 }
 
-.insertSubject.insertFirstSubject > p {
+.insertSubject:only-child > span {
 	margin: 0;
 	font-size: 12px;
+  height: 15px;
+  line-height: 15px;
+  margin-top: 5px;
+  display: inline-block;
+  opacity: 1;
 }
 
-.insertSubject.insertFirstSubject > p:first-child {
+.insertSubject:only-child > span:first-child {
 	font-size: 20px;
 	margin-top: 2px;
 }

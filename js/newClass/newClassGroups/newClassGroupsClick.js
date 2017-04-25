@@ -1,5 +1,7 @@
-function newClassGroupsClick(_id){
+function newClassGroupsClick(_id) {
 	console.info("%cFunction run:\t" + "%cnewClassGroupsClick(_id)", "color: #303F9F; font-weight:700", "color: #303F9F");
+
+	$(".noItemMessageClass").remove();
 
 	//options show for messages
 	$("#cOptionsHeader").show();

@@ -221,6 +221,7 @@ if(isset($_POST["classId"])) {
 						if($query) {
 							//Update id of subject
 							$updatedSubjectsIds[$value->id] = mysqli_insert_id($conn);
+							// $response->debug->subjectIds = "Id: " . $updatedSubjectsIds[$value->id];
 							$value->id = mysqli_insert_id($conn);
 						}  else {
 							//Failed query response build;
@@ -248,6 +249,7 @@ if(isset($_POST["classId"])) {
 							$response->success = false;
 							$response->error->code = 3;
 							$response->error->message = ERR_MSG_QUERY_FAILED;
+							$response->debug->sql = $sql;
 							$response->error->details = "Query updating subject with id=" . $value->id . "  failed. Error: " . mysqli_error($conn);
 							die(json_encode($response));
 						}
@@ -265,6 +267,7 @@ if(isset($_POST["classId"])) {
 						$response->success = false;
 						$response->error->code = 3;
 						$response->error->message = ERR_MSG_QUERY_FAILED;
+						$response->debug->sql = $sql;
 						$response->error->details = "Query updating subject with id=" . $value->id . "  failed. Error: " . mysqli_error($conn);
 						die(json_encode($response));
 					}
@@ -272,6 +275,7 @@ if(isset($_POST["classId"])) {
 
 				// Insert relations
 				foreach ($value->bodies as $bodyKey => $subjectBody) {
+					// $response->debug->subjectIds = "T:" . $value->id;
 					$relations[$i]['subjectId'] = $value->id < 0 ? $updatedSubjectsIds[$value->id] : $value->id;
 					$relations[$i]['bodyId'] = $subjectBody->bodyId < 0 ? $updatedBodiesIds[$subjectBody->bodyId] : $subjectBody->bodyId;
 					$relations[$i]['locationId'] = $subjectBody->locationId < 0 ? $updatedLocationsIds[$subjectBody->locationId] : $subjectBody->locationId;
@@ -291,6 +295,7 @@ if(isset($_POST["classId"])) {
 				$response->success = false;
 				$response->error->code = 3;
 				$response->error->message = ERR_MSG_QUERY_FAILED;
+				$response->debug->sql = $sql;
 				$response->error->details = "Query deleting timetableRelations failed. Error: " . mysqli_error($conn);
 				die(json_encode($response));
 			}
@@ -305,6 +310,7 @@ if(isset($_POST["classId"])) {
 				$response->success = false;
 				$response->error->code = 3;
 				$response->error->message = ERR_MSG_QUERY_FAILED;
+				$response->debug->sql = $sql;
 				$response->error->details = "Query selecting timetable id failed. Error: " . mysqli_error($conn);
 			}
 
@@ -313,6 +319,8 @@ if(isset($_POST["classId"])) {
 			$sql = "INSERT INTO timetableRelations (timetableId, subjectId, bodyId, locationId, teacherId) VALUES";
 			$relationsLength = sizeOf($relations);
 			for($i = 0; $i < $relationsLength; $i++){
+
+				// $response->debug->subjectIds = $response->debug->subjectIds . "|S:" . json_encode($relations[$i]);
 				$sql .= " ($timetableId,
 					'". mysqli_real_escape_string($conn, $relations[$i]["subjectId"]) ."',
 					'". mysqli_real_escape_string($conn, $relations[$i]["bodyId"]) ."',
@@ -332,6 +340,8 @@ if(isset($_POST["classId"])) {
 				$response->success = false;
 				$response->error->code = 3;
 				$response->error->message = ERR_MSG_QUERY_FAILED;
+				$response->debug->sql = $sql;
+
 				$response->error->details = "Query inserting timetableRelations failed. Error: " . mysqli_error($conn);
 			} else {
 				$response->success = true;

@@ -1,5 +1,7 @@
-function newClassUploadsClick(_id){
+function newClassUploadsClick(_id) {
 	console.info("%cFunction run:\t" + "%cnewClassUploadsClick(_id)", "color: #303F9F; font-weight:700", "color: #303F9F");
+
+	$(".noItemMessageClass").remove();
 
 	//options show for messages
 	$("#cOptionsHeader").show();
@@ -10,7 +12,7 @@ function newClassUploadsClick(_id){
 	$("#cOptionsHeader").html("Uploads options:");
 
 	//Change options html
-//	$("#cOptions > .leftOption").html('<i class="material-icons">search</i><div>Filter</div>');
+	//	$("#cOptions > .leftOption").html('<i class="material-icons">search</i><div>Filter</div>');
 	$("#cOptions > .leftOption").html('');
 	$("#cOptions > .rightOption").html('<i class="material-icons">file_upload</i><div>Upload</div>');
 

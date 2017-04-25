@@ -1,6 +1,8 @@
 function newClassTimetableClick(_id) {
 	console.info("%cFunction run:\t" + "%cnewClassTimetableClick(_id)", "color: #303F9F; font-weight:700", "color: #303F9F");
 
+	$(".noItemMessageClass").remove();
+
 	//options show for messages
 	$("#cOptionsHeader").show();
 	$("#cOptions").show();
@@ -10,10 +12,10 @@ function newClassTimetableClick(_id) {
 	$("#cOptionsHeader").html("Timetable options:");
 
 	//Change options html
-	$("#cOptions > .leftOption").html('<i class="material-icons">mode_edit</i><div>Edit</div>').off().click(function(){
+	$("#cOptions > .leftOption").html('<i class="material-icons">mode_edit</i><div>Edit</div>').off().click(function () {
 		timetableEditorClick(_id)
 	});
-	$("#cOptions > .rightOption").html(''/*<i class="material-icons">person</i><div>Personalize</div>*/);
+	$("#cOptions > .rightOption").html('' /*<i class="material-icons">person</i><div>Personalize</div>*/ );
 
 
 	//Hide and show stuff

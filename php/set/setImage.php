@@ -1,5 +1,10 @@
 <?php
 
+const FILE_SERVER_PATH_USER = "http://www.cheatsheet.sk/uploadImages/user/";
+const FILE_SERVER_PATH_CLASS = "http://www.cheatsheet.sk/uploadImages/class/";
+const FILE_SERVER_PATH_GROUP = "http://www.cheatsheet.sk/uploadImages/group/";
+const FILE_SERVER_PATH_TEACHER = "http://www.cheatsheet.sk/uploadImages/teacher/";
+
 require_once  "../connection.php";
 
 require_once	"../_includes/decodeIdToken.php";
@@ -35,7 +40,9 @@ if(isset($_POST['classId'])){
 	ckeckIfMemberOfClass($userId, $_POST['classId']);
   $storeFolder = '../../uploadImages/class';
   $fileName = "class" . $_POST['classId'] . ".".pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION);
-	$sql = "UPDATE classes SET imageName='$fileName' WHERE classId=" . $_POST['classId'];
+
+	$fileName .= FILE_SERVER_PATH_CLASS;
+	$sql = "UPDATE classes SET imageName='". FILE_SERVER_PATH_CLASS . $fileName . "' WHERE classId=" . $_POST['classId'];
 	$query = mysqli_query($conn, $sql);
 	if(!$query){
 		$response->success = false;
@@ -77,12 +84,23 @@ if(isset($_POST['classId'])){
 
   $storeFolder = '../../uploadImages/teacher';
   $fileName = "teacher" . $_POST['teacherId'] . ".".pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION);
+
+//TODO: Add comlumn
+	$sql = "UPDATE teachers SET imageUrl='". FILE_SERVER_PATH_TEACHER . $fileName . "' WHERE id=" . $_POST['teacherId'];
+	$query = mysqli_query($conn, $sql);
+	if(!$query){
+		$response->success = false;
+		$response->error->code = 3;
+		$response->error->message = ERR_MSG_QUERY_FAILED;
+		$response->error->details = "Query adding image to class failed. Error: " . mysqli_error($conn);
+		die(json_encode($response));
+	}
 } else {
   //Set user's image
   $storeFolder = '../../uploadImages/user';
   $fileName = "user" . $userId . ".".pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION);
 
-	$sql = "UPDATE users SET image='$fileName' WHERE id=$userId";
+	$sql = "UPDATE users SET image='". FILE_SERVER_PATH_USER . $fileName . "' WHERE id=$userId";
 	$query = mysqli_query($conn, $sql);
 	if(!$query){
 		$response->success = false;

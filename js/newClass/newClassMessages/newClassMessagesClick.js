@@ -1,5 +1,7 @@
-function newClassMessagesClick(_id){
+function newClassMessagesClick(_id) {
 	console.info("%cFunction run:\t" + "%cnewClassMessagesClick(_id)", "color: #303F9F; font-weight:700", "color: #303F9F");
+
+	$(".noItemMessageClass").remove();
 
 	//options hide for messages
 	$("#cOptionsHeader").hide();

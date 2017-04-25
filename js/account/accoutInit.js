@@ -153,11 +153,13 @@ function setupUserUploadImage() {
 
 function setUserImage(_url) {
 	if (!validURL(_url)) {
-		_url = "url(uploadImages/user/" + _url + ")";
+		_url = "uploadImages/user/" + _url;
 	}
 
+	console.log("URL: " + _url);
+
 	$("#aUserImageDiv > i").remove();
-	$("#aUserImageDiv").css("background-image", _url);
+	$("#aUserImageDiv").css("background-image", "url(" + _url + "?random=" + new Date().getTime() + ")");
 }
 
 function loadDirectMessages() {
@@ -289,7 +291,9 @@ function updateInfo() {
 	$("#aUserMail").html(user.mail);
 	$("#aUserCheatpoints").html(user.cheatpoints + " Cheatpoints");
 
+
 	if (user.image) {
+		console.log("User image : " + user.image);
 		setUserImage(user.image);
 	}
 

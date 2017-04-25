@@ -40,11 +40,11 @@ function newClassUploadsInit(_id) {
 
 	materialFormInit();
 
-	$(".rightOption").off().on("click", function() {
+	$(".rightOption").off().on("click", function () {
 		$("#cNewUpload").slideToggle(300);
 	});
 
-	$("#cNewUploadButton").off().on("click", function() {
+	$("#cNewUploadButton").off().on("click", function () {
 
 		//TODO: Add new post to posts
 
@@ -55,9 +55,9 @@ function newClassUploadsInit(_id) {
 			subject: $("#cNewUploadSubject > input").val(),
 			content: tinyMCE.activeEditor.getContent(),
 			tags: JSON.stringify($("#cNewUploadTags").attr("result").split(","))
-		}, function(_ajaxData) {
+		}, function (_ajaxData) {
 			if (_ajaxData.success) {
-				 popout("Success");
+				popout("Success");
 			} else {
 				popout(_ajaxData.error.message + " | " + _ajaxData.error.details);
 			}
@@ -71,24 +71,28 @@ function newClassUploadsInit(_id) {
 
 var timesPostsWereLoaded = 0;
 
-function setupPostsScrollListener(_id){
-	$(".content").off().scroll(function() {
+function setupPostsScrollListener(_id) {
+	$(".content").off().scroll(function () {
 		//$(this)[0].scrollHeight - $(this).height() = maxScroll
-		if($(this).scrollTop() == $(this)[0].scrollHeight - $(this).height()){
+		if ($(this).scrollTop() == $(this)[0].scrollHeight - $(this).height()) {
 			loadPosts(_id);
 		}
 	});
 }
 
-function loadPosts(_id){
+function loadPosts(_id) {
 	$.post(baseDir + "/php/get/getPosts.php", {
 		idToken: googleTokenId,
-		offset: timesPostsWereLoaded*25,
+		offset: timesPostsWereLoaded * 25,
 		classId: _id
-	}, function(_ajaxData) {
+	}, function (_ajaxData) {
 
 		if (_ajaxData.success) {
-			timesPostsWereLoaded++;
+			if (_ajaxData.data.posts.length == 0 && timesPostsWereLoaded++ == 0) {
+
+				$("#cMainHeader").after('<div class="noItemsMessage noItemMessageClass">No uploads</div>');
+				return;
+			}
 			for (var i = 0; i < _ajaxData.data.posts.length; i++) {
 
 				var newPost = new Post(JSON.stringify(_ajaxData.data.posts[i]));

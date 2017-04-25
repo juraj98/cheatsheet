@@ -4,8 +4,8 @@ function remindersInit() {
 	timesOfRemindersWereLoaded = 0;
 
 	var options = "[";
-	for(var i = 0; i < user.classes.length; i++){
-		options += '"' + user.classes[i].nameShort + (i+1==user.classes.length ? '"' : '", ');
+	for (var i = 0; i < user.classes.length; i++) {
+		options += '"' + user.classes[i].nameShort + (i + 1 == user.classes.length ? '"' : '", ');
 	}
 	options += "]";
 	$("#rClasses").attr("options", options);
@@ -13,7 +13,7 @@ function remindersInit() {
 
 	materialFormInit();
 
-	$("#rAddButtonBtn").click(function() {
+	$("#rAddButtonBtn").click(function () {
 		var parent = $("#rExpand");
 		var name = $(parent).children("#rName").children("input").val();
 		var type = $(parent).children("#rCategories").attr("result");
@@ -49,8 +49,8 @@ function remindersInit() {
 
 			var classShortName = JSON.parse($("#rClasses").attr("options"))[$("#rClasses").attr("result")];
 			var classId;
-			for(var i = 0; i < user.classes.length; i++){
-				if(user.classes[i].nameShort = classShortName)
+			for (var i = 0; i < user.classes.length; i++) {
+				if (user.classes[i].nameShort = classShortName)
 					classId = user.classes[i].classId;
 			}
 
@@ -59,9 +59,9 @@ function remindersInit() {
 					classId: classId,
 					reminderData: reminder
 				},
-				function(_ajaxData) {
+				function (_ajaxData) {
 
-					if(_ajaxData.success){
+					if (_ajaxData.success) {
 						popout("Success");
 					} else {
 						popout(_ajaxData.error.message);
@@ -71,7 +71,7 @@ function remindersInit() {
 		}
 	});
 
-	$(".rfilterButton").click(function() {
+	$(".rfilterButton").click(function () {
 		$(this).toggleClass("rDisabled");
 
 		switch ($(this).attr("id")) {
@@ -108,17 +108,17 @@ function remindersInit() {
 	loadReminders(null);
 }
 
-function setupRemindersListeners(){
-	$(".content").off().scroll(function() {
+function setupRemindersListeners() {
+	$(".content").off().scroll(function () {
 		//$(this)[0].scrollHeight - $(this).height() = maxScroll
-		if($(this).scrollTop() == $(this)[0].scrollHeight - $(this).height()){
+		if ($(this).scrollTop() == $(this)[0].scrollHeight - $(this).height()) {
 			loadReminders(null);
 		}
 	});
 }
 
-function clearReminders(){
-	for(var i in remindersDays){
+function clearReminders() {
+	for (var i in remindersDays) {
 		remindersDays[i] = undefined;
 	}
 }
@@ -126,15 +126,15 @@ function clearReminders(){
 function updateFilters() {
 	for (var i in remindersDays) {
 		var allHidden = true;
-		for(var j in remindersDays[i].reminders){
-			if(rFilters[remindersDays[i].reminders[j].type]){
+		for (var j in remindersDays[i].reminders) {
+			if (rFilters[remindersDays[i].reminders[j].type]) {
 				allHidden = false;
 				$(remindersDays[i].reminders[j].element).show();
 			} else {
 				$(remindersDays[i].reminders[j].element).hide();
 			}
 		}
-		if(allHidden){
+		if (allHidden) {
 			$(remindersDays[i].element).hide();
 		} else {
 			$(remindersDays[i].element).show();
@@ -156,13 +156,21 @@ var timesOfRemindersWereLoaded;
 function loadReminders(_filters) {
 	$.post(baseDir + "/php/get/getReminders.php", {
 		idToken: googleTokenId,
-		offset: timesOfRemindersWereLoaded*10,
+		offset: timesOfRemindersWereLoaded * 10,
 		filters: _filters
-	}, function(_ajaxData) {
-		timesOfRemindersWereLoaded++;
-		if(_ajaxData.success){
+	}, function (_ajaxData) {
+		if (_ajaxData.success) {
 
 			console.log("Reminders loaded: " + _ajaxData.data.reminders.length);
+
+
+			if (_ajaxData.data.reminders.length == 0) {
+				if (timesOfRemindersWereLoaded++ == 0) {
+					$("#rReminders").append('<div class="noItemsMessage">No reminders</div>');
+				}
+				return;
+			}
+
 			var remindersCreatedFromData = createRemindersFromData(_ajaxData.data.reminders);
 
 			setupRemindersDays(remindersCreatedFromData);
@@ -176,7 +184,7 @@ function loadReminders(_filters) {
 	});
 }
 
-function sortRemindersDays(_data){
+function sortRemindersDays(_data) {
 	remindersDays = sortObject(remindersDays);
 }
 
